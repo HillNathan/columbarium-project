@@ -4,7 +4,7 @@ import {
   Route,
   Switch
 } from "react-router-dom";
-import logo from './logo.svg';
+import MainWindow from './components/Main'
 import './App.css';
 
 
@@ -35,16 +35,31 @@ state = {
 
   render() {
     return (
-      <Router><Switch>
+      <Router>
+        <Switch>
         <Route exact path="/">
-          <div className="App">
+          <MainWindow>
+            
+          </MainWindow>
+        </Route>
+        <Route exact path="/login">
+          <div className="Login">
             <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <h1 className="App-title">Welcome to React</h1>
+              <h1 classname="App-title">Admin Login Screen</h1>
             </header>
             <p className="App-intro">{this.state.data}</p>
-          </div> 
-           </Route>
+          </div>
+        </Route>
+        <Route exact path="/admin">
+          <div className="Login">
+            <header className="App-header">
+              <h1 classname="App-title">Admin Screen</h1>
+              <h2>This route will be protected.</h2>
+            </header>
+            <p className="App-intro">{this.state.data}</p>
+          </div>
+        </Route>
+        <p className="App-intro">{this.state.data}</p>
     </Switch></Router>
     )}
 }
