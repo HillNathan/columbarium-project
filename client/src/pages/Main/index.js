@@ -18,6 +18,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
+import PlotBox from '../../components/PlotSquare'
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainWindow() {
+export default function MainWindow(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -176,6 +178,20 @@ export default function MainWindow() {
           nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
           accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography>
+        <div>
+          {props.plotList.map(thing1 => {
+            return (
+              thing1.map(thing2 => {
+              return (
+                <PlotBox 
+                  ID={thing2.ID}
+                  status={thing2.status}
+                />) 
+              } )
+            )
+          })}
+        </div> 
+        
 
       </main>
     </div>

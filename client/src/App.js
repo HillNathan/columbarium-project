@@ -4,7 +4,7 @@ import {
   Route,
   Switch
 } from "react-router-dom";
-import MainWindow from './components/Main'
+import MainWindow from './pages/Main'
 import './App.css';
 
 
@@ -24,7 +24,7 @@ state = {
       .catch(err => console.log(err));
 
     this.callGetTempDB()
-      .then(res => this.setState({ plotMap: res.tempDB}))
+      .then(res => this.setState({ plotMap: res.tempDB.reverse()}))
       .catch(err => console.log(err));
 
   }
@@ -54,9 +54,10 @@ state = {
       <Router>
         <Switch>
         <Route exact path="/">
-          <MainWindow>
+          <MainWindow
+            plotList={this.state.plotMap}
+          />
             
-          </MainWindow>
         </Route>
         <Route exact path="/login">
           <div className="Login">

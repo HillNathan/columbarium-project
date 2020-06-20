@@ -1,4 +1,4 @@
-ID,Status,Plot_number,Plot_x,Plot_y,Clickable
+ID,status,plot_number,plot_x,plot_y,clickable
 1,STAIRS,0,38,22,
 2,STAIRS,0,38,21,
 3,STAIRS,0,38,20,

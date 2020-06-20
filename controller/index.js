@@ -1,6 +1,19 @@
 const neatCsv = require('neat-csv');
 const fs = require('fs')
 
+const massage = theArray => {
+  var tempArray = []
+  var arrayRow = []
+  theArray.map(item => {
+      arrayRow.push(item)
+      if (item.ID % 22 === 0) {
+          tempArray.push(arrayRow)
+          arrayRow = []
+      }
+  })
+  return tempArray;
+}
+
 const API = {
 
   getData : (cb) => {
@@ -11,7 +24,8 @@ const API = {
         console.error(err)
         return
       }
-      myDB = await neatCsv(data)
+      var temp = await neatCsv(data)
+      myDB = massage(temp)
       cb( myDB );
     })
 
