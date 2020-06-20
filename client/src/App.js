@@ -11,7 +11,8 @@ import './App.css';
 
 class App extends Component {
 state = {
-    data: null
+    data: null,
+    plotMap: []
   };
 
   
@@ -21,6 +22,11 @@ state = {
     this.callBackendAPI()
       .then(res => this.setState({ data: res.express }))
       .catch(err => console.log(err));
+
+    this.callGetTempDB()
+      .then(res => this.setState({ plotMap: res.tempDB}))
+      .catch(err => console.log(err));
+
   }
     // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
   callBackendAPI = async () => {
@@ -32,6 +38,16 @@ state = {
     }
     return body;
   };
+
+  callGetTempDB = async () => {
+    const response = await fetch('/get_temp_db');
+    const body = await response.json();
+
+    if (response.status !== 200) {
+      throw Error(body.message) 
+    }
+    return body;
+  }
 
   render() {
     return (
