@@ -179,17 +179,24 @@ export default function MainWindow(props) {
           accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography>
         <div>
+        <table>
           {props.plotList.map(thing1 => {
             return (
-              thing1.map(thing2 => {
-              return (
-                <PlotBox 
-                  ID={thing2.ID}
-                  status={thing2.status}
-                />) 
-              } )
+              <tr>
+              {thing1.map(thing2 => {
+                return (
+                  <td>
+                  <PlotBox 
+                    ID={thing2.ID}
+                    status={thing2.status}
+                  /></td>) 
+                } 
+                
+                )}
+              </tr>
             )
           })}
+        </table>
         </div> 
         
 

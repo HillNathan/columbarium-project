@@ -7,7 +7,7 @@ const massage = theArray => {
   theArray.map(item => {
       arrayRow.push(item)
       if (item.ID % 22 === 0) {
-          tempArray.push(arrayRow)
+          tempArray.push(arrayRow.reverse())
           arrayRow = []
       }
   })
