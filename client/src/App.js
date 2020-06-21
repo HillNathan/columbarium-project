@@ -5,14 +5,20 @@ import {
   Switch
 } from "react-router-dom";
 import MainWindow from './pages/Main'
+import PlotDialog from './components/PlotDialog'
 import './App.css';
 
-
+const emptyInfo = { ID: 0, status: "" }
 
 class App extends Component {
 state = {
     data: null,
-    plotMap: []
+    plotMap: [],
+    showPlotDialog: false,
+    plotDialogInfo: {
+      ID: 0,
+      status: ""
+    },
   };
 
   
@@ -49,6 +55,21 @@ state = {
     return body;
   }
 
+  handlePlotDialogOpen = (infoToDisplay) => {
+    this.setState({ 
+      showPlotDialog: true,
+      plotDialogInfo: infoToDisplay
+     })
+  }
+
+
+  handlePlotDialogClose = () => {
+    this.setState({ 
+      showPlotDialog: false,
+      plotDialogInfo: emptyInfo
+      })
+  }
+
   render() {
     return (
       <Router>
@@ -56,8 +77,12 @@ state = {
         <Route exact path="/">
           <MainWindow
             plotList={this.state.plotMap}
+            handleOpen={this.handlePlotDialogOpen}
           />
-            
+          <PlotDialog
+            showMe={this.state.showPlotDialog}
+            infoToShow={this.state.plotDialogInfo}
+            handleClose={this.handlePlotDialogClose} />  
         </Route>
         <Route exact path="/login">
           <div className="Login">
@@ -76,7 +101,6 @@ state = {
             <p className="App-intro">{this.state.data}</p>
           </div>
         </Route>
-        <p className="App-intro">{this.state.data}</p>
     </Switch></Router>
     )}
 }

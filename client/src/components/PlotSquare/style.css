@@ -4,3 +4,31 @@
     margin: 5px;
     float: left;
 }
+
+.text-box{
+    height: 90px;
+    width: 90px;
+    margin: 5px;
+    text-align: center;
+}
+
+.available {
+    background-color: lightblue;
+}
+
+.tree {
+    background-color: green;
+}
+
+.drain { 
+    background-color: orangered;
+}
+
+.cross {
+    background-color: slateblue;
+}
+
+.stairs {
+    background-color: black;
+    color: whitesmoke;
+}
