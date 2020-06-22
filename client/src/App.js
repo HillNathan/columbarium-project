@@ -17,7 +17,8 @@ state = {
     showPlotDialog: false,
     plotDialogInfo: {
       ID: 0,
-      status: ""
+      status: "",
+      name: ""
     },
   };
 

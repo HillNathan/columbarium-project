@@ -17,8 +17,9 @@ class AlertDialogSlide extends Component {
         
         this.state = {
             open: false,
-            message: "",
-            header: "",
+            status: "",
+            name: "",
+            plot: "",
             button: "",
         }
     }
@@ -30,13 +31,14 @@ class AlertDialogSlide extends Component {
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
             open: incomingProps.showMe,
-            header: incomingProps.infoToShow.ID,
-            message: incomingProps.infoToShow.status})
+            plot: incomingProps.infoToShow.ID,
+            name: incomingProps.infoToShow.name,
+            status: incomingProps.infoToShow.status})
     }
   
   render() {
   return (
-    <div>
+    <div className="dialog-box">
       <Dialog
         open={this.state.open}
         TransitionComponent={Transition}
@@ -45,10 +47,16 @@ class AlertDialogSlide extends Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">{this.state.header}</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">Information for Plot #{this.state.plot}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            {this.state.message}
+            <div className="dialog-box">
+                Current plot status: {this.state.status}
+                {(this.state.status === "OCCUPIED") ? 
+                    <p>{this.state.name}</p>
+                :
+                    <span></span>}
+            </div>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

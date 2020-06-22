@@ -165,7 +165,9 @@ export default function MainWindow(props) {
                   <td>
                   <PlotBox 
                     handleOpen={props.handleOpen}
+                    clickable={thing2.clickable}
                     theClass={thing2.status.toLowerCase()}
+                    name={thing2.reserved_by}
                     ID={thing2.ID}
                     status={thing2.status}
                   /></td>) 

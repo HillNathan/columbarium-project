@@ -13,7 +13,19 @@
 }
 
 .available {
-    background-color: lightblue;
+    background-color: whitesmoke;
+}
+
+.pending {
+    background-color: yellow;
+}
+
+.reserved {
+    background-color: teal;
+}
+
+.occupied { 
+    background-color: lightskyblue;
 }
 
 .tree {
@@ -24,6 +36,10 @@
     background-color: orangered;
 }
 
+.difficult {
+    background-color: orange;
+}
+
 .cross {
     background-color: slateblue;
 }
@@ -31,4 +47,16 @@
 .stairs {
     background-color: black;
     color: whitesmoke;
+}
+
+.bench {
+    background-color: lightgrey;
+}
+
+.slate-available { 
+    background-color: darkgrey;
+}
+
+.slate-reserved { 
+    background-color: slategrey;
 }

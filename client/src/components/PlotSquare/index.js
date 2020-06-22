@@ -14,11 +14,12 @@ export default function PlotSquare (props) {
             className="plot"
             id={props.ID}
         >
-            {(props.status === "TREE") ? 
+            {(props.clickable === "TRUE") ? 
                 <div className={props.theClass + " text-box"}
                      onClick={() => props.handleOpen({
                          ID: props.ID,
-                         status: props.status })
+                         status: props.status,
+                         name: props.name })
                      }>
                     {props.status}
                 </div>
