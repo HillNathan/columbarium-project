@@ -22,8 +22,6 @@ state = {
     },
   };
 
-  
-
   componentDidMount() {
       // Call our fetch function below once the component mounts
     this.callBackendAPI()
@@ -31,11 +29,18 @@ state = {
       .catch(err => console.log(err));
 
     this.callGetTempDB()
-      .then(res => this.setState({ plotMap: res.tempDB.reverse()}))
+      .then(res => {
+        this.massage(res.tempDB)
+        .then ( looseData => {
+          this.setState({ plotMap: looseData.reverse()})
+        })
+        
+      })
       .catch(err => console.log(err));
-
   }
-    // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
+
+
+  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
   callBackendAPI = async () => {
     const response = await fetch('/express_backend');
     const body = await response.json();
@@ -46,8 +51,22 @@ state = {
     return body;
   };
 
+  massage = async theArray => {
+
+    var tempArray = []
+    var arrayRow = []
+    theArray.map(item => {
+        arrayRow.push(item)
+        if (item.id % 22 === 0) {
+            tempArray.push(arrayRow.reverse())
+            arrayRow = []
+        }
+    })
+    return tempArray;
+  }
+
   callGetTempDB = async () => {
-    const response = await fetch('/get_temp_db');
+    const response = await fetch('/getplots');
     const body = await response.json();
 
     if (response.status !== 200) {

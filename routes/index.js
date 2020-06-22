@@ -15,5 +15,11 @@ module.exports = app => {
         })
     })
 
+    app.get('/getplots', (req,res) => {
+      API.getAllPlots(theData => {
+        res.send({tempDB : theData })
+      })
+    })
+
 }
 

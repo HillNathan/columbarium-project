@@ -1,7 +1,8 @@
 const neatCsv = require('neat-csv');
-const fs = require('fs')
+const fs = require('fs');
+const db = require('../models');
 
-const massage = theArray => {
+const massage = async theArray => {
   var tempArray = []
   var arrayRow = []
   theArray.map(item => {
@@ -17,7 +18,6 @@ const massage = theArray => {
 const API = {
 
   getData : (cb) => {
-    var myDB = []
 
     fs.readFile('controller/columbarium-data.csv', async (err, data) => {
       if (err) {
@@ -25,10 +25,17 @@ const API = {
         return
       }
       var temp = await neatCsv(data)
-      myDB = massage(temp)
-      cb( myDB );
+      cb( temp )
     })
 
+  },
+
+  getAllPlots : cb => {
+    db.plots
+    .findAll()
+    .then(allPlots => {
+      cb(allPlots)
+    })
   }
 
 }

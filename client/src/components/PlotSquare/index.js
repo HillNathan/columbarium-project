@@ -2,10 +2,6 @@ import Paper from '@material-ui/core/Paper';
 import React from 'react'
 import './style.css'
 
-function testClickable() {
-    alert("ive been clicked!")
-}
-
 export default function PlotSquare (props) {
     return (
         <div key={props.ID} >

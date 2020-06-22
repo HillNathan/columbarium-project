@@ -50,13 +50,11 @@ class AlertDialogSlide extends Component {
         <DialogTitle id="alert-dialog-slide-title">Information for Plot #{this.state.plot}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            <div className="dialog-box">
                 Current plot status: {this.state.status}
                 {(this.state.status === "OCCUPIED") ? 
                     <p>{this.state.name}</p>
                 :
                     <span></span>}
-            </div>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
