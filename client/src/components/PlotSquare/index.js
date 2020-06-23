@@ -17,7 +17,7 @@ export default function PlotSquare (props) {
                          status: props.status,
                          name: props.name })
                      }>
-                    {props.status}
+                    {props.plot}
                 </div>
                 : 
                 <div className={props.theClass + " text-box"}>

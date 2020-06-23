@@ -10,6 +10,9 @@
     width: 90px;
     margin: 5px;
     text-align: center;
+    line-height: 90px;
+    font-size: 16pt;
+    cursor: pointer;
 }
 
 .available {
@@ -32,11 +35,15 @@
     background-color: green;
 }
 
+.flowers {
+    background-color: lightpink;
+}
+
 .drain { 
     background-color: orangered;
 }
 
-.difficult {
+.wall {
     background-color: orange;
 }
 
@@ -59,4 +66,9 @@
 
 .slate-reserved { 
     background-color: slategrey;
+}
+
+.slate-occupied {
+    background-color: rgb(42, 54, 66);
+    color: whitesmoke;
 }

@@ -1,0 +1,11 @@
+.legend-box {
+    height: 30px;
+    width: 30px;
+    border: solid 2px black;
+    float: left;
+    margin-right: 10px;
+}
+
+.legend-text {
+    float:right;
+}

@@ -16,6 +16,7 @@
     "mysql2": "^2.1.0",
     "neat-csv": "^5.2.0",
     "nice-try": "^2.0.1",
+    "react-map-interaction": "^2.0.0",
     "sequelize": "^5.21.13"
   },
   "devDependencies": {},

@@ -18,7 +18,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
-import PlotBox from '../../components/PlotSquare'
+import LegendItem from '../../components/LegendItem'
+import PlotMap from '../../components/PlotMap'
 
 const drawerWidth = 240;
 
@@ -141,10 +142,13 @@ export default function MainWindow(props) {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          {['Available', 'Reserved', 'Occupied', 'Pending', 
+            'Slate-Available', 'Slate-Reserved', 'Slate-Occupied', 
+            'Difficult', 'Flowers'].map((text, index) => (
+            <ListItem key={index}>
+              <LegendItem 
+                style={text}
+              />
             </ListItem>
           ))}
         </List>
@@ -155,33 +159,10 @@ export default function MainWindow(props) {
         })}
       >
         <div className={classes.drawerHeader} />
-        <div>
-        <table>
-          {props.plotList.map(thing1 => {
-            return (
-              <tr>
-              {thing1.map(thing2 => {
-                return (
-                  <td>
-                  <PlotBox 
-                    handleOpen={props.handleOpen}
-                    clickable={thing2.clickable}
-                    theClass={thing2.status.toLowerCase()}
-                    name={thing2.reserved_by}
-                    id={thing2.id}
-                    plot={thing2.plot_number}
-                    status={thing2.status}
-                  /></td>) 
-                } 
-                
-                )}
-              </tr>
-            )
-          })}
-        </table>
-        </div> 
-        
-
+        <PlotMap 
+          plotList={props.plotList}
+          handleOpen={props.handleOpen}
+        />
       </main>
     </div>
   );

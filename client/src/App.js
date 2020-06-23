@@ -8,14 +8,15 @@ import MainWindow from './pages/Main'
 import PlotDialog from './components/PlotDialog'
 import './App.css';
 
-const emptyInfo = { ID: 0, status: "" }
+const emptyInfo = { id: 0, status: "" }
 
 class App extends Component {
 state = {
     data: null,
     plotMap: [],
     showPlotDialog: false,
-    plotDialogInfo: {
+    activeRecord: {
+      id: 0,
       plot: 0,
       status: "",
       name: ""
@@ -78,7 +79,7 @@ state = {
   handlePlotDialogOpen = (infoToDisplay) => {
     this.setState({ 
       showPlotDialog: true,
-      plotDialogInfo: infoToDisplay
+      activeRecord: infoToDisplay
      })
   }
 
@@ -101,7 +102,7 @@ state = {
           />
           <PlotDialog
             showMe={this.state.showPlotDialog}
-            infoToShow={this.state.plotDialogInfo}
+            infoToShow={this.state.activeRecord}
             handleClose={this.handlePlotDialogClose} />  
         </Route>
         <Route exact path="/login">
