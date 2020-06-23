@@ -15,8 +15,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import SearchIcon from '@material-ui/icons/Search';
 
 import LegendItem from '../../components/LegendItem'
 import PlotMap from '../../components/PlotMap'
@@ -133,9 +132,9 @@ export default function MainWindow(props) {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+          {['Search by Name', 'Search by Plot #'].map((text, index) => (
+            <ListItem button key={index}>
+              <ListItemIcon><SearchIcon/></ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
