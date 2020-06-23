@@ -8,12 +8,12 @@ export default function PlotSquare (props) {
         <Paper 
             elevation={3} 
             className="plot"
-            id={props.ID}
+            id={props.id}
         >
             {(props.clickable === "TRUE") ? 
                 <div className={props.theClass + " text-box"}
                      onClick={() => props.handleOpen({
-                         ID: props.ID,
+                         plot: props.plot,
                          status: props.status,
                          name: props.name })
                      }>

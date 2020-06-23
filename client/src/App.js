@@ -16,7 +16,7 @@ state = {
     plotMap: [],
     showPlotDialog: false,
     plotDialogInfo: {
-      ID: 0,
+      plot: 0,
       status: "",
       name: ""
     },

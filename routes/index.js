@@ -21,5 +21,11 @@ module.exports = app => {
       })
     })
 
+    app.post('/getoneplot', (req,res) => {
+      API.getOnePlot(req.body.id, thePlot => {
+        res.send({ data : thePlot})
+      })
+    })
+
 }
 

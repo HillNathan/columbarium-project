@@ -168,7 +168,8 @@ export default function MainWindow(props) {
                     clickable={thing2.clickable}
                     theClass={thing2.status.toLowerCase()}
                     name={thing2.reserved_by}
-                    ID={thing2.ID}
+                    id={thing2.id}
+                    plot={thing2.plot_number}
                     status={thing2.status}
                   /></td>) 
                 } 

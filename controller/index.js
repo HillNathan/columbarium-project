@@ -36,6 +36,16 @@ const API = {
     .then(allPlots => {
       cb(allPlots)
     })
+  },
+
+  getOnePlot : (idToFind, cb) => {
+    console.log(`idToFind = ${idToFind}`)
+    db.plots
+    .findOne({ where : 
+      { id : idToFind} })
+    .then(foundPlot => {
+      cb( foundPlot )
+    })
   }
 
 }
