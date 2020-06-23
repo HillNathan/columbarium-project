@@ -12,6 +12,21 @@
     text-align: center;
     line-height: 90px;
     font-size: 16pt;
+    cursor: move;
+}
+
+.plot-text {
+    width: 90px;
+
+}
+
+.plot-link {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.plot-link:hover {
+    text-decoration: underline;
     cursor: pointer;
 }
 

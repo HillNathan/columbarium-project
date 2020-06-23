@@ -11,17 +11,23 @@ export default function PlotSquare (props) {
             id={props.id}
         >
             {(props.clickable === "TRUE") ? 
-                <div className={props.theClass + " text-box"}
-                     onClick={() => props.handleOpen({
-                         plot: props.plot,
-                         status: props.status,
-                         name: props.name })
-                     }>
-                    {props.plot}
+                <div className={props.theClass + " text-box"}>
+                    <div className="plot-text">
+                        <div className="plot-link"
+                            onClick={() => props.handleOpen({
+                            plot: props.plot,
+                            status: props.status,
+                            name: props.name })
+                            }>
+                            {props.plot}
+                        </div>
+                    </div>
                 </div>
                 : 
                 <div className={props.theClass + " text-box"}>
-                    {props.status}
+                    <span className="plot-text">
+                        {props.status}
+                    </span>
 
                 </div> }
         </Paper>

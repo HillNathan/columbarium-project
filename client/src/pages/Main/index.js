@@ -144,7 +144,7 @@ export default function MainWindow(props) {
         <List>
           {['Available', 'Reserved', 'Occupied', 'Pending', 
             'Slate-Available', 'Slate-Reserved', 'Slate-Occupied', 
-            'Difficult', 'Flowers'].map((text, index) => (
+            'Wall', 'Flowers'].map((text, index) => (
             <ListItem key={index}>
               <LegendItem 
                 style={text}
