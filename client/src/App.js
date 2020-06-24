@@ -5,6 +5,7 @@ import {
   Switch
 } from "react-router-dom";
 import MainWindow from './pages/Main'
+import AdminWindow from './pages/Admin'
 import PlotDialog from './components/PlotDialog'
 import './App.css';
 
@@ -114,13 +115,7 @@ state = {
           </div>
         </Route>
         <Route exact path="/admin">
-          <div className="Login">
-            <header className="App-header">
-              <h1 classname="App-title">Admin Screen</h1>
-              <h2>This route will be protected.</h2>
-            </header>
-            <p className="App-intro">{this.state.data}</p>
-          </div>
+          <AdminWindow />
         </Route>
     </Switch></Router>
     )}
