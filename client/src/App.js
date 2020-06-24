@@ -85,7 +85,7 @@ state = {
 
   // This is the actual fetch route to hit the server and send the data to be processed. 
   callGetTempDB = async () => {
-    const response = await fetch('/getplots');
+    const response = await fetch('/api/getplots');
     const body = await response.json();
 
     if (response.status !== 200) {

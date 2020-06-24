@@ -1,12 +1,38 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
-export default LoginPage = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
-    <div className="Login">
-    <header className="App-header">
-    <h1 classname="App-title">Admin Login Screen</h1>
-    </header>
-    <p className="App-intro">{this.state.data}</p>
+export default function ButtonAppBar() {
+  const classes = useStyles();
+
+  return (
+    <div>
+        <div className={classes.root}>
+        <AppBar position="static">
+            <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+            The Church of Saint Martin in the Fields - Columbarium -- ADMIN LOGIN
+            </Typography>
+            </Toolbar>
+        </AppBar>
+        </div>
+        <main>
+            Additional Text will go here...
+        </main>
     </div>
-
+  );
 }
