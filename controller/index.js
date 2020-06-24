@@ -2,35 +2,11 @@ const neatCsv = require('neat-csv');
 const fs = require('fs');
 const db = require('../models');
 
-const massage = async theArray => {
-  var tempArray = []
-  var arrayRow = []
-  theArray.map(item => {
-      arrayRow.push(item)
-      if (item.ID % 22 === 0) {
-          tempArray.push(arrayRow.reverse())
-          arrayRow = []
-      }
-  })
-  return tempArray;
-}
-
 const API = {
 
-  getData : (cb) => {
-
-    fs.readFile('controller/columbarium-data.csv', async (err, data) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-      var temp = await neatCsv(data)
-      cb( temp )
-    })
-
-  },
-
   getAllPlots : cb => {
+    // this function runs a findAll call to the SQL database and returns all records, using 
+    //  the callback function passed to process the information
     db.plots
     .findAll()
     .then(allPlots => {
@@ -39,7 +15,9 @@ const API = {
   },
 
   getOnePlot : (idToFind, cb) => {
-    console.log(`idToFind = ${idToFind}`)
+    // this function runs a FindOne call to the SQL database and returns a single record using
+    //  the id of the record. the id should be passed in as an integer. Once the record is 
+    //  located, the function runs the associated callback function on the record. 
     db.plots
     .findOne({ where : 
       { id : idToFind} })
@@ -50,4 +28,5 @@ const API = {
 
 }
 
+// Export our database functions back to the routes module
 module.exports = API;

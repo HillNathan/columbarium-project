@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+// setting some SQL congiguration variables based on our environment as held in the .env file. 
+
 module.exports = {
   development: {
     username: "root",
