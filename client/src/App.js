@@ -12,6 +12,8 @@ import LoginWindow from './pages/Login'
 import PlotDialog from './components/PlotDialog'
 import './App.css'
 
+const API = require('./functions')
+
 // setting up a variable that matches the 'activeRecord' key in state to make it easier to 
 //  clear it out when we're done displaying it in the Dialog box. 
 const emptyInfo = { id: 0, status: "" , plot: 0, name: ""}
@@ -30,36 +32,18 @@ state = {
   }
 
   componentDidMount() {
-      // Call our fetch function below once the component mounts
-      // this is a test route to make sure our Express server is running
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
-
     // Fetches our initial plot map array from the server
     this.callGetTempDB()
-      .then(res => {
+    .then (response => {
+      console.log(response.data.tempDB)
         // once we have the data from the server, we need to format it into an array of arrays
         //  so that it can be displayed for our plot map
-        this.massage(res.tempDB)
+        this.massage(response.data.tempDB)
         .then ( looseData => {
           // once our data is set up how we need it, se set it into state so that it can be displayed
           this.setState({ plotMap: looseData.reverse()})
         })
-        
-      })
-      .catch(err => console.log(err));
-  }
-
-  // Fetches our GET route from the Express server. 
-  callBackendAPI = async () => {
-    const response = await fetch('/express_backend');
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
+    })
   }
 
   massage = async theArray => {
@@ -85,23 +69,44 @@ state = {
 
   // This is the actual fetch route to hit the server and send the data to be processed. 
   callGetTempDB = async () => {
-    const response = await fetch('/api/getplots');
-    const body = await response.json();
+    // const response = await fetch('/api/getplots');
+    // const body = await response.json();
 
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
+    const data = await API.getAllPlots()
+      console.log(data.data)
+      return data;
+
+    // if (response.status !== 200) {
+    //   throw Error(body.message) 
+    // }
   }
 
-  handlePlotDialogOpen = (infoToDisplay) => {
-    // Sets the PlotDialog box to be displayed, and sends it info to show. 
-    this.setState({ 
-      showPlotDialog: true,
-      activeRecord: infoToDisplay
-     })
+  handlePlotDialogOpen = (plotID) => {
+    // receives a plot ID to be displayed, fetches the plot info from the database, and then 
+    //  stores that into in state to be displayed by the plot dialog
+    API.getOnePlot( plotID )
+    .then(plotData => {
+      // once we have the plot information, put the info we need into state and set the display
+      // variable for the plot dialog box to be active
+      console.log(plotData)
+      if (plotData.status===200) {
+        this.setState({ 
+          showPlotDialog: true,
+          activeRecord: {
+            id: plotData.data.data.id,
+            plot: plotData.data.data.plot_number,
+            status: plotData.data.data.status,
+            name: plotData.data.data.reserved_by
+          }
+        }) 
+      }
+      else {
+        this.setState({
+          activeRecord: { name: "There was an error." } 
+        })
+      }
+    })
   }
-
 
   handlePlotDialogClose = () => {
     // sets the flag in state to stop showing the dialog box, and clears out the info from state. 
