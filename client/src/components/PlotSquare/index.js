@@ -14,7 +14,7 @@ export default function PlotSquare (props) {
                 <div className={props.theClass + " text-box"}>
                     <div className="plot-text">
                         <div className="plot-link"
-                            onClick={() => props.handleOpen(props.id)}>
+                            onClick={() => props.handleOpen(props.plot)}>
                             {props.plot}
                         </div>
                     </div>

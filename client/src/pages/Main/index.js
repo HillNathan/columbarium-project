@@ -132,12 +132,14 @@ export default function MainWindow(props) {
         </div>
         <Divider />
         <List>
-          {['Search by Name', 'Search by Plot #'].map((text, index) => (
-            <ListItem button key={index}>
+            <ListItem button onClick={()=> props.handleSearchOpen("NAME")}>
               <ListItemIcon><SearchIcon/></ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Search by Name" />
             </ListItem>
-          ))}
+              <ListItem button onClick={()=> props.handleSearchOpen("PLOT")}>
+              <ListItemIcon><SearchIcon/></ListItemIcon>
+              <ListItemText primary="Search by Plot #" />
+            </ListItem>
         </List>
         <Divider />
         <List>

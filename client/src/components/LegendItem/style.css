@@ -1,11 +1,14 @@
 .legend-box {
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
     border: solid 2px black;
     float: left;
     margin-right: 10px;
+    margin-top: 5px;
 }
 
 .legend-text {
-    float:right;
+    float: right;
+    font-size: 11pt;
+    margin-bottom: 6px;
 }

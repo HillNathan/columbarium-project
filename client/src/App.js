@@ -10,6 +10,7 @@ import MainWindow from './pages/Main'
 import AdminWindow from './pages/Admin'
 import LoginWindow from './pages/Login'
 import PlotDialog from './components/PlotDialog'
+import SearchDialogSlide from './components/SearchDialog'
 import './App.css'
 
 const API = require('./functions')
@@ -29,11 +30,13 @@ state = {
       status: "",
       name: ""
     },
+    showSearchDialog: false,
+    searchBy: "",
   }
 
   componentDidMount() {
     // Fetches our initial plot map array from the server
-    this.callGetTempDB()
+    this.callGetPlotMap()
     .then (response => {
       console.log(response.data.tempDB)
         // once we have the data from the server, we need to format it into an array of arrays
@@ -68,7 +71,7 @@ state = {
   }
 
   // This is the actual fetch route to hit the server and send the data to be processed. 
-  callGetTempDB = async () => {
+  callGetPlotMap = async () => {
     // const response = await fetch('/api/getplots');
     // const body = await response.json();
 
@@ -84,6 +87,12 @@ state = {
   handlePlotDialogOpen = (plotID) => {
     // receives a plot ID to be displayed, fetches the plot info from the database, and then 
     //  stores that into in state to be displayed by the plot dialog
+    //==============================================================================================
+
+    // First, we need to make sure the Search dialog is closed, in case we were sent here from the 
+    //   search dialog box from a plot search
+    this.handleSearchDialogClose()
+
     API.getOnePlot( plotID )
     .then(plotData => {
       // once we have the plot information, put the info we need into state and set the display
@@ -116,6 +125,21 @@ state = {
       })
   }
 
+  handleSearchDialogOpen = (searchBy) => {
+    this.setState({
+      showSearchDialog: true,
+      searchBy: searchBy
+    })
+  }
+
+  handleSearchDialogClose = () => {
+    // sets the flag in state to stop showing the search box, and clears out the info from state. 
+    this.setState({ 
+      showSearchDialog: false,
+      searchBy: "",
+      })
+  }
+
   render() {
     return (
       <Router>
@@ -124,11 +148,19 @@ state = {
           <MainWindow
             plotList={this.state.plotMap}
             handleOpen={this.handlePlotDialogOpen}
+            handleSearchOpen={this.handleSearchDialogOpen}
           />
           <PlotDialog
             showMe={this.state.showPlotDialog}
             infoToShow={this.state.activeRecord}
-            handleClose={this.handlePlotDialogClose} />  
+            handleClose={this.handlePlotDialogClose} 
+          />  
+          <SearchDialogSlide
+            showMe={this.state.showSearchDialog}
+            searchBy={this.state.searchBy} 
+            handleClose={this.handleSearchDialogClose}
+            handlePlotSearch={this.handlePlotDialogOpen}
+          />
         </Route>
         <Route exact path="/login">
           <LoginWindow />
