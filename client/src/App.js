@@ -102,10 +102,10 @@ state = {
         this.setState({ 
           showPlotDialog: true,
           activeRecord: {
-            id: plotData.data.data.id,
-            plot: plotData.data.data.plot_number,
-            status: plotData.data.data.status,
-            name: plotData.data.data.reserved_by
+            id: plotData.data.data.plot.id,
+            plot: plotData.data.data.plot.plot_number,
+            status: plotData.data.data.plot.status,
+            name: plotData.data.data.plot.reserved_by
           }
         }) 
       }

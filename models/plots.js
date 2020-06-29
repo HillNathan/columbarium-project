@@ -1,6 +1,12 @@
 module.exports = function(sequelize, DataTypes) {
     const Plots = sequelize.define("plots", {
 
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true 
+        },
+
         status: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -44,7 +50,7 @@ module.exports = function(sequelize, DataTypes) {
 
         notes: {
             type: DataTypes.STRING
-        }
+        },
 
     });
 
