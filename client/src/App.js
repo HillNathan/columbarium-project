@@ -76,17 +76,10 @@ state = {
     return tempArray;
   }
 
-  // This is the actual fetch route to hit the server and send the data to be processed. 
   callGetPlotMap = async () => {
-    // const response = await fetch('/api/getplots');
-    // const body = await response.json();
-
+    // This is the actual GET route to hit the server and send the data to be processed. 
     const data = await API.getAllPlots()
       return data;
-
-    // if (response.status !== 200) {
-    //   throw Error(body.message) 
-    // }
   }
 
   handlePlotDialogOpen = plotID => {
@@ -160,6 +153,13 @@ state = {
     }
   }
 
+  handleAdminSaveClick = plotObj => {
+    API.updateOnePlot(plotObj)
+    .then (updatedRecord => {
+      console.log(updatedRecord)
+    })
+  }
+
   handleAdminPlotSearch = thePlot => {
     // this will handle the search feature of the admin plot editor
     if ( isNaN(parseInt(thePlot)) ) {
@@ -218,6 +218,7 @@ state = {
         <Route exact path="/admin">
           <AdminWindow 
             handleMenuClick={this.handleAdminMenuClick}
+            handleSaveData={this.handleAdminSaveClick}
             handleAdminSearch={this.handleAdminPlotSearch}
             activePage={this.state.adminActivePage} 
             plot={this.state.adminActivePlot}

@@ -47,6 +47,18 @@ class PlotEditor extends Component {
         })
     }
 
+    getFormInfo = () => {
+        var plotData = {}
+        plotData.status = this.state.status
+        plotData.plotNumber = this.state.plotNum
+        plotData.certificate = this.state.certificate
+        plotData.reservedBy = this.state.reservedBy
+        plotData.reservedDate = this.state.reservedDate
+        plotData.numInterred = this.state.numInterred
+        plotData.notes = this.state.notes
+        return plotData
+    }
+
     render() {
 
         return (
@@ -66,7 +78,8 @@ class PlotEditor extends Component {
                             </Button>    
                         </Grid>
                         <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
-                            <Button color="primary">
+                            <Button color="primary"
+                                    onClick={()=> this.props.handleSaveData(this.getFormInfo())}>
                                 Save Changes
                             </Button>    
                         </Grid>
@@ -90,26 +103,30 @@ class PlotEditor extends Component {
                         </Grid>
                         <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
                             <TextField id="certificate" name="certificate" label="Certificate #" 
-                                        variant="outlined" value={this.state.certificate} />
+                                        variant="outlined" value={this.state.certificate} 
+                                        onChange={this.handleChange}/>
                         </Grid>
                         <Grid item xl={3} lg={3} md={3} sm={3} sx={3}>
-                            <TextField id="num_interred" name="numInterred" label="How Many Interred" 
-                                        variant="outlined" value={this.state.numInterred} />
+                            <TextField id="num-interred" name="numInterred" label="How Many Interred" 
+                                        variant="outlined" value={this.state.numInterred}                            
+                                        onChange={this.handleChange} />
                         </Grid>
                         <Grid item xl={6} lg={6} md={6} sm={6} sx={6} >
-                            <TextField id="reserved_by" name="reservedBy" label="Reserved By" fullWidth={true}
-                                        variant="outlined" value={this.state.reservedBy} />
+                            <TextField id="reserved-by" name="reservedBy" label="Reserved By" fullWidth={true}
+                                        variant="outlined" value={this.state.reservedBy}                                         
+                                        onChange={this.handleChange} />
+
                         </Grid>
                         <Grid item lg={3}>
-                            <TextField id="reserved_date" name="reservedDate" label="Date of Reservation" 
-                                        variant="outlined" value={this.state.reservedDate} />
+                            <TextField id="reserved-date" name="reservedDate" label="Date of Reservation" 
+                                        variant="outlined" value={this.state.reservedDate} 
+                                        onChange={this.handleChange} />
                         </Grid>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                             <TextField id="notes" name="notes" label="Notes" value={this.state.notes} 
-                                        variant="outlined" fullWidth={true} multiline rows={4}/>
+                                        variant="outlined" fullWidth={true} multiline rows={4} 
+                                        onChange={this.handleChange} />
                         </Grid>
-                        <Grid item xl={2} lg={2} md={2} sm={2} sx={2} />
-                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12} />
                     </Grid>
                     <Divider />
                     <Spacer height={20} />

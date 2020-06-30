@@ -11,6 +11,10 @@ const API = {
         return axios.get('/api/plots/getall')
     },
 
+    updateOnePlot: plotInfo => {
+        return axios.post('/api/plots/update', plotInfo)
+    },
+
 }
 
 module.exports = API

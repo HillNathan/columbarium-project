@@ -113,6 +113,7 @@ export default function AdminPage(props) {
         <hr />
         <PlotEditor
           plot={props.plot}
+          handleSaveData={props.handleSaveData}
           data={props.plotData}
         />
         
