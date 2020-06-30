@@ -10,11 +10,15 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
-import QueueOutlinedIcon from '@material-ui/icons/QueueOutlined';
+import SearchIcon from '@material-ui/icons/Search';
+
+import PlotEditor from '../../components/PlotEditor';
 
 import './style.css'
 
@@ -44,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AdminPage() {
+export default function AdminPage(props) {
   const classes = useStyles();
 
   return (
@@ -71,37 +75,47 @@ export default function AdminPage() {
                     Menu
                 </Typography>
             </div>
-        <Divider />
+            <Divider />
         <List>
-          {['Edit a Plot', 'Edit a Person','Add a Person',].map((text, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon>{text.slice(0,4) === "Edit" ? <EditIcon/> : <QueueOutlinedIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+          <ListItem button onClick={()=>props.handleMenuClick("PLOT")}>
+            <ListItemIcon><EditIcon/></ListItemIcon>
+            <ListItemText primary={'Edit a Plot'} />
+          </ListItem>
+          <Divider />
+          <ListItem button onClick={()=>props.handleMenuClick("USERS")}>
+            <ListItemIcon><PersonAddOutlinedIcon /></ListItemIcon>
+            <ListItemText primary={'Manage Users'} />
+          </ListItem>
         <Divider />
-        <List>
-          {['Create a User'].map((text, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon><PersonAddOutlinedIcon /></ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+          <ListItem button onClick={()=>props.handleMenuClick("GRID")}>
+              <ListItemIcon><ViewComfyIcon/></ListItemIcon>
+              <ListItemText primary="Back to Plot Map"/>
+          </ListItem>
         <Divider />
-        <List>
-            <ListItem button>
-                <ListItemIcon><ViewComfyIcon/></ListItemIcon>
-                <ListItemText primary="Back to Plot Map"/>
-            </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography variant="h3" noWrap>
-                This route will be protected.
-        </Typography>
+        <Grid container spacing={1} alignItems="flex-end">
+          <Grid item>
+            <SearchIcon />
+          </Grid>
+          <Grid item>
+            <TextField id="plot-search-id" label="plot #" />
+          </Grid>
+          <Grid item>
+          <Button variant="contained" color="primary"
+            onClick={() => props.handleAdminSearch(parseInt(document.getElementById('plot-search-id').value))}>
+            Go!
+          </Button>
+          </Grid>
+        </Grid>
+        <hr />
+        <PlotEditor
+          plot={props.plot}
+          data={props.plotData}
+        />
+        
       </main>
     </div>
   );

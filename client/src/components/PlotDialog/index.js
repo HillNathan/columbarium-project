@@ -32,7 +32,7 @@ class AlertDialogSlide extends Component {
         this.setState({ 
             open: incomingProps.showMe,
             plot: incomingProps.infoToShow.plot,
-            name: incomingProps.infoToShow.name,
+            name: incomingProps.infoToShow.reservedBy,
             status: incomingProps.infoToShow.status})
     }
   

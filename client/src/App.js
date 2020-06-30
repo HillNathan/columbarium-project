@@ -28,17 +28,23 @@ state = {
       id: 0,
       plot: 0,
       status: "",
-      name: ""
+      reservedBy: "",
+      certificate: 0,
+      reservedDate: "",
+      numInterred: 0,
+      notes: "",
+      interred: []
     },
     showSearchDialog: false,
     searchBy: "",
+    adminActivePage: "PLOT",
+    adminActivePlot: 0
   }
 
   componentDidMount() {
     // Fetches our initial plot map array from the server
     this.callGetPlotMap()
     .then (response => {
-      console.log(response.data.tempDB)
         // once we have the data from the server, we need to format it into an array of arrays
         //  so that it can be displayed for our plot map
         this.massage(response.data.tempDB)
@@ -56,7 +62,7 @@ state = {
     var tempArray = []
     var arrayRow = []
 
-    theArray.map(item => {
+    theArray.forEach(item => {
         // add the item to the row array
         arrayRow.push(item)
         if (item.id % 22 === 0) {
@@ -76,7 +82,6 @@ state = {
     // const body = await response.json();
 
     const data = await API.getAllPlots()
-      console.log(data.data)
       return data;
 
     // if (response.status !== 200) {
@@ -84,7 +89,7 @@ state = {
     // }
   }
 
-  handlePlotDialogOpen = (plotID) => {
+  handlePlotDialogOpen = plotID => {
     // receives a plot ID to be displayed, fetches the plot info from the database, and then 
     //  stores that into in state to be displayed by the plot dialog
     //==============================================================================================
@@ -97,7 +102,6 @@ state = {
     .then(plotData => {
       // once we have the plot information, put the info we need into state and set the display
       // variable for the plot dialog box to be active
-      console.log(plotData)
       if (plotData.status===200) {
         this.setState({ 
           showPlotDialog: true,
@@ -105,7 +109,12 @@ state = {
             id: plotData.data.data.plot.id,
             plot: plotData.data.data.plot.plot_number,
             status: plotData.data.data.plot.status,
-            name: plotData.data.data.plot.reserved_by
+            reservedBy: plotData.data.data.plot.reserved_by,
+            certificate: parseInt(plotData.data.data.plot.certificate),
+            reservedDate: plotData.data.data.plot.reserved_date,
+            numInterred: parseInt(plotData.data.data.plot.num_interred),
+            notes: plotData.data.data.plot.notes,
+            interred: plotData.data.data.interred,
           }
         }) 
       }
@@ -125,7 +134,7 @@ state = {
       })
   }
 
-  handleSearchDialogOpen = (searchBy) => {
+  handleSearchDialogOpen = searchBy => {
     this.setState({
       showSearchDialog: true,
       searchBy: searchBy
@@ -138,6 +147,49 @@ state = {
       showSearchDialog: false,
       searchBy: "",
       })
+  }
+
+  handleAdminMenuClick = button => {
+    // if the input is "GRID" we will redirect the user to the main page with the plot map
+    if (button === "GRID") {
+      window.location = "/";
+    }
+    else {
+      // if not "GRID" button will either equal "PLOT" or "USERS" because we control the input to this function.
+      this.setState({ adminActivePage: button })
+    }
+  }
+
+  handleAdminPlotSearch = thePlot => {
+    console.log(thePlot)
+    // this will handle the search feature of the admin plot editor
+    if ( isNaN(thePlot) ) {
+      alert("please enter numbers only.")
+    }
+    else if ( thePlot < 837 && thePlot > 0) {
+      API.getOnePlot(thePlot)
+      .then(plotData => {
+        console.log(plotData)
+        this.setState({
+          adminActivePlot: thePlot,
+          activeRecord: {
+            id: plotData.data.data.plot.id,
+            plot: plotData.data.data.plot.plot_number,
+            status: plotData.data.data.plot.status,
+            reservedBy: plotData.data.data.plot.reserved_by,
+            certificate: parseInt(plotData.data.data.plot.certificate),
+            reservedDate: plotData.data.data.plot.reserved_date,
+            numInterred: parseInt(plotData.data.data.plot.num_interred),
+            notes: plotData.data.data.plot.notes,
+            interred: plotData.data.data.interred,
+          }
+        })
+      })
+    }
+    else {
+      alert("please enter a valid plot number.")
+    }
+    document.getElementById('plot-search-id').value = null
   }
 
   render() {
@@ -166,7 +218,13 @@ state = {
           <LoginWindow />
         </Route>
         <Route exact path="/admin">
-          <AdminWindow />
+          <AdminWindow 
+            handleMenuClick={this.handleAdminMenuClick}
+            handleAdminSearch={this.handleAdminPlotSearch}
+            activePage={this.state.adminActivePage} 
+            plot={this.state.adminActivePlot}
+            plotData={this.state.activeRecord}
+          />
         </Route>
     </Switch></Router>
     )}

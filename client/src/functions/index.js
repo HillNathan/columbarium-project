@@ -9,7 +9,7 @@ const API = {
 
     getAllPlots: () => {
         return axios.get('/api/plots/getall')
-    }
+    },
 
 }
 

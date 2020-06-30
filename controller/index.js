@@ -37,11 +37,9 @@ const API = {
         }
       })
       .then(interred => {
-        console.log(interred)
         var fullRecord = {}
         fullRecord.plot = foundPlot
         fullRecord.interred = interred
-        console.log(fullRecord)
         cb(fullRecord)
       })
     })
