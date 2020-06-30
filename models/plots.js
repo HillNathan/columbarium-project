@@ -12,17 +12,17 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
           },
 
-        plot_number: {
+        plotNumber: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
 
-        plot_X: {
+        plotX: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
 
-        plot_Y: {
+        plotY: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
@@ -36,15 +36,15 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING
         },
 
-        reserved_by: {
+        reservedBy: {
             type: DataTypes.STRING
         },
 
-        reserved_date: {
+        reservedDate: {
             type: DataTypes.STRING
         },
 
-        num_interred: {
+        numInterred: {
             type: DataTypes.STRING
         },
 

@@ -22,6 +22,19 @@ module.exports = app => {
     })
   })
 
+  app.post('/api/plots/update', (req,res) => {
+    // POST route to save new information about a plot into the database. plot info should be sent in req.body
+    // and must include a plot number. 
+    API.updateOnePlot(req.body, response => {
+      if (response.length === 1) {
+        API.getOnePlot(req.body.plotNumber, thePlot => {
+          res.send({ data : thePlot })
+        })
+      }
+      else res.send({ status: "fail" })
+    })
+  })
+
   //=====================================================================================================
   // Name or Person Routes
   //=====================================================================================================

@@ -27,13 +27,13 @@ const API = {
     db.plots
     .findOne({ 
       where : { 
-        plot_number : plotToFind
+        plotNumber : plotToFind
       }
     })
     .then(foundPlot => {
       db.person.findAll({
         where : {
-          plotId : foundPlot.plot_number
+          plotId : foundPlot.plotNumber
         }
       })
       .then(interred => {
@@ -45,8 +45,18 @@ const API = {
     })
   },
 
+  updateOnePlot : (plotInfo, cb) => {
+    db.plots.update(plotInfo, {
+      where: { plotNumber : plotInfo.plotNumber }
+    })
+    .then(updatedRecord => {
+      // returns a number of rows that were updated, not the actual record. 
+      cb(updatedRecord)
+    })
+  },
+
   //=====================================================================================================
-  // PERSON(PEOPLE) SEARCH FUNCTIONS
+  // PERSON(PEOPLE) FUNCTIONS
   //=====================================================================================================
 
   searchByName : (searchTerm, cb) => {
@@ -56,7 +66,7 @@ const API = {
     //=====================================================================================================
     db.plots.findAll({
       where : {
-        reserved_by : {
+        reservedBy : {
           [Sequelize.Op.like] : `%${searchTerm}%` }
       }
     })

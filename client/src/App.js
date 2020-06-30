@@ -107,12 +107,12 @@ state = {
           showPlotDialog: true,
           activeRecord: {
             id: plotData.data.data.plot.id,
-            plot: plotData.data.data.plot.plot_number,
+            plot: plotData.data.data.plot.plotNumber,
             status: plotData.data.data.plot.status,
-            reservedBy: plotData.data.data.plot.reserved_by,
-            certificate: parseInt(plotData.data.data.plot.certificate),
-            reservedDate: plotData.data.data.plot.reserved_date,
-            numInterred: parseInt(plotData.data.data.plot.num_interred),
+            reservedBy: plotData.data.data.plot.reservedBy,
+            certificate: plotData.data.data.plot.certificate,
+            reservedDate: plotData.data.data.plot.reservedDate,
+            numInterred: plotData.data.data.plot.numInterred,
             notes: plotData.data.data.plot.notes,
             interred: plotData.data.data.interred,
           }
@@ -161,25 +161,23 @@ state = {
   }
 
   handleAdminPlotSearch = thePlot => {
-    console.log(thePlot)
     // this will handle the search feature of the admin plot editor
-    if ( isNaN(thePlot) ) {
+    if ( isNaN(parseInt(thePlot)) ) {
       alert("please enter numbers only.")
     }
-    else if ( thePlot < 837 && thePlot > 0) {
+    else if ( parseInt(thePlot) < 837 && parseInt(thePlot) > 0) {
       API.getOnePlot(thePlot)
       .then(plotData => {
-        console.log(plotData)
         this.setState({
           adminActivePlot: thePlot,
           activeRecord: {
             id: plotData.data.data.plot.id,
-            plot: plotData.data.data.plot.plot_number,
+            plot: plotData.data.data.plot.plotNumber,
             status: plotData.data.data.plot.status,
-            reservedBy: plotData.data.data.plot.reserved_by,
-            certificate: parseInt(plotData.data.data.plot.certificate),
-            reservedDate: plotData.data.data.plot.reserved_date,
-            numInterred: parseInt(plotData.data.data.plot.num_interred),
+            reservedBy: plotData.data.data.plot.reservedBy,
+            certificate: plotData.data.data.plot.certificate,
+            reservedDate: plotData.data.data.plot.reservedDate,
+            numInterred: plotData.data.data.plot.numInterred,
             notes: plotData.data.data.plot.notes,
             interred: plotData.data.data.interred,
           }

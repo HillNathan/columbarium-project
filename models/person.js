@@ -32,7 +32,15 @@ module.exports = function(sequelize, DataTypes) {
         plotId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-        }
+        },
+
+        dateOfBirth: {
+            type: DataTypes.DATE,
+        },
+
+        dateOfDeath: {
+            type: DataTypes.DATE,
+        },
 
     });
 
