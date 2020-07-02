@@ -76,10 +76,22 @@ module.exports = app => {
     //    plotID - INTEGER (required)
     //  
     // Fields listed as required must contain text, fields listed as optional must be sent but can be empty. 
-
     API.createNewPerson(req.body, response => {
       res.send({ data: response })
     })
+  })
+
+  app.post('/api/people/update', (req,res) => {
+    // POST route to update one person in the SQL database in the person table. Person should be in req.body and 
+    //  contain at minimum the id for the person being updated as an integer. 
+    if (!req.body.id) {
+      res.send({ data: [{error: "No person id was sent"}]})
+    }
+    else {
+      API.updateOnePerson(req.body, response => {
+        res.send({ data : response })
+      })  
+    }
   })
 
   //=====================================================================================================

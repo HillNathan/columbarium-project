@@ -200,11 +200,17 @@ state = {
     }
   }
 
-  handleAdminSaveClick = plotObj => {
+  handleAdminSaveClick = (plotObj, interredArray) => {
     API.updateOnePlot(plotObj)
     .then (updatedRecord => {
-      console.log(updatedRecord)
+      interredArray.forEach(person => {
+        console.log(person)
+        API.updateOnePerson(person)
+      })
     })
+
+
+
   }
 
   handleAdminPlotSearch = thePlot => {

@@ -49,9 +49,9 @@ const API = {
     db.plots.update(plotInfo, {
       where: { plotNumber : plotInfo.plotNumber }
     })
-    .then(updatedRecord => {
+    .then(rowsUpdated => {
       // returns a number of rows that were updated, not the actual record. 
-      cb(updatedRecord)
+      cb(rowsUpdated)
     })
   },
 
@@ -59,19 +59,16 @@ const API = {
   // PERSON(PEOPLE) FUNCTIONS
   //=====================================================================================================
 
-  searchByName : (searchTerm, cb) => {
-    // this function is a temporary solution to the find by name search function, finding a specific string in the 
-    //  "reserved_by" field. This may be useful in the future, so I am not deleting just yet, but this may need to 
-    //  be looked at again in the future. 
+  updateOnePerson : (personInfo, cb) => {
+    // This function will take in a person as an object, then update the person using the id to odentify the
+    //   record to be updated. Error checking for an id key is done at the route level.  
     //=====================================================================================================
-    db.plots.findAll({
-      where : {
-        reservedBy : {
-          [Sequelize.Op.like] : `%${searchTerm}%` }
-      }
+    db.person.update(personInfo, {
+      where: { id : personInfo.id }
     })
-    .then(response => {
-      cb(response)
+    .then(rowsUpdated => {
+      // returns a number of rows that were updated, not the actual record. 
+      cb(rowsUpdated)
     })
   },
 

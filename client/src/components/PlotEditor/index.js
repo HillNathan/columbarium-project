@@ -18,11 +18,20 @@ class PlotEditor extends Component {
         super();
         
         this.state = {
-            data: null,
+
             plotNum: 0,
+            status: "",
+            reservedBy: "",
+            certificate: "",
+            reservedDate: "",
+            numInterred: "",
+            notes: "",
+            interred: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleArrayChange = this.handleArrayChange.bind(this);
+
     }
 
     handleChange(event) {
@@ -33,9 +42,20 @@ class PlotEditor extends Component {
         });
     }
 
+    handleArrayChange(event) {
+        let { name, value, id } = event.target;
+
+        var myIndex = parseInt(id.slice(id.length-1))
+        var tempArray = this.state.interred
+        tempArray[myIndex][name] = value
+        this.setState({
+          interred: tempArray
+        });
+    }
+
+
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
-            data: incomingProps.data,
             plotNum: incomingProps.plot,
             status: incomingProps.data.status,
             reservedBy: incomingProps.data.reservedBy,
@@ -79,7 +99,7 @@ class PlotEditor extends Component {
                         </Grid>
                         <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
                             <Button color="primary"
-                                    onClick={()=> this.props.handleSaveData(this.getFormInfo())}>
+                                    onClick={()=> this.props.handleSaveData(this.getFormInfo(), this.state.interred)}>
                                 Save Changes
                             </Button>    
                         </Grid>
@@ -134,6 +154,7 @@ class PlotEditor extends Component {
                         return (<AdminInterredPerson key={index}
                             person={person}
                             index={index}
+                            handleChange={this.handleArrayChange}
                         /> )
                     })}                    
                 </Container>
