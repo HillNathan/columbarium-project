@@ -11,6 +11,8 @@ import AdminWindow from './pages/Admin'
 import LoginWindow from './pages/Login'
 import PlotDialog from './components/PlotDialog'
 import SearchDialogSlide from './components/SearchDialog'
+import MessageDialog from './components/MessageDialog'
+import NameSearchResults from './components/NameSearchResults'
 import './App.css'
 
 const API = require('./functions')
@@ -21,9 +23,15 @@ const emptyInfo = { id: 0, status: "" , plot: 0, name: ""}
 
 class App extends Component {
 state = {
-    data: null,
     plotMap: [],
     showPlotDialog: false,
+    showSearchDialog: false,
+    searchBy: "",
+    showMessageDialog: false,
+    messageDialogheader: "",
+    messageDialogText: "",
+    showNamesearchResults: false,
+    nameSearchResultsList: [],
     activeRecord: {
       id: 0,
       plot: 0,
@@ -35,8 +43,6 @@ state = {
       notes: "",
       interred: []
     },
-    showSearchDialog: false,
-    searchBy: "",
     adminActivePage: "PLOT",
     adminActivePlot: 0
   }
@@ -87,9 +93,9 @@ state = {
     //  stores that into in state to be displayed by the plot dialog
     //==============================================================================================
 
-    // First, we need to make sure the Search dialog is closed, in case we were sent here from the 
-    //   search dialog box from a plot search
+    // First, we need to make sure the other Dialog boxes that could potentially send us here are closed
     this.handleSearchDialogClose()
+    this.handleNameSearchClose()
 
     API.getOnePlot( plotID )
     .then(plotData => {
@@ -139,6 +145,47 @@ state = {
     this.setState({ 
       showSearchDialog: false,
       searchBy: "",
+      })
+    // then we need to empty all the values from the search dialog box for the next time we open it.
+  }
+
+  handleNameSearch = searchObj => {
+    this.setState({ 
+      showSearchDialog: false,
+      searchBy: "",
+      })
+
+    API.doNameSearch( searchObj )
+    .then(response => {
+      // console.log(response.data)
+      this.setState({
+        showNamesearchResults: true,
+        nameSearchResultsList: response.data.data
+      })
+    })
+  }
+
+  handleNameSearchClose = () => {
+    this.setState({
+      showNamesearchResults: false,
+      nameSearchResultsList: []
+    })
+
+  }
+
+  handleMessageDialogOpen = (header, message) => {
+    this.setState({
+      showMessageDialog: true,
+      messageDialogheader: header,
+      messageDialogText: message
+    })
+  }
+
+  handleMessageDialogClose = () => {
+    this.setState({
+        showMessageDialog: true,
+        messageDialogheader: "",
+        messageDialogText: ""
       })
   }
 
@@ -192,6 +239,7 @@ state = {
 
   render() {
     return (
+      <div>
       <Router>
         <Switch>
         <Route exact path="/">
@@ -210,6 +258,13 @@ state = {
             searchBy={this.state.searchBy} 
             handleClose={this.handleSearchDialogClose}
             handlePlotSearch={this.handlePlotDialogOpen}
+            handleNameSearch={this.handleNameSearch}
+          />
+          <NameSearchResults 
+            showMe={this.state.showNamesearchResults}
+            results={this.state.nameSearchResultsList}
+            handleClose={this.handleNameSearchClose}
+            searchResultClick={this.handlePlotDialogOpen}
           />
         </Route>
         <Route exact path="/login">
@@ -226,6 +281,12 @@ state = {
           />
         </Route>
     </Switch></Router>
+      <MessageDialog 
+        showMe={this.state.showMessageDialog}
+        header={this.state.messageDialogheader}
+        message={this.state.messageDialogText}
+    />
+    </div>
     )}
 }
 

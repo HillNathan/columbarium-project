@@ -7,23 +7,18 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 
-import InterredListItem from '../InterredListItem';
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-class AlertDialogSlide extends Component {
+class MessageDialog extends Component {
     constructor() {
         super();
         
         this.state = {
             open: false,
-            status: "",
-            name: null,
-            interred: [],
-            plot: "",
-            button: "",
+            header: "",
+            message: ""
         }
     }
 
@@ -34,10 +29,8 @@ class AlertDialogSlide extends Component {
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
             open: incomingProps.showMe,
-            plot: incomingProps.infoToShow.plot,
-            name: incomingProps.infoToShow.reservedBy,
-            interred: incomingProps.infoToShow.interred,
-            status: incomingProps.infoToShow.status})
+            header: incomingProps.header,
+            message: incomingProps.message})
     }
   
   render() {
@@ -51,15 +44,10 @@ class AlertDialogSlide extends Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">Information for Plot #{this.state.plot}</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">{this.state.header}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-                Current plot status: {this.state.status}
-                {(this.state.status === "OCCUPIED") ? 
-                    <ul>
-                    {this.state.interred.map(person => <InterredListItem person={person} /> )}</ul>
-                :
-                    <span></span>}
+              {this.state.message}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -72,4 +60,4 @@ class AlertDialogSlide extends Component {
   );
 }}
 
-export default AlertDialogSlide
+export default MessageDialog

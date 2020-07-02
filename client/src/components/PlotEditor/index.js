@@ -8,7 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import Spacer from '../Spacer'
 import Button from '@material-ui/core/Button';
 
-import InterredPerson from '../InterredPerson'
+import AdminInterredPerson from '../AdminInterredPerson'
 
 const statusList = ['AVAILABLE', 'RESERVED', 'OCCUPIED', 'PENDING', 'SLATE-AVAILABLE', 'SLATE-RESERVED', 
 'SLATE-OCCUPIED', 'WALL', 'FLOWERS']
@@ -131,7 +131,7 @@ class PlotEditor extends Component {
                     <Divider />
                     <Spacer height={20} />
                     {this.state.interred.map((person, index) => {
-                        return (<InterredPerson key={index}
+                        return (<AdminInterredPerson key={index}
                             person={person}
                             index={index}
                         /> )

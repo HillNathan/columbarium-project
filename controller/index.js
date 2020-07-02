@@ -93,8 +93,50 @@ const API = {
       cb(newPerson)
     })
       
-  }
+  },
 
+  personNameSearch : (searchTerms, cb) => {
+    // this function will run the db query to search by either firstName, lastName, or both. 
+    //   namesToLookFor should be an object and contain the following keys: 
+    //       "firstName" - STRING
+    //        "lastname" - STRING
+    // after error-checking in the route, either one or both of these fields will have a value in them
+    // but it is possible that one is empty. 
+    //=====================================================================================================
+
+    if (searchTerms.firstName === "") {
+      db.person.findAll({
+        where: { 
+          lastName : searchTerms.lastName
+        }
+      })
+      .then(results => {
+        cb(results)
+      })
+    }
+    else if (searchTerms.lastName === "") {
+      db.person.findAll({
+        where: { 
+          firstName : searchTerms.firstName
+        }
+      })
+      .then(results => {
+        cb(results)
+      })
+    }
+    else {
+      db.person.findAll({
+        where: { 
+          lastName : searchTerms.lastName,
+          firstName : searchTerms.firstName
+        }
+      })
+      .then(results => {
+        cb(results)
+      })
+
+    }
+  }
 }
 
 // Export our database functions back to the routes module

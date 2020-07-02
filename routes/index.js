@@ -47,6 +47,24 @@ module.exports = app => {
     })
   })
 
+  app.post('/api/people/namesearch', (req,res) => {
+    // POST route to search the SQL database for a person using their first, last, or first & last name. 
+    //  we will require that all fields be sent in, but fields not being used can be left empty. Fields in 
+    //  req.body must be as follows, and at least one of them must contain text:
+    //      firstName = String
+    //      lastName = String
+    // response will be sent as an array, so even if there is only one response it will be in an array since 
+    //  there COULD be multiple responses to the query. Empty objects in req.body will get an error response. 
+    if (req.body.firstName === "" && req.bodyLastName === "") {
+      res.send({ data: [{error: "No search terms were sent"}]})
+    }
+    else {
+      API.personNameSearch(req.body, response => {
+        res.send({ data: response })
+      })
+      }
+  })
+
   app.post('/api/people/create', (req,res) => {
     // POST route to create a new person in the SQL database record in the people table, and make sure that person
     //  is associated with a plot where they are interred. Person should be in req.body and should be sent as follows:
