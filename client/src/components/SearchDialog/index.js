@@ -40,6 +40,12 @@ class SearchDialogSlide extends Component {
       return !isNaN(parseInt(searchTerm))
     }
 
+    validateNameSearch = (searchObj) => {
+      console.log(searchObj)
+      if (searchObj.firstName === "" && searchObj.lastName === "") return false
+      else return true
+    }
+
     handleSearchClick = () => {
       if(this.state.searchBy === "PLOT") {
         // put the plot search term into a variable for validation
@@ -60,13 +66,24 @@ class SearchDialogSlide extends Component {
         document.getElementById("plot-search-term").value = null
       }
       else{
-        // gather the relevant data into an object
+        // gather the relevant data into an object to search by name
         var searchObj = {}
         searchObj.firstName = document.getElementById("searchFirstName").value
         searchObj.lastName = document.getElementById("searchLastName").value
-        // run function from App.js here to hit the search route
-        this.props.handleNameSearch(searchObj)
 
+        // validate the search object --> mist enter at least one search term
+        if (this.validateNameSearch(searchObj)) {
+          // since we have at least one term, run function from App.js here to hit the search route
+          this.props.handleNameSearch(searchObj)
+        }
+        else {
+          // alert the user that they must enter at least one search term
+          this.props.messageBoxOpen(
+            "Error...",                                         // header
+            "You must enter at least one name to search for.",  // message
+            "NAME")                                             // referrer
+        }
+        
         //clear out the search fields. 
         document.getElementById("searchFirstName").value = null
         document.getElementById("searchLastName").value = null
