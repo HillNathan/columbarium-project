@@ -32,10 +32,31 @@ class SearchDialogSlide extends Component {
             searchBy: incomingProps.searchBy })
     }
 
+    validatePlotSearch = (searchTerm) => {
+      // the way that i chose to handle the validation, we are checking to see if the searchTerm is a
+      //  number, so by checking if it is NOT a number, then returning the opposite, we are saying that
+      //  it is actually a number. I guess I could have just returned the value if isNaN but then the 
+      //  validation function - to me - would have functioned backwards. 
+      return !isNaN(parseInt(searchTerm))
+    }
+
     handleSearchClick = () => {
       if(this.state.searchBy === "PLOT") {
-        // hit the appropriate search function
-        this.props.handlePlotSearch(document.getElementById("plot-search-term").value)
+        // put the plot search term into a variable for validation
+        var searchTerm = document.getElementById("plot-search-term").value.trim()
+
+        // validate the input
+        if (this.validatePlotSearch(searchTerm)) {  
+          // since we have valid input, we hit the appropriate search function        
+          this.props.handlePlotSearch(searchTerm)
+        }
+        else {
+          // alert the user that their input needs to be a number
+          this.props.messageBoxOpen(
+            "Error...",                                   // header
+            "You must enter a number to search by plot.", // message
+            "PLOT")                                       // referrer
+        }
         document.getElementById("plot-search-term").value = null
       }
       else{

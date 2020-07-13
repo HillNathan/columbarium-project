@@ -32,6 +32,7 @@ state = {
     showMessageDialog: false,
     messageDialogheader: "",
     messageDialogText: "",
+    messageDialogReferrer: "",
     showNamesearchResults: false,
     nameSearchResultsList: [],
     activeRecord: {
@@ -176,19 +177,47 @@ state = {
 
   }
 
-  handleMessageDialogOpen = (header, message) => {
+  handleMessageDialogOpen = (header, message, referrer) => {
+    // referrer is here to be able to re-open a different dialog box once the user closes the 
+    //  message box, since wer are closing the other dialog boxes in order to show the message 
+    //  box.
+
+    // close the other dialog boxes....
+    this.handleSearchDialogClose()
+    this.closePersonForm()
+
+    // set the state to display the message box with the appropriate information. 
     this.setState({
       showMessageDialog: true,
       messageDialogheader: header,
-      messageDialogText: message
+      messageDialogText: message,
+      messageDialogReferrer: referrer
     })
   }
 
   handleMessageDialogClose = () => {
+    // here is where we check referrer, and open another dialog box if appropriate. 
+    if (this.state.messageDialogReferrer !== ""){
+      switch (this.state.messageDialogReferrer) {
+        case "PLOT" : 
+            this.handleSearchDialogOpen("PLOT")
+            break
+        case "NAME" : 
+          this.handleSearchDialogOpen("NAME")
+          break
+        case "ADMIN" : 
+          this.handleShowNewPersonForm()
+          break
+        default :
+          // do nothing, no need to open another dialog box
+      }
+    }
     this.setState({
-        showMessageDialog: true,
+        showMessageDialog: false,
         messageDialogheader: "",
-        messageDialogText: ""
+        messageDialogText: "",
+        messageDialogReferrer: ""
+
       })
   }
 
@@ -295,6 +324,7 @@ state = {
             handleClose={this.handleSearchDialogClose}
             handlePlotSearch={this.handlePlotDialogOpen}
             handleNameSearch={this.handleNameSearch}
+            messageBoxOpen={this.handleMessageDialogOpen}
           />
           <NameSearchResults 
             showMe={this.state.showNamesearchResults}
@@ -320,13 +350,16 @@ state = {
           showMe={this.state.showNewPersonForm}
           handleAddClick={this.addNewPersonToPlot}
           handleClose={this.closePersonForm}
-          plot={this.state.activeRecord.plot}/>
+          plot={this.state.activeRecord.plot}
+          messageBoxOpen={this.handleMessageDialogOpen}
+          />
         </Route>
     </Switch></Router>
       <MessageDialog 
         showMe={this.state.showMessageDialog}
         header={this.state.messageDialogheader}
         message={this.state.messageDialogText}
+        handleClose={this.handleMessageDialogClose}
     />
     </div>
     )}

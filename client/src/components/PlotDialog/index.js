@@ -32,7 +32,6 @@ class AlertDialogSlide extends Component {
     };
 
     componentWillReceiveProps (incomingProps) {
-      console.log(incomingProps.infoToShow.interred)
         this.setState({ 
             open: incomingProps.showMe,
             plot: incomingProps.infoToShow.plot,
