@@ -18,7 +18,6 @@ class PlotEditor extends Component {
         super();
         
         this.state = {
-
             plotNum: 0,
             status: "",
             reservedBy: "",
@@ -31,7 +30,7 @@ class PlotEditor extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleArrayChange = this.handleArrayChange.bind(this);
-
+        this.handleDateChange = this.handleDateChange.bind(this);
     }
 
     handleChange(event) {
@@ -44,7 +43,6 @@ class PlotEditor extends Component {
 
     handleArrayChange(event) {
         let { name, value, id } = event.target;
-
         var myIndex = parseInt(id.slice(id.length-1))
         var tempArray = this.state.interred
         tempArray[myIndex][name] = value
@@ -53,6 +51,14 @@ class PlotEditor extends Component {
         });
     }
 
+    handleDateChange(newDate, whichDate, index) {
+        console.log("PlotEditor handleDateChange...")
+        var tempArray = this.state.interred
+        tempArray[index][whichDate] = newDate
+        this.setState({
+            interred: tempArray
+          });  
+    }
 
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
@@ -69,13 +75,18 @@ class PlotEditor extends Component {
 
     getFormInfo = () => {
         var plotData = {}
-        plotData.status = this.state.status
-        plotData.plotNumber = this.state.plotNum
-        plotData.certificate = this.state.certificate
-        plotData.reservedBy = this.state.reservedBy
-        plotData.reservedDate = this.state.reservedDate
-        plotData.numInterred = this.state.numInterred
-        plotData.notes = this.state.notes
+        plotData.plot = {}
+        plotData.plot.status = this.state.status
+        plotData.plot.plotNumber = this.state.plotNum
+        plotData.plot.certificate = this.state.certificate
+        plotData.plot.reservedBy = this.state.reservedBy
+        plotData.plot.reservedDate = this.state.reservedDate
+        plotData.plot.numInterred = this.state.numInterred
+        plotData.plot.notes = this.state.notes
+        plotData.interredArray = this.state.interred
+        plotData.newPerson = this.state.newPerson
+        console.log("getFormInfo")
+        console.log(plotData)
         return plotData
     }
 
@@ -89,17 +100,12 @@ class PlotEditor extends Component {
                ) : (
                 <Container maxWidth="xl" >
                     <Grid container spacing={1} justify="flex-start">
-                        <Grid item xl={8} lg={8} md={8} sm={8} xs={8} >
+                        <Grid item xl={10} lg={10} md={10} sm={10} xs={10} >
                             <h2>Plot information for Plot #{this.state.plotNum}</h2>
                         </Grid>
                         <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
-                            <Button color="primary">
-                                Add a Person
-                            </Button>    
-                        </Grid>
-                        <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
                             <Button color="primary"
-                                    onClick={()=> this.props.handleSaveData(this.getFormInfo(), this.state.interred)}>
+                                    onClick={()=> this.props.handleSaveData(this.getFormInfo())}>
                                 Save Changes
                             </Button>    
                         </Grid>
@@ -155,8 +161,18 @@ class PlotEditor extends Component {
                             person={person}
                             index={index}
                             handleChange={this.handleArrayChange}
+                            handleDateChange={this.handleDateChange}
                         /> )
-                    })}                    
+                    })}       
+                    <Divider />
+                    <Grid>
+                        {(this.state.interred.length < 3) ? 
+                        <Button color="primary" onClick={() => this.props.handleShowNewPersonForm()}>
+                            Add a Person
+                        </Button>    
+                        :
+                        <div></div> }
+                    </Grid>   
                 </Container>
                )}
             </div>

@@ -13,6 +13,8 @@ import PlotDialog from './components/PlotDialog'
 import SearchDialogSlide from './components/SearchDialog'
 import MessageDialog from './components/MessageDialog'
 import NameSearchResults from './components/NameSearchResults'
+import NewPersonForm from './components/AdminNewPersonForm'
+
 import './App.css'
 
 const API = require('./functions')
@@ -44,7 +46,8 @@ state = {
       interred: []
     },
     adminActivePage: "PLOT",
-    adminActivePlot: 0
+    adminActivePlot: 0,
+    showNewPersonForm: false,
   }
 
   componentDidMount() {
@@ -200,17 +203,14 @@ state = {
     }
   }
 
-  handleAdminSaveClick = (plotObj, interredArray) => {
-    API.updateOnePlot(plotObj)
+  handleAdminSaveClick = (plotObj) => {
+    API.updateOnePlot(plotObj.plot)
     .then (updatedRecord => {
-      interredArray.forEach(person => {
-        console.log(person)
-        API.updateOnePerson(person)
+      plotObj.interredArray.forEach(person => {
+        if(person.id) API.updateOnePerson(person)
+        else API.addPerson(person)
       })
     })
-
-
-
   }
 
   handleAdminPlotSearch = thePlot => {
@@ -242,6 +242,36 @@ state = {
     }
     document.getElementById('plot-search-id').value = null
   }
+
+  handleShowNewPersonForm = () => {
+    this.setState({
+        showNewPersonForm : true,
+    })
+}
+
+  addNewPersonToPlot = (newPerson) => {
+    this.closePersonForm()
+    console.log(newPerson)
+    var tempObj = this.state.activeRecord
+    tempObj.interred.push(newPerson)
+    this.setState({
+      activeRecord: tempObj
+    })
+    document.getElementById("salutation-new").value = ""
+    document.getElementById("first-name-new").value = ""
+    document.getElementById("middle-name-new").value = ""
+    document.getElementById("last-name-new").value = ""
+    document.getElementById("suffix-new").value = ""
+    document.getElementById("dob-new").value = ""
+    document.getElementById("dod-new").value = ""
+
+  }
+
+  closePersonForm = () => {
+    this.setState({
+        showNewPersonForm: false,
+    })
+}
 
   render() {
     return (
@@ -284,7 +314,13 @@ state = {
             activePage={this.state.adminActivePage} 
             plot={this.state.adminActivePlot}
             plotData={this.state.activeRecord}
+            handleShowNewPersonForm={this.handleShowNewPersonForm}
           />
+        <NewPersonForm 
+          showMe={this.state.showNewPersonForm}
+          handleAddClick={this.addNewPersonToPlot}
+          handleClose={this.closePersonForm}
+          plot={this.state.activeRecord.plot}/>
         </Route>
     </Switch></Router>
       <MessageDialog 

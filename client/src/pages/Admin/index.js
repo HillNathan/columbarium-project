@@ -115,6 +115,7 @@ export default function AdminPage(props) {
           plot={props.plot}
           handleSaveData={props.handleSaveData}
           data={props.plotData}
+          handleShowNewPersonForm={props.handleShowNewPersonForm}
         />
         
       </main>

@@ -10,6 +10,8 @@ const API = {
 
     doNameSearch: nameQuery => axios.post('/api/people/namesearch', nameQuery),
 
+    addPerson: personObj => axios.post('/api/people/create', personObj),
+
     updateOnePerson: thePerson => axios.post('/api/people/update', thePerson),
 
 }

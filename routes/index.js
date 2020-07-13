@@ -73,6 +73,8 @@ module.exports = app => {
     //    middleName - STRING (optional)
     //    lastName - STRING (required)
     //    suffix - STRING (optional)
+    //    dateOfBirth - DATE (optional)
+    //    dateOfDeath - DATE (optional)
     //    plotID - INTEGER (required)
     //  
     // Fields listed as required must contain text, fields listed as optional must be sent but can be empty. 
