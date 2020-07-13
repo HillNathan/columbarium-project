@@ -18,6 +18,7 @@
     "neat-csv": "^5.2.0",
     "nice-try": "^2.0.1",
     "react-datepicker": "^3.0.0",
+    "react-images-upload": "^1.2.8",
     "react-map-interaction": "^2.0.0",
     "sequelize": "^5.21.13"
   },

@@ -49,6 +49,7 @@ state = {
     adminActivePage: "PLOT",
     adminActivePlot: 0,
     showNewPersonForm: false,
+    selectedFile: null
   }
 
   componentDidMount() {
@@ -108,6 +109,7 @@ state = {
       if (plotData.status===200) {
         this.setState({ 
           showPlotDialog: true,
+          // pass the received information into the activeRecord part of the state to be displayed. 
           activeRecord: {
             id: plotData.data.data.plot.id,
             plot: plotData.data.data.plot.plotNumber,
@@ -138,6 +140,7 @@ state = {
   }
 
   handleSearchDialogOpen = searchBy => {
+    // set flags to open the search dialog box, and pass in how the user would like to search the DB
     this.setState({
       showSearchDialog: true,
       searchBy: searchBy
@@ -154,14 +157,16 @@ state = {
   }
 
   handleNameSearch = searchObj => {
+    // close the search dialog box, and clear the fields. 
     this.setState({ 
       showSearchDialog: false,
       searchBy: "",
       })
-
+      
+    // use our functions module to hit the server and search for the information the user submitted
     API.doNameSearch( searchObj )
     .then(response => {
-      // console.log(response.data)
+      // open the name search results dialog box and display the information sent back from the DB
       this.setState({
         showNamesearchResults: true,
         nameSearchResultsList: response.data.data
@@ -170,6 +175,7 @@ state = {
   }
 
   handleNameSearchClose = () => {
+    // set the flag to show the name search dialog to false and clear the info
     this.setState({
       showNamesearchResults: false,
       nameSearchResultsList: []
@@ -212,6 +218,7 @@ state = {
           // do nothing, no need to open another dialog box
       }
     }
+    // close the message dialog box and clear out the information
     this.setState({
         showMessageDialog: false,
         messageDialogheader: "",
@@ -233,8 +240,11 @@ state = {
   }
 
   handleAdminSaveClick = (plotObj) => {
+    // use our functions module to hit the DB and update the current record with the new information submitted
+    // by our admin user. 
     API.updateOnePlot(plotObj.plot)
     .then (updatedRecord => {
+      // then once the plot has been updated, update any information changed in the people interred within
       plotObj.interredArray.forEach(person => {
         if(person.id) API.updateOnePerson(person)
         else API.addPerson(person)
@@ -245,7 +255,10 @@ state = {
   handleAdminPlotSearch = thePlot => {
     // this will handle the search feature of the admin plot editor
     if ( isNaN(parseInt(thePlot)) ) {
-      alert("please enter numbers only.")
+      this.handleMessageDialogOpen(
+        "Error...",                                         // header
+        "You must enter a number between 1 and 836. ",      // message
+        "NAME")                                             // referrer
     }
     else if ( parseInt(thePlot) < 837 && parseInt(thePlot) > 0) {
       API.getOnePlot(thePlot)
@@ -267,7 +280,10 @@ state = {
       })
     }
     else {
-      alert("please enter a valid plot number.")
+      this.handleMessageDialogOpen(
+        "Error...",                                         // header
+        "You must enter a number between 1 and 836. ",      // message
+        "NAME")                                             // referrer
     }
     document.getElementById('plot-search-id').value = null
   }
@@ -300,7 +316,7 @@ state = {
     this.setState({
         showNewPersonForm: false,
     })
-}
+  }
 
   render() {
     return (
