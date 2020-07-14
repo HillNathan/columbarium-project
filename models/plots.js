@@ -48,6 +48,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING
         },
 
+        picture: {
+            type: DataTypes.STRING
+        },
+
         notes: {
             type: DataTypes.STRING
         },

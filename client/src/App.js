@@ -46,6 +46,7 @@ class App extends Component {
       reservedDate: "",
       numInterred: 0,
       notes: "",
+      picture: "",
       interred: []
     },
     adminActivePage: "PLOT",
@@ -121,6 +122,7 @@ class App extends Component {
             reservedDate: plotData.data.data.plot.reservedDate,
             numInterred: plotData.data.data.plot.numInterred,
             notes: plotData.data.data.plot.notes,
+            picture: plotData.data.data.plot.picture,
             interred: plotData.data.data.interred,
           }
         }) 

@@ -23,6 +23,7 @@ class AlertDialogSlide extends Component {
             name: null,
             interred: [],
             plot: "",
+            picture: "",
             button: "",
         }
     }
@@ -36,6 +37,7 @@ class AlertDialogSlide extends Component {
             open: incomingProps.showMe,
             plot: incomingProps.infoToShow.plot,
             name: incomingProps.infoToShow.reservedBy,
+            picture: incomingProps.infoToShow.picture,
             interred: incomingProps.infoToShow.interred,
             status: incomingProps.infoToShow.status})
     }
@@ -53,6 +55,7 @@ class AlertDialogSlide extends Component {
       >
         <DialogTitle id="alert-dialog-slide-title">Information for Plot #{this.state.plot}</DialogTitle>
         <DialogContent>
+          <img src={"./images/" + this.state.picture} style={{height: 200, width:200}}/>
           <DialogContentText id="alert-dialog-slide-description">
                 Current plot status: {this.state.status}
                 {(this.state.status === "OCCUPIED") ? 
