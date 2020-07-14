@@ -1,6 +1,7 @@
 // include any additional middleware declarations up here:
 // i.e.
 const API = require("../controller");
+const formidable = require('formidable')
 
 module.exports = app => {
 
@@ -39,6 +40,40 @@ module.exports = app => {
       else res.send({ status: "fail" })
     })
   })
+
+  app.post('/api/plots/picture/upload', (req,res) => {
+    // POST route to take in a picture, save it to the server in our public folder so it is accessible by the 
+    //   front-end, and add the picture information to the plot record so that when the plot is pulled up, 
+    //   the picture can be displayed. 
+    // Receives multipart form data with a picture file and a "plot" field giving the plot number for the 
+    //   database association. 
+    var myObj = {}
+
+    var form = new formidable.IncomingForm()
+    form.uploadDir = __dirname + '/../client/public/images/';
+    console.log("--FORM START--");
+    form.on('field', (name, field) => {
+      myObj[name] = field
+    })
+    form.on('fileBegin', (name, file) => {  
+      file.path = form.uploadDir + file.name;
+    })
+    .on('error', (err) => {
+      console.error('Error', err)
+      res.send("Error")
+      throw err
+    })
+    .on('end', () => {
+      console.log(myObj)
+      API.updateOnePlot(myObj, response => {
+        console.log(response)
+      })
+      res.send("File uploaded Successfully")
+    })
+    form.parse(req)
+
+  })
+  
 
   //=====================================================================================================
   // Name or Person Routes

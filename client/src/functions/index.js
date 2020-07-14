@@ -14,6 +14,8 @@ const API = {
 
     updateOnePerson: thePerson => axios.post('/api/people/update', thePerson),
 
+    pictureFileUpload: thePictureData => axios.post('/api/plots/picture/upload', thePictureData),
+
 }
 
 module.exports = API

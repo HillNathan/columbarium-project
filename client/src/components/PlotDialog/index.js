@@ -55,7 +55,7 @@ class AlertDialogSlide extends Component {
       >
         <DialogTitle id="alert-dialog-slide-title">Information for Plot #{this.state.plot}</DialogTitle>
         <DialogContent>
-          <img src={"./images/" + this.state.picture} style={{height: 200, width:200}}/>
+          <img src={"./images/" + this.state.picture} style={{height: 300, width: 300}}/>
           <DialogContentText id="alert-dialog-slide-description">
                 Current plot status: {this.state.status}
                 {(this.state.status === "OCCUPIED") ? 

@@ -13,6 +13,9 @@ import AdminInterredPerson from '../AdminInterredPerson'
 const statusList = ['AVAILABLE', 'RESERVED', 'OCCUPIED', 'PENDING', 'SLATE-AVAILABLE', 'SLATE-RESERVED', 
 'SLATE-OCCUPIED', 'WALL', 'FLOWERS']
 
+// onSelectFile={props.onSelectFile}
+// handleFileUpload={props.handleFileUpload}
+
 class PlotEditor extends Component {
     constructor() {
         super();
@@ -25,17 +28,19 @@ class PlotEditor extends Component {
             reservedDate: "",
             numInterred: "",
             notes: "",
+            picture: "",
             interred: [],
+            selectedFile: null,
         }
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleArrayChange = this.handleArrayChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleChange = this.handleChange.bind(this)
+        this.handleArrayChange = this.handleArrayChange.bind(this)
+        this.handleDateChange = this.handleDateChange.bind(this)
+        this.onSelectFile = this.onSelectFile.bind(this)
     }
 
     handleChange(event) {
         let { name, value } = event.target;
-    
         this.setState({
           [name]: value
         });
@@ -60,6 +65,23 @@ class PlotEditor extends Component {
           });  
     }
 
+    onSelectFile = event => {
+        event.preventDefault()
+        console.log(event.target.files[0])
+        this.setState({
+            selectedFile: event.target.files[0],
+            picture: event.target.files[0].name
+        })
+    }
+
+    onUploadClick = () => {
+        const theData = new FormData()
+        theData.append('image', this.state.selectedFile, this.state.selectedFile.name)
+        theData.append('plotNumber', this.state.plotNum)
+        theData.append('picture', this.state.picture)
+        this.props.handleFileUpload(theData)
+    }
+
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
             plotNum: incomingProps.plot,
@@ -69,6 +91,7 @@ class PlotEditor extends Component {
             reservedDate: incomingProps.data.reservedDate,
             numInterred: incomingProps.data.numInterred,
             notes: incomingProps.data.notes,
+            picture: "",
             interred: incomingProps.data.interred,
         })
     }
@@ -110,36 +133,23 @@ class PlotEditor extends Component {
                             </Button>    
                         </Grid>
                         <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
-                        <TextField
-                            id="plot-status"
-                            variant="outlined"
-                            name="status"
-                            select
-                            value={this.state.status}
-                            onChange={this.handleChange}
-                            label="Plot status"
-                            fullWidth={true}
-                            >
+                        <TextField id="plot-status" name="status"  label="Plot status"
+                            variant="outlined" value={this.state.status} select
+                            onChange={this.handleChange} fullWidth={true} >
                             {statusList.map((option, index) => (
                                 <MenuItem key={index} value={option}>
                                   {option}
-                                </MenuItem>
-                              ))}
+                                </MenuItem> ))}
                         </TextField>
                         </Grid>
-                        <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+                        <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
                             <TextField id="certificate" name="certificate" label="Certificate #" 
                                         variant="outlined" value={this.state.certificate} 
                                         onChange={this.handleChange}/>
                         </Grid>
-                        <Grid item xl={3} lg={3} md={3} sm={3} sx={3}>
+                        <Grid item xl={2} lg={2} md={2} sm={2} sx={2}>
                             <TextField id="num-interred" name="numInterred" label="How Many Interred" 
                                         variant="outlined" value={this.state.numInterred}                            
-                                        onChange={this.handleChange} />
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4} sx={4} >
-                            <TextField id="reserved-by" name="reservedBy" label="Reserved By" fullWidth={true}
-                                        variant="outlined" value={this.state.reservedBy}                                         
                                         onChange={this.handleChange} />
                         </Grid>
                         <Grid item lg={2}>
@@ -147,7 +157,22 @@ class PlotEditor extends Component {
                                         variant="outlined" value={this.state.reservedDate} 
                                         onChange={this.handleChange} />
                         </Grid>
-
+                        <Grid item xl={4} lg={4} md={4} sm={4} sx={4} >
+                            <TextField id="reserved-by" name="reservedBy" label="Reserved By" fullWidth={true}
+                                        variant="outlined" value={this.state.reservedBy}                                         
+                                        onChange={this.handleChange} />
+                        </Grid>
+                        <Grid item xl={4} lg={4} md={4} sm={4} sx={4} >
+                            <TextField id="picture" name="picture" fullWidth={true}
+                                        variant="outlined"                                        
+                                        onChange={this.onSelectFile} type="file"/>
+                        </Grid>
+                        <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
+                            <Button color="primary"
+                                onClick={() => this.onUploadClick()} >
+                                Upload File
+                            </Button>    
+                        </Grid>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                             <TextField id="notes" name="notes" label="Notes" value={this.state.notes} 
                                         variant="outlined" fullWidth={true} multiline rows={4} 

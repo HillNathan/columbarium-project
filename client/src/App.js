@@ -322,6 +322,18 @@ class App extends Component {
     })
   }
 
+  handleFileUpload = (theData) => {
+    // this function accepts a multipart form data object including a "image" that is the image file, 
+    //  and a "plot" field that gives the plot the picture should be associated with in our db. Then 
+    //  we will call our upload function to send the info up to the server. 
+    API.pictureFileUpload(theData)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(err => {
+        console.error("error", err)
+      })
+  }
 
   render() {
     return (
@@ -365,6 +377,7 @@ class App extends Component {
             plot={this.state.adminActivePlot}
             plotData={this.state.activeRecord}
             handleShowNewPersonForm={this.handleShowNewPersonForm}
+            handleFileUpload={this.handleFileUpload}
           />
           <NewPersonForm 
             showMe={this.state.showNewPersonForm}
