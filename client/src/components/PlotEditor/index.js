@@ -8,7 +8,6 @@ import Divider from '@material-ui/core/Divider';
 import Spacer from '../Spacer'
 import Button from '@material-ui/core/Button';
 
-import FileUploader from '../FileUpload'
 import AdminInterredPerson from '../AdminInterredPerson'
 
 const statusList = ['AVAILABLE', 'RESERVED', 'OCCUPIED', 'PENDING', 'SLATE-AVAILABLE', 'SLATE-RESERVED', 
@@ -148,9 +147,7 @@ class PlotEditor extends Component {
                                         variant="outlined" value={this.state.reservedDate} 
                                         onChange={this.handleChange} />
                         </Grid>
-                        <Grid item lg={2}>
-                            <FileUploader />
-                        </Grid>
+
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                             <TextField id="notes" name="notes" label="Notes" value={this.state.notes} 
                                         variant="outlined" fullWidth={true} multiline rows={4} 

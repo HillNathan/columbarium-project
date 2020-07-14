@@ -1,21 +1,23 @@
-import React, { Component } from 'react'
-// import our important React components to use react as our router
+import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Switch
-} from "react-router-dom"
-// bringing in our user-defined components
+} from "react-router-dom";
+
+// bringing in our user-defined page components
+import LoginWindow from './pages/Login'
 import MainWindow from './pages/Main'
 import AdminWindow from './pages/Admin'
-import LoginWindow from './pages/Login'
-import PlotDialog from './components/PlotDialog'
-import SearchDialogSlide from './components/SearchDialog'
+
+// bringing in additional support components
 import MessageDialog from './components/MessageDialog'
+import SearchDialogSlide from './components/SearchDialog'
 import NameSearchResults from './components/NameSearchResults'
+import PlotDialog from './components/PlotDialog'
 import NewPersonForm from './components/AdminNewPersonForm'
 
-import './App.css'
+import './App.css';
 
 const API = require('./functions')
 
@@ -24,7 +26,7 @@ const API = require('./functions')
 const emptyInfo = { id: 0, status: "" , plot: 0, name: ""}
 
 class App extends Component {
-state = {
+  state = {
     plotMap: [],
     showPlotDialog: false,
     showSearchDialog: false,
@@ -318,22 +320,17 @@ state = {
     })
   }
 
+
   render() {
     return (
       <div>
-      <Router>
-        <Switch>
+      <Router><Switch>
         <Route exact path="/">
           <MainWindow
             plotList={this.state.plotMap}
             handleOpen={this.handlePlotDialogOpen}
             handleSearchOpen={this.handleSearchDialogOpen}
           />
-          <PlotDialog
-            showMe={this.state.showPlotDialog}
-            infoToShow={this.state.activeRecord}
-            handleClose={this.handlePlotDialogClose} 
-          />  
           <SearchDialogSlide
             showMe={this.state.showSearchDialog}
             searchBy={this.state.searchBy} 
@@ -342,6 +339,11 @@ state = {
             handleNameSearch={this.handleNameSearch}
             messageBoxOpen={this.handleMessageDialogOpen}
           />
+          <PlotDialog
+            showMe={this.state.showPlotDialog}
+            infoToShow={this.state.activeRecord}
+            handleClose={this.handlePlotDialogClose} 
+          />  
           <NameSearchResults 
             showMe={this.state.showNamesearchResults}
             results={this.state.nameSearchResultsList}
@@ -362,20 +364,20 @@ state = {
             plotData={this.state.activeRecord}
             handleShowNewPersonForm={this.handleShowNewPersonForm}
           />
-        <NewPersonForm 
-          showMe={this.state.showNewPersonForm}
-          handleAddClick={this.addNewPersonToPlot}
-          handleClose={this.closePersonForm}
-          plot={this.state.activeRecord.plot}
-          messageBoxOpen={this.handleMessageDialogOpen}
+          <NewPersonForm 
+            showMe={this.state.showNewPersonForm}
+            handleAddClick={this.addNewPersonToPlot}
+            handleClose={this.closePersonForm}
+            plot={this.state.activeRecord.plot}
+            messageBoxOpen={this.handleMessageDialogOpen}
           />
         </Route>
     </Switch></Router>
-      <MessageDialog 
-        showMe={this.state.showMessageDialog}
-        header={this.state.messageDialogheader}
-        message={this.state.messageDialogText}
-        handleClose={this.handleMessageDialogClose}
+    <MessageDialog 
+      showMe={this.state.showMessageDialog}
+      header={this.state.messageDialogheader}
+      message={this.state.messageDialogText}
+      handleClose={this.handleMessageDialogClose}
     />
     </div>
     )}

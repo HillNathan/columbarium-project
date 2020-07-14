@@ -1,5 +1,3 @@
-// require("dotenv").config();
-
 // SET EXPRESS ENVIRONMENT
 const express = require("express");
 const app = express();

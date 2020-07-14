@@ -1,13 +1,11 @@
 {
-  "name": "zip-address",
+  "name": "columbarium-project",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "dependencies": {
-    "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.19.2",
-    "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.1.0",
     "dot-env": "^0.0.1",
@@ -15,19 +13,16 @@
     "express": "^4.17.1",
     "if-env": "^1.0.4",
     "mysql2": "^2.1.0",
-    "neat-csv": "^5.2.0",
     "nice-try": "^2.0.1",
-    "react-datepicker": "^3.0.0",
-    "react-images-upload": "^1.2.8",
     "react-map-interaction": "^2.0.0",
-    "sequelize": "^5.21.13"
+    "sequelize": "^6.3.3"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "if-env NODE_ENV=production && yarn run start:prod || yarn run start:dev",
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "start:prod": "node server.js",
-    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn run client\"",
-    "client": "cd client && yarn run start",
+    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
     "seed": "node scripts/seedDB.js",
     "install": "cd client && yarn",
     "build": "cd client && npm run build",
@@ -35,12 +30,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HillNathan/zip-address.git"
+    "url": "git+https://github.com/HillNathan/columbarium-project.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HillNathan/zip-address/issues"
+    "url": "https://github.com/HillNathan/columbarium-project/issues"
   },
-  "homepage": "https://github.com/HillNathan/zip-address#readme"
+  "homepage": "https://github.com/HillNathan/columbarium-project#readme"
 }
