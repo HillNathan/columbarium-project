@@ -1,7 +1,9 @@
 // include any additional middleware declarations up here:
 // i.e.
-const API = require("../controller");
+const middleware = require("../middleware");
+const passport = middleware.passport;
 const formidable = require('formidable')
+const API = require("../controller");
 
 module.exports = app => {
 
@@ -147,33 +149,9 @@ module.exports = app => {
     //   "firstName" as a string of at least 1 character
     //   "lastName" as a string of at least 1 character
     //=====================================================================================================
-    db.user
-      .findOne({ where: { username: req.body.username } })
-      .then(response => {
-        // do a quick findOne search to see if the username already exists in our users table
-        // console logging for debugging purposes
-        console.log(req.body.username);
-        console.log("Response is below:");
-        console.log(response);
-        if (response) {
-          // if we find a user we get a response -- so we send a response that the username already exists
-          res.json({ status: "Username already exists." });
-        } else {
-          // if we don't find a user, then we need to create the user in our database. 
-          db.user
-            // create a new user in the users table
-            .create(req.body)
-            .then(() => {
-              // send a response with the new user as a json object and allow the front-end to log the user in 
-              //   and then redirect to the appropriate screen. 
-              res.json(req.body);
-            })
-            .catch(err => {
-              // if there is an error, return the error
-              res.json(err);
-            });
-        }
-      });
+    API.addUser(req.body, response => {
+      res.send(response)
+    })
   });
     
   app.post("/api/users/login", function(req, res, next) {

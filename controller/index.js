@@ -1,5 +1,5 @@
-// const neatCsv = require('neat-csv');
-// const fs = require('fs');
+const middleware = require("../middleware");
+const passport = middleware.passport;
 const db = require('../models');
 const { Sequelize } = require('../models');
 
@@ -133,7 +133,52 @@ const API = {
       })
 
     }
-  }
+  },
+
+  //=====================================================================================================
+  // USER/ADMIN FUNCTIONS
+  //=====================================================================================================
+
+  addUser : (userInfo, cb) => {
+  // this function searches the user db to see if a user with that username already exists, and if the 
+  //  username is unique, it will create that user as a new item in the db and return the user to the 
+  //  front-end to be processed. It will also return an error if the username already exists or if there 
+  //  is another kind of database error processing the data. data should be sent as follows:
+  //   "username"  as a string of minimum 8 characters
+  //   "password"  as a string of minimum 8 characters
+  //   "firstName" as a string of at least 1 character
+  //   "lastName"  as a string of at least 1 character
+  //=====================================================================================================
+
+    db.user
+    .findOne({ where: { username: userInfo.username } })
+    .then(response => {
+      // do a quick findOne search to see if the username already exists in our users table
+      // console logging for debugging purposes
+      console.log(userInfo.username);
+      console.log("Response is below:");
+      console.log(response);
+      if (response) {
+        // if we find a user we get a response -- so we send a response that the username already exists
+        cb({ status: "Username already exists." });
+      } else {
+        // if we don't find a user, then we need to create the user in our database. 
+        db.user
+          // create a new user in the users table
+          .create(userInfo)
+          .then(() => {
+            // send a response with the new user as a json object and allow the front-end to log the user in 
+            //   and then redirect to the appropriate screen. 
+            cb(userInfo);
+          })
+          .catch(err => {
+            // if there is an error, return the error
+            cb(err);
+          });
+      }
+    });
+  },
+
 }
 
 // Export our database functions back to the routes module
