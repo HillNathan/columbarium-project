@@ -1,5 +1,4 @@
 const middleware = require("../middleware");
-const passport = middleware.passport;
 const db = require('../models');
 const { Sequelize } = require('../models');
 
