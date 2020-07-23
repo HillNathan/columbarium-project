@@ -13,9 +13,6 @@ import AdminInterredPerson from '../AdminInterredPerson'
 const statusList = ['AVAILABLE', 'RESERVED', 'OCCUPIED', 'PENDING', 'SLATE-AVAILABLE', 'SLATE-RESERVED', 
 'SLATE-OCCUPIED', 'WALL', 'FLOWERS']
 
-// onSelectFile={props.onSelectFile}
-// handleFileUpload={props.handleFileUpload}
-
 class PlotEditor extends Component {
     constructor() {
         super();

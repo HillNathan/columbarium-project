@@ -297,7 +297,21 @@ class App extends Component {
     this.setState({
         showNewPersonForm : true,
     })
-}
+  }
+
+  handleUserLoginClick = (userObj) => {
+    console.log(`=======LOGIN FUNCTION =======`)
+    console.log(`User = ${userObj.username}`)
+    console.log(`Password = ${userObj.password}`)
+    console.log(`=============================`)
+    API.doUserLogin(userObj)
+    .then(response => {
+      console.log(response)
+      if (response.data.status === "success") {
+        console.log("Login success!")
+      }
+    })
+  }
 
   addNewPersonToPlot = (newPerson) => {
     this.closePersonForm()
@@ -367,7 +381,8 @@ class App extends Component {
           />
         </Route>
         <Route exact path="/login">
-          <LoginWindow />
+          <LoginWindow 
+            handleLogin={this.handleUserLoginClick}/>
         </Route>
         <Route exact path="/admin">
           <AdminWindow 

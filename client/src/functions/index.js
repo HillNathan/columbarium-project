@@ -33,6 +33,10 @@ const API = {
     //  multi-type form and include a picture as well as the id of the plot it is to be associated with
     pictureFileUpload: thePictureData => axios.post('/api/plots/picture/upload', thePictureData),
 
+    // route takes an object that contains a user and a password, and calls the route to log the 
+    //  user in. 
+    doUserLogin: theUser => axios.post('api/users/login', theUser), 
+
 }
 
 module.exports = API

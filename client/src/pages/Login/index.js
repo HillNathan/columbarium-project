@@ -2,7 +2,10 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+
+import LoginForm from '../../components/LoginForm'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar(props) {
   const classes = useStyles();
 
   return (
@@ -31,7 +34,10 @@ export default function ButtonAppBar() {
         </AppBar>
         </div>
         <main>
-            Additional Text will go here...
+            <Container>
+              <LoginForm 
+                handleLogin={props.handleLogin}/>
+            </Container>
         </main>
     </div>
   );
