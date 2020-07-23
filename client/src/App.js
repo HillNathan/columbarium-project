@@ -187,7 +187,7 @@ class App extends Component {
 
   }
 
-  handleMessageDialogOpen = (header, message, referrer) => {
+  handleMessageDialogOpen = (messageObj) => {
     // referrer is here to be able to re-open a different dialog box once the user closes the 
     //  message box, since wer are closing the other dialog boxes in order to show the message 
     //  box.
@@ -199,9 +199,9 @@ class App extends Component {
     // set the state to display the message box with the appropriate information. 
     this.setState({
       showMessageDialog: true,
-      messageDialogheader: header,
-      messageDialogText: message,
-      messageDialogReferrer: referrer
+      messageDialogheader: messageObj.header,
+      messageDialogText: messageObj.message,
+      messageDialogReferrer: messageObj.referrer
     })
   }
 
@@ -259,10 +259,11 @@ class App extends Component {
   handleAdminPlotSearch = thePlot => {
     // this will handle the search feature of the admin plot editor
     if ( isNaN(parseInt(thePlot)) ) {
-      this.handleMessageDialogOpen(
-        "Error...",                                         // header
-        "You must enter a number between 1 and 836. ",      // message
-        "NAME")                                             // referrer
+      this.handleMessageDialogOpen({
+        header   : "Error...",  
+        message  : "You must enter a number between 1 and 836. ",
+        referrer : "NAME"
+      })                                             
     }
     else if ( parseInt(thePlot) < 837 && parseInt(thePlot) > 0) {
       API.getOnePlot(thePlot)
