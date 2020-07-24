@@ -1,16 +1,15 @@
-const middleware = require("../middleware");
-const db = require('../models');
-const { Sequelize } = require('../models');
+const db = require('../models')
 
 const API = {
+//=====================================================================================================
+//  PLOT SEARCH FUNCTIONS
+//=====================================================================================================
 
   //=====================================================================================================
-  //  PLOT SEARCH FUNCTIONS
+  // this function runs a findAll call to the SQL database and returns all records, using 
+  //  the callback function passed to process the information
   //=====================================================================================================
   getAllPlots : cb => {
-    // this function runs a findAll call to the SQL database and returns all records, using 
-    //  the callback function passed to process the information
-    //=====================================================================================================
     db.plots
     .findAll()
     .then(allPlots => {
@@ -18,11 +17,12 @@ const API = {
     })
   },
 
+  //=====================================================================================================
+  // this function runs a FindOne call to the SQL database and returns a single record using
+  //  the plot number of the record. the id should be passed in as an integer. Once the record is 
+  //  located, the function runs the associated callback function on the record. 
+  //=====================================================================================================
   getOnePlot : (plotToFind, cb) => {
-    // this function runs a FindOne call to the SQL database and returns a single record using
-    //  the plot number of the record. the id should be passed in as an integer. Once the record is 
-    //  located, the function runs the associated callback function on the record. 
-    //=====================================================================================================
     db.plots
     .findOne({ 
       where : { 
@@ -44,6 +44,10 @@ const API = {
     })
   },
 
+  //=====================================================================================================
+  // this function updates one plot in the database with the new information sent over in the 
+  //   plotInfo object, which should be a full object matching the structure of the database object
+  //=====================================================================================================
   updateOnePlot : (plotInfo, cb) => {
     db.plots.update(plotInfo, {
       where: { plotNumber : plotInfo.plotNumber }
@@ -54,14 +58,15 @@ const API = {
     })
   },
 
-  //=====================================================================================================
-  // PERSON(PEOPLE) FUNCTIONS
-  //=====================================================================================================
+//=====================================================================================================
+// PERSON(PEOPLE) FUNCTIONS
+//=====================================================================================================
 
+  //=====================================================================================================
+  // This function will take in a person as an object, then update the person using the id to odentify the
+  //   record to be updated. Error checking for an id key is done at the route level.  
+  //=====================================================================================================
   updateOnePerson : (personInfo, cb) => {
-    // This function will take in a person as an object, then update the person using the id to odentify the
-    //   record to be updated. Error checking for an id key is done at the route level.  
-    //=====================================================================================================
     db.person.update(personInfo, {
       where: { id : personInfo.id }
     })
@@ -71,18 +76,19 @@ const API = {
     })
   },
 
+  //=====================================================================================================
+  // this function will create a new person in the people database, using the information sent over  
+  // as personInfo. personInfo should be be an object and contain at least the following keys:
+  //   "firstName"  - STRING
+  //   "lastName"   - STRING
+  //   "plotId"     - INTEGER
+  // the following keys are optional but not necessary to create the record:
+  //   "salutation" - STRING
+  //   "middleName" - STRING
+  //   "suffix"     - STRING
+  // once the record is created is is sent into the callback function, passed in as cb. 
+  //=====================================================================================================
   createNewPerson : (personInfo, cb) => {
-    // this function will create a new person in the people database, using the information send over as personInfo. 
-    // personInfo should be be an object and contain at least the following keys:
-    //   "firstName"  - STRING
-    //   "lastName"   - STRING
-    //   "plotId"     - INTEGER
-    // the following keys are optional but not necessary to create the record:
-    //   "salutation" - STRING
-    //   "middleName" - STRING
-    //   "suffix"     - STRING
-    // once the record is created is is sent into the callback function, passed in as cb. 
-    //=====================================================================================================
 
     db.person.create( personInfo ) 
     .then (newPerson => {
@@ -91,14 +97,15 @@ const API = {
       
   },
 
+  //=====================================================================================================
+  // this function will run the db query to search by either firstName, lastName, or both. 
+  //   namesToLookFor should be an object and contain the following keys: 
+  //       "firstName" - STRING
+  //        "lastname" - STRING
+  // after error-checking in the route, either one or both of these fields will have a value in them
+  // but it is possible that one is empty. 
+  //=====================================================================================================
   personNameSearch : (searchTerms, cb) => {
-    // this function will run the db query to search by either firstName, lastName, or both. 
-    //   namesToLookFor should be an object and contain the following keys: 
-    //       "firstName" - STRING
-    //        "lastname" - STRING
-    // after error-checking in the route, either one or both of these fields will have a value in them
-    // but it is possible that one is empty. 
-    //=====================================================================================================
 
     if (searchTerms.firstName === "") {
       db.person.findAll({
@@ -134,11 +141,11 @@ const API = {
     }
   },
 
-  //=====================================================================================================
-  // USER/ADMIN FUNCTIONS
-  //=====================================================================================================
+//=====================================================================================================
+// USER/ADMIN FUNCTIONS
+//=====================================================================================================
 
-  addUser : (userInfo, cb) => {
+  //=====================================================================================================
   // this function searches the user db to see if a user with that username already exists, and if the 
   //  username is unique, it will create that user as a new item in the db and return the user to the 
   //  front-end to be processed. It will also return an error if the username already exists or if there 
@@ -148,18 +155,15 @@ const API = {
   //   "firstName" as a string of at least 1 character
   //   "lastName"  as a string of at least 1 character
   //=====================================================================================================
+  addUser : (userInfo, cb) => {
 
     db.user
     .findOne({ where: { username: userInfo.username } })
     .then(response => {
       // do a quick findOne search to see if the username already exists in our users table
-      // console logging for debugging purposes
-      console.log(userInfo.username);
-      console.log("Response is below:");
-      console.log(response);
       if (response) {
         // if we find a user we get a response -- so we send a response that the username already exists
-        cb({ status: "Username already exists." });
+        cb({ status: "Username already exists." })
       } else {
         // if we don't find a user, then we need to create the user in our database. 
         db.user
@@ -168,18 +172,20 @@ const API = {
           .then(() => {
             // send a response with the new user as a json object and allow the front-end to log the user in 
             //   and then redirect to the appropriate screen. 
-            cb(userInfo);
+            cb(userInfo)
           })
           .catch(err => {
             // if there is an error, return the error
-            cb(err);
-          });
+            cb(err)
+          })
       }
-    });
+    })
   },
 
+  //=====================================================================================================
   // function to find one user by searching for the user id in the DB and then execute the callback
   //   function on the user object
+  //=====================================================================================================
   findUser: (userId, cb) => {
     db.user
     .findOne({id: userId})

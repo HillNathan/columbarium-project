@@ -19,13 +19,21 @@ import NewPersonForm from './components/AdminNewPersonForm'
 
 import './App.css';
 
+//====================================================================================================
+// bringing in server-side functions that will allow us to compartmentalize all of our server-side
+//  fetching into one module.
 const API = require('./functions')
+//====================================================================================================
 
-// setting up a variable that matches the 'activeRecord' key in state to make it easier to 
-//  clear it out when we're done displaying it in the Dialog box. 
-const emptyInfo = { id: 0, status: "" , plot: 0, name: ""}
+//====================================================================================================
+// setting up a object constant that matches the 'activeRecord' key in state to make it easier to 
+//   clear it out when we're done displaying it in the Dialog box. 
+const emptyInfo = { id: 0, plot: 0, status: "", reservedBy: "", certificate: 0, reservedDate: "",
+  numInterred: 0, notes: "", picture: "", interred: [] }
+//====================================================================================================
 
 class App extends Component {
+  // set our initial state object here
   state = {
     plotMap: [],
     showPlotDialog: false,
@@ -61,6 +69,10 @@ class App extends Component {
     selectedFile: null
   }
 
+  //====================================================================================================
+  // When our primary component mounts, we will run a few functions to set up some initial 
+  //   data into state. 
+  //====================================================================================================
   componentDidMount() {
     //Check to see if there is an authorized user logged into the server
     API.checkUser().then(userObj => {
@@ -73,7 +85,7 @@ class App extends Component {
       }
     })
     // Fetches our initial plot map array from the server
-    this.callGetPlotMap()
+    API.getAllPlots()
     .then (response => {
         // once we have the data from the server, we need to format it into an array of arrays
         //  so that it can be displayed for our plot map
@@ -85,6 +97,11 @@ class App extends Component {
     })
   }
 
+  //====================================================================================================
+  // this function sets up the full list of plots into an array of arrays that each have a length  
+  //   of 22. I am doing this so that our plotmap component can use a series of array map loops to 
+  //   display our plots corerctly on the front-end. 
+  //====================================================================================================
   massage = async theArray => {
     // create two empty arrays. One will hold the array of arrays that will eventually make up 
     //  our map, the other will be a temporary container to hold the plots as they are put into
@@ -106,16 +123,13 @@ class App extends Component {
     return tempArray;
   }
 
-  callGetPlotMap = async () => {
-    // This is the actual GET route to hit the server and send the data to be processed. 
-    const data = await API.getAllPlots()
-      return data;
-  }
-
+  //==============================================================================================
+  // receives a plot ID to be displayed, fetches the plot info from the database, stores
+  //   that into in state to be displayed by the plot dialog and sets the variable in 
+  //   state to show the appropriate dialog box. 
+  // "plotID" should be sent in as an integer value. 
+  //==============================================================================================
   handlePlotDialogOpen = plotID => {
-    // receives a plot ID to be displayed, fetches the plot info from the database, and then 
-    //  stores that into in state to be displayed by the plot dialog
-    //==============================================================================================
 
     // First, we need to make sure the other Dialog boxes that could potentially send us here are closed
     this.handleSearchDialogClose()
@@ -151,14 +165,21 @@ class App extends Component {
     })
   }
 
+  //==============================================================================================
+  // sets the flag in state to stop showing the dialog box, and clears out the info from state. 
+  //==============================================================================================
   handlePlotDialogClose = () => {
-    // sets the flag in state to stop showing the dialog box, and clears out the info from state. 
     this.setState({ 
       showPlotDialog: false,
       plotDialogInfo: emptyInfo
       })
   }
 
+  //==============================================================================================
+  // set flags to open the search dialog box, and pass in how the user would like to search 
+  //   the DB
+  // "searchBy" is a STRING and should be 'PLOT' or 'NAME'
+  //==============================================================================================
   handleSearchDialogOpen = searchBy => {
     // set flags to open the search dialog box, and pass in how the user would like to search the DB
     this.setState({
@@ -167,8 +188,10 @@ class App extends Component {
     })
   }
 
+  //==============================================================================================
+  // sets the flag in state to stop showing the search box, and clears out the info from state. 
+  //==============================================================================================
   handleSearchDialogClose = () => {
-    // sets the flag in state to stop showing the search box, and clears out the info from state. 
     this.setState({ 
       showSearchDialog: false,
       searchBy: "",
@@ -176,8 +199,15 @@ class App extends Component {
     // then we need to empty all the values from the search dialog box for the next time we open it.
   }
 
+  //==============================================================================================
+  // process a name search through the server using searchObj and then open the name search 
+  //   results dialog box to show our results. 
+  // "searchObj" is an object with the following keys:
+  //      firstName : STRING
+  //      lastName  : STRING
+  // one of these keys must have a value - this validation is handled at the data entry point. 
+  //==============================================================================================
   handleNameSearch = searchObj => {
-    // close the search dialog box, and clear the fields. 
     this.setState({ 
       showSearchDialog: false,
       searchBy: "",
@@ -194,8 +224,10 @@ class App extends Component {
     })
   }
 
+  //==============================================================================================
+  // set the flag to close the name search dialog to false and clear the info from state
+  //==============================================================================================
   handleNameSearchClose = () => {
-    // set the flag to show the name search dialog to false and clear the info
     this.setState({
       showNamesearchResults: false,
       nameSearchResultsList: []
@@ -203,14 +235,17 @@ class App extends Component {
 
   }
 
+  //==============================================================================================
+  // referrer is here to be able to re-open a different dialog box once the user closes the 
+  //   message box, since wer are closing the other dialog boxes in order to show the message 
+  //   box.
+  // messageObj should have three keys, corresponding to parts of the message:
+  //   header   : STRING   - what should be in the title bar of the dialog box
+  //   message  : STRING   - what should be in the body of the dialog box
+  //   referrer : STRING   - where this message originated in case we need to re-open another 
+  //                              dialog box. Values should be 'PLOT', 'NAME', or 'ADMIN'
+  //==============================================================================================
   handleMessageDialogOpen = (messageObj) => {
-    // referrer is here to be able to re-open a different dialog box once the user closes the 
-    //  message box, since wer are closing the other dialog boxes in order to show the message 
-    //  box.
-    // messageObj should have three keys, corresponding to parts of the message:
-    //   header   : STRING   - what should be in the title bar of the dialog box
-    //   message  : STRING   - what should be in the body of the dialog box
-    //   referrer : STRING   - where this message originated in case we need to re-open another dialog
 
     // close the other dialog boxes....
     this.handleSearchDialogClose()
@@ -225,6 +260,10 @@ class App extends Component {
     })
   }
 
+  //==============================================================================================
+  // Closes the message dialog box, clears out the info from state, and then checks referrer to 
+  //   see if we need to re-open another dialog box when this one closes. 
+  //==============================================================================================
   handleMessageDialogClose = () => {
     // here is where we check referrer, and open another dialog box if appropriate. 
     if (this.state.messageDialogReferrer !== ""){
@@ -248,10 +287,13 @@ class App extends Component {
         messageDialogheader: "",
         messageDialogText: "",
         messageDialogReferrer: ""
-
       })
   }
 
+  //==============================================================================================
+  // Takes in the input of "button" as a STRING and then sets the correct page to display for our 
+  //   admin portal or takes the user back to the main page to look at the grid. 
+  //==============================================================================================
   handleAdminMenuClick = button => {
     // if the input is "GRID" we will redirect the user to the main page with the plot map
     if (button === "GRID") {
@@ -263,9 +305,14 @@ class App extends Component {
     }
   }
 
+  //==============================================================================================
+  // use our functions module to hit the DB and update the current record with the new 
+  //   information submitted by our admin user. plotObj is coming from state in a child component
+  //   and should be formatted like this: 
+  // 
+  //==============================================================================================
   handleAdminSaveClick = (plotObj) => {
-    // use our functions module to hit the DB and update the current record with the new information submitted
-    // by our admin user. 
+    // hit the function to update a plot. 
     API.updateOnePlot(plotObj.plot)
     .then (updatedRecord => {
       // then once the plot has been updated, update any information changed in the people interred within
@@ -276,16 +323,24 @@ class App extends Component {
     })
   }
 
+  //==============================================================================================
+  // this will handle the search feature of the admin plot editor. "thePlot" should be sent as 
+  //   an integer between 1 and 836, error handling is contained within this function. 
+  //==============================================================================================
   handleAdminPlotSearch = thePlot => {
-    // this will handle the search feature of the admin plot editor
+    // check to make sure we have an integer, and send an error message if we don't. 
     if ( isNaN(parseInt(thePlot)) ) {
       this.handleMessageDialogOpen({
         header   : "Error...",  
-        message  : "You must enter a number between 1 and 836. ",
+        message  : "You must enter a number in this field. ",
         referrer : "NAME"
       })                                             
     }
+    // if we have a number, we need to make sure it is within the parameters of our database
     else if ( parseInt(thePlot) < 837 && parseInt(thePlot) > 0) {
+      // once we have an appropriate input value, use our functions to search the database for 
+      //  the specific information on the plot, and put that information into state as 
+      //  activeRecord.
       API.getOnePlot(thePlot)
       .then(plotData => {
         this.setState({
@@ -305,24 +360,40 @@ class App extends Component {
       })
     }
     else {
-      this.handleMessageDialogOpen(
-        "Error...",                                         // header
-        "You must enter a number between 1 and 836. ",      // message
-        "NAME")                                             // referrer
-    }
-    document.getElementById('plot-search-id').value = null
+      // error message for a number that is outside the parameters of our database
+      this.handleMessageDialogOpen({
+        header   : "Error...",  
+        message  : "You must enter a number between 1 and 836. ",
+        referrer : "NAME"
+      })   
+    // reset the dialog box to a null value.                                          
+    document.getElementById('plot-search-id').value = null }
   }
 
+  //==============================================================================================
+  // Set the flag in state to show the box with the form to enter a new person
+  //==============================================================================================
   handleShowNewPersonForm = () => {
     this.setState({
         showNewPersonForm : true,
     })
   }
 
+  //==============================================================================================
+  // Handles the logging in and authentication of a user. "userObj" should be an object, and 
+  //   contain the following keys:
+  //      username : STRING
+  //      password : STRING
+  // If the user enters the correct information, this will redirect the page to the /admin page, 
+  //   otherwise it will display an appropriate error message. 
+  //==============================================================================================
   handleUserLoginClick = (userObj) => {
+    // user our functions module to send the login information to the server
     API.doUserLogin(userObj)
     .then(response => {
-      console.log(response)
+      // if the user has entered information incorrectly, display an appropriate error message
+      //   - error messaging is generated by the server and will always be in data.message if
+      //     there is an error. 
       if (response.data.message) {
         this.handleMessageDialogOpen({
           header: "Login Error",
@@ -330,19 +401,25 @@ class App extends Component {
           referrer: "LOGIN"
         })
       }
+      // user has successfully logged, now we get the user info from the server 
+      //   and update it in state
       if (response.data.status === "success") {
-        console.log(`Username ${userObj.username} is logged in.`)
         API.checkUser().then(response => {
           this.updateAuthStatus(true)
           this.setState({
             activeUser: response.data,
           })
+          // then we redirect the user to the admin portal of the website. 
           window.location = "/admin"
         })
       }
     })
   }
 
+  //==============================================================================================
+  // User our functions to log out the user, clear the information from state, and then redirect
+  //   the user to the home page. 
+  //==============================================================================================
   handleUserLogout = () => {
     this.updateAuthStatus(false)
     this.setState({    
@@ -356,20 +433,47 @@ class App extends Component {
     window.location = "/"
   }
 
+  //==============================================================================================
+  // compartmentalizing the two places we are updating authentication status, since it resets in 
+  //    state when the window redirects we are storing a single variable in localstorage to 
+  //    maintain the status across window refreshes. 
+  // status should be boolean true or false, even though when it is stored in localstorage it is
+  //    stored simply as a string with no type, that is handled wherever we need to pull the 
+  //    value from localstorge.
+  //==============================================================================================
   updateAuthStatus = status => {
     this.setState({ isUserAuth: status });
     localStorage.setItem("isAuthenticated", status);
   };
 
-
+  //==============================================================================================
+  // This function closes the new person form, and then updates the activeRecord object in state
+  //   with the new person information. 
+  // "newPerson" should be an object and contain the following keys:
+  //    salutation - STRING (optional)
+  //    firstName - STRING (required)
+  //    middleName - STRING (optional)
+  //    lastName - STRING (required)
+  //    suffix - STRING (optional)
+  //    dateOfBirth - DATE (optional)
+  //    dateOfDeath - DATE (optional)
+  //    plotID - INTEGER (required)
+  //  
+  // Fields listed as required must contain text, fields listed as optional must be sent but 
+  //   can be empty otherwise server will reject the object when it is saved. 
+  //==============================================================================================
   addNewPersonToPlot = (newPerson) => {
+    // close the new person form
     this.closePersonForm()
-    console.log(newPerson)
+    
+    // put the new person added to the plot into the interred array within activeRecord, using a 
+    //   temporary object since we can't update an array in state directly with a push.   
     var tempObj = this.state.activeRecord
     tempObj.interred.push(newPerson)
     this.setState({
       activeRecord: tempObj
     })
+    // clear all of the fields in the form. 
     document.getElementById("salutation-new").value = ""
     document.getElementById("first-name-new").value = ""
     document.getElementById("middle-name-new").value = ""
@@ -377,21 +481,27 @@ class App extends Component {
     document.getElementById("suffix-new").value = ""
     document.getElementById("dob-new").value = ""
     document.getElementById("dod-new").value = ""
-
   }
 
+  //==============================================================================================
+  // Sets the flag in state to close out the new person form.
+  //==============================================================================================
   closePersonForm = () => {
     this.setState({
         showNewPersonForm: false,
     })
   }
 
+  //==============================================================================================
+  // this function accepts a multipart form data object including a "image" that is the image file, 
+  //  and a "plot" field that gives the plot the picture should be associated with in our db. Then 
+  //  we will call our upload function to send the info up to the server. 
+  //==============================================================================================
   handleFileUpload = (theData) => {
-    // this function accepts a multipart form data object including a "image" that is the image file, 
-    //  and a "plot" field that gives the plot the picture should be associated with in our db. Then 
-    //  we will call our upload function to send the info up to the server. 
+    // hit the picture upload route with our multipart form data object
     API.pictureFileUpload(theData)
       .then(response => {
+        // handle the response
         console.log(response)
       })
       .catch(err => {
