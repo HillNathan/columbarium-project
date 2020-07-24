@@ -92,6 +92,10 @@ export default function AdminPage(props) {
               <ListItemText primary="Back to Plot Map"/>
           </ListItem>
         <Divider />
+          <ListItem button onClick={()=>props.handleUserLogout()}>
+              <ListItemIcon><ViewComfyIcon/></ListItemIcon>
+              <ListItemText primary="LOG OUT"/>
+          </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>

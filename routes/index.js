@@ -1,16 +1,11 @@
 // include any additional middleware declarations up here:
 // i.e.
-const middleware = require("../middleware");
-const passport = middleware.passport;
+const middleware = require("../middleware")
+const passport = middleware.passport
 const formidable = require('formidable')
-const API = require("../controller");
+const API = require("../controller")
 
 module.exports = app => {
-
-  // Starting route to confirm everything is set up to run through express
-  app.get('/express_backend', (req, res) => {
-      res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
-    });
 
   //=====================================================================================================
   // PLOT ROUTES
@@ -152,7 +147,7 @@ module.exports = app => {
     API.addUser(req.body, response => {
       res.send(response)
     })
-  });
+  })
     
   app.post("/api/users/login", function(req, res, next) {
     // LOGIN ROUTE - uses our passport middleware to determine if  our user has appropriate access
@@ -168,24 +163,38 @@ module.exports = app => {
         return next(err);
       }
       if (!user) {
-        return res.json(info);
+        return res.json(info)
       }
       req.logIn(user, function(err) {
         if (err) {
-          return next(err);
+          return next(err)
         }
-        return res.status(200).json({ status: "success" });
-      });
-    })(req, res, next);
-  });
+        return res.status(200).json({ status: "success" })
+      })
+    })(req, res, next)
+  })
+
+  app.get('/api/users/checkuser', (req,res) => {
+    if (!req.user) return res.json({ result: "no user" })
+    else {
+      API.findUser(req.user, userObj => {
+        console.log(userObj)
+        res.json({
+          username: userObj.username,
+          firstName: userObj.firstName,
+          lastName: userObj.lastName
+        })
+      })
+    }
+  })
     
   app.get('/api/users/logout', (req, res) => {
     // Route for logging user out
     //=====================================================================================================
     // use passport to log the user out of their session
-    req.logout();
+    req.logout()
     // redirect the browse to the home route with no user object
-    res.redirect('/');
+    res.redirect('/')
   })
 
 }

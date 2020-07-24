@@ -35,7 +35,14 @@ const API = {
 
     // route takes an object that contains a user and a password, and calls the route to log the 
     //  user in. 
-    doUserLogin: theUser => axios.post('api/users/login', theUser), 
+    doUserLogin: theUser => axios.post('/api/users/login', theUser), 
+
+    // this get route checks to see if a user is currently logged into the server
+    checkUser: () => axios.get('/api/users/checkuser'), 
+    
+    // this function hits the logout route for the server, which will automatically redirect to the root
+    //  of the website once the logout is complete. 
+    doUserLogout: () => axios.get('/api/users/logout'),
 
 }
 

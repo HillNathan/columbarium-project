@@ -178,6 +178,15 @@ const API = {
     });
   },
 
+  // function to find one user by searching for the user id in the DB and then execute the callback
+  //   function on the user object
+  findUser: (userId, cb) => {
+    db.user
+    .findOne({id: userId})
+    .then(response => {
+      cb(response)
+    })
+  }
 }
 
 // Export our database functions back to the routes module

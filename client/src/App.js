@@ -37,6 +37,12 @@ class App extends Component {
     messageDialogReferrer: "",
     showNamesearchResults: false,
     nameSearchResultsList: [],
+    activeUser: {
+      username: "",
+      firstName: "",
+      lastName: ""
+    },
+    isUserAuth: false,
     activeRecord: {
       id: 0,
       plot: 0,
@@ -56,6 +62,16 @@ class App extends Component {
   }
 
   componentDidMount() {
+    //Check to see if there is an authorized user logged into the server
+    API.checkUser().then(userObj => {
+      // if we do not get a "no user" result from the server, update the current user in state
+      if(!userObj.data.result) {
+        this.updateAuthStatus(true)
+        this.setState({
+          activeUser: userObj.data,
+        })
+      }
+    })
     // Fetches our initial plot map array from the server
     this.callGetPlotMap()
     .then (response => {
@@ -191,6 +207,10 @@ class App extends Component {
     // referrer is here to be able to re-open a different dialog box once the user closes the 
     //  message box, since wer are closing the other dialog boxes in order to show the message 
     //  box.
+    // messageObj should have three keys, corresponding to parts of the message:
+    //   header   : STRING   - what should be in the title bar of the dialog box
+    //   message  : STRING   - what should be in the body of the dialog box
+    //   referrer : STRING   - where this message originated in case we need to re-open another dialog
 
     // close the other dialog boxes....
     this.handleSearchDialogClose()
@@ -300,18 +320,47 @@ class App extends Component {
   }
 
   handleUserLoginClick = (userObj) => {
-    console.log(`=======LOGIN FUNCTION =======`)
-    console.log(`User = ${userObj.username}`)
-    console.log(`Password = ${userObj.password}`)
-    console.log(`=============================`)
     API.doUserLogin(userObj)
     .then(response => {
       console.log(response)
+      if (response.data.message) {
+        this.handleMessageDialogOpen({
+          header: "Login Error",
+          message: response.data.message,
+          referrer: "LOGIN"
+        })
+      }
       if (response.data.status === "success") {
-        console.log("Login success!")
+        console.log(`Username ${userObj.username} is logged in.`)
+        API.checkUser().then(response => {
+          this.updateAuthStatus(true)
+          this.setState({
+            activeUser: response.data,
+          })
+          window.location = "/admin"
+        })
       }
     })
   }
+
+  handleUserLogout = () => {
+    this.updateAuthStatus(false)
+    this.setState({    
+      activeUser: {
+        username: "",
+        firstName: "",
+        lastName: ""
+        }
+      })
+    API.doUserLogout()
+    window.location = "/"
+  }
+
+  updateAuthStatus = status => {
+    this.setState({ isUserAuth: status });
+    localStorage.setItem("isAuthenticated", status);
+  };
+
 
   addNewPersonToPlot = (newPerson) => {
     this.closePersonForm()
@@ -394,6 +443,7 @@ class App extends Component {
             plotData={this.state.activeRecord}
             handleShowNewPersonForm={this.handleShowNewPersonForm}
             handleFileUpload={this.handleFileUpload}
+            handleUserLogout={this.handleUserLogout}
           />
           <NewPersonForm 
             showMe={this.state.showNewPersonForm}

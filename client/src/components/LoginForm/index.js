@@ -49,7 +49,7 @@ class LoginForm extends Component {
                     <Spacer />
                     <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
                         <TextField id="password" name="password"  label="Password"
-                            variant="outlined" value={this.state.password} 
+                            variant="outlined" value={this.state.password} type="password"
                             onChange={this.handleChange} fullWidth={true} >
                         </TextField>
                     </Grid>

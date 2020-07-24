@@ -16,7 +16,7 @@ passport.use(
           // If there's no user with the given username
           if (!dbUser) {
             return done(null, false, {
-              message: "Incorrect login."
+              message: "Incorrect username."
             });
           }
           // If there is a user with the given email, but the password the user gives us is incorrect
