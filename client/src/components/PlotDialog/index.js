@@ -14,33 +14,33 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 class AlertDialogSlide extends Component {
-    constructor() {
-        super();
-        
-        this.state = {
-            open: false,
-            status: "",
-            name: null,
-            interred: [],
-            plot: "",
-            picture: "",
-            button: "",
-        }
-    }
+  constructor() {
+      super();
+      
+      this.state = {
+          open: false,
+          status: "",
+          name: null,
+          interred: [],
+          plot: "",
+          picture: "",
+          button: "",
+      }
+  }
 
-    handleClickOpen = () => {
-        this.setState({ open:true });
-    };
+  handleClickOpen = () => {
+      this.setState({ open:true });
+  };
 
-    componentWillReceiveProps (incomingProps) {
-        this.setState({ 
-            open: incomingProps.showMe,
-            plot: incomingProps.infoToShow.plot,
-            name: incomingProps.infoToShow.reservedBy,
-            picture: incomingProps.infoToShow.picture,
-            interred: incomingProps.infoToShow.interred,
-            status: incomingProps.infoToShow.status})
-    }
+  componentWillReceiveProps (incomingProps) {
+      this.setState({ 
+          open: incomingProps.showMe,
+          plot: incomingProps.infoToShow.plot,
+          name: incomingProps.infoToShow.reservedBy,
+          picture: incomingProps.infoToShow.picture,
+          interred: incomingProps.infoToShow.interred,
+          status: incomingProps.infoToShow.status})
+  }
   
   render() {
   return (
@@ -55,7 +55,9 @@ class AlertDialogSlide extends Component {
       >
         <DialogTitle id="alert-dialog-slide-title">Information for Plot #{this.state.plot}</DialogTitle>
         <DialogContent>
-          <img src={"./images/" + this.state.picture} style={{height: 300, width: 300}}/>
+          <img src={"./images/" + this.state.picture} 
+               style={{height: 300, width: 300}}
+               alt={"Picture of Plot Number " + this.state.plot}/>
           <DialogContentText id="alert-dialog-slide-description">
                 Current plot status: {this.state.status}
                 {(this.state.status === "OCCUPIED") ? 

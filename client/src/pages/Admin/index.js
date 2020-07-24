@@ -1,4 +1,6 @@
 import React from 'react';
+
+// importing components from material-ui I used to build the site 
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,6 +20,7 @@ import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import SearchIcon from '@material-ui/icons/Search';
 
+// importing custom components i wrote
 import PlotEditor from '../../components/PlotEditor';
 
 import './style.css'

@@ -1,5 +1,9 @@
 import React from 'react';
+
+// importing external component to be able to have the map zoom functionality on the plot map. 
 import clsx from 'clsx';
+
+// importing components from material-ui I used to build the site 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,6 +21,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SearchIcon from '@material-ui/icons/Search';
 
+// importing custom components i wrote
 import LegendItem from '../../components/LegendItem'
 import PlotMap from '../../components/PlotMap'
 
@@ -155,6 +160,7 @@ export default function MainWindow(props) {
         </List>
       </Drawer>
       <main
+      // this custom class here on main allows the map-style zooming on the plotMap component
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}
