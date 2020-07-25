@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
+  Redirect,
   Switch
 } from "react-router-dom";
 
@@ -31,6 +32,37 @@ const API = require('./functions')
 const emptyInfo = { id: 0, plot: 0, status: "", reservedBy: "", certificate: 0, reservedDate: "",
   numInterred: 0, notes: "", picture: "", interred: [] }
 //====================================================================================================
+
+//====================================================================================================
+// Setting up the function here that will protect our admin route from being hit unless we have an 
+//   authorized user in state. If we do not have an autorized user in localStorage, the route will
+//   redirect the user to the main map view.  
+//====================================================================================================
+function ProtectedRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={() =>
+        testAuth() ? (
+          // this.props.isUserAuth() ? (
+          children
+        ) : (
+            <Redirect to={{ pathname: "/" }} />
+          )
+      }
+    />
+  );
+}
+
+//====================================================================================================
+// simple function to check the auth status from localStorage to see if we have anyone authorized 
+//   through the server. If we do, then we send back true. If not, we return false. 
+//====================================================================================================
+function testAuth() {
+  let authStatus = false;
+  if (localStorage.getItem("isAuthenticated") === "true") authStatus = true;
+  return authStatus;
+}
 
 class App extends Component {
   // set our initial state object here
@@ -543,7 +575,7 @@ class App extends Component {
           <LoginWindow 
             handleLogin={this.handleUserLoginClick}/>
         </Route>
-        <Route exact path="/admin">
+        <ProtectedRoute exact path="/admin">
           <AdminWindow 
             handleMenuClick={this.handleAdminMenuClick}
             handleSaveData={this.handleAdminSaveClick}
@@ -562,7 +594,7 @@ class App extends Component {
             plot={this.state.activeRecord.plot}
             messageBoxOpen={this.handleMessageDialogOpen}
           />
-        </Route>
+        </ProtectedRoute>
     </Switch></Router>
     <MessageDialog 
       showMe={this.state.showMessageDialog}
