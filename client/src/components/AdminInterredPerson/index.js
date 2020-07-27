@@ -3,12 +3,22 @@ import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Spacer from '../Spacer'
 
+//======================================================================================================
+// Technically speaking this doesn't have to be a fully stateful component, but I had wanted to 
+//   use a date-picker component here, and may come back to do it at a later point, so for now 
+//   I will leave it as a stateful component in case I want to come back later and add the date
+//   picker component. 
+//======================================================================================================
 
 class InterredPerson extends Component {
-    // state = {
-    //     startDate : this.props.person.dateOfBirth
-    // }
-
+//======================================================================================================
+// Displays an editable list of fields that is used to manage persons interred within a specific plot
+//======================================================================================================
+    
+    //==================================================================================================
+    // this funtion isn't used right now, but it will be if I come back to add a date picker component
+    //   so I'm leaving it here in case I need it at a later point in time. 
+    //==================================================================================================
     handleDateChange = (event, key, theIndex) => {
         this.props.handleDateChange(event, key, theIndex)
         this.setState({

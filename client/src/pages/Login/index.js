@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 // importing custom components i wrote
 import LoginForm from '../../components/LoginForm'
 
+// hook to create classes - this is from material-ui website
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

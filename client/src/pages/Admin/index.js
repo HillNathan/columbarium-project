@@ -27,6 +27,7 @@ import './style.css'
 
 const drawerWidth = 240;
 
+// hook to create classes - this is from material-ui website
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',

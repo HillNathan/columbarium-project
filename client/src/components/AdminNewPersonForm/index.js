@@ -8,12 +8,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 
-
+//==================================================================================================
+// Set our transition style and direction for how the dialog box appears
+//==================================================================================================
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
 class NewPersonForm extends Component {
+  //==================================================================================================
+  // Displays a dialog box allowing the admin user to enter a new person into a plot record
+  //==================================================================================================
     constructor() {
         super();
         
@@ -35,6 +40,11 @@ class NewPersonForm extends Component {
         this.setState({ open:true });
     };
 
+    //==================================================================================================
+    // When the component receives props from the parent component, we want some of them to be set into 
+    //   our local state, so when we get them from the parent we put them into our local state using 
+    //   this function. 
+    //==================================================================================================
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
             open: incomingProps.showMe,
@@ -42,6 +52,9 @@ class NewPersonForm extends Component {
         })
     }
 
+    //==================================================================================================
+    //  Stock handleChange event here...
+    //==================================================================================================
     handleChange(event) {
         let { name, value } = event.target;
     
@@ -50,7 +63,12 @@ class NewPersonForm extends Component {
         });
     }
 
+    //==================================================================================================
+    // This function will run the handler function to add the new person to the plot, and then
+    //   clear the state so that an additional person can be added if necessary
+    //==================================================================================================
     handleSave() {
+      this.props.handleAddClick(this.state)
         this.setState({
             salutation: "",
             firstName: "",
@@ -60,7 +78,6 @@ class NewPersonForm extends Component {
             dateOfBirth: "",
             dateOfDeath: "",
         })
-        this.props.handleAddClick(this.state)
     }
 
     render() {

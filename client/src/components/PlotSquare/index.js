@@ -10,7 +10,12 @@ export default function PlotSquare (props) {
             className="plot"
             id={props.id}
         >
-            {(props.clickable === "TRUE") ? 
+            { // checking whether the plot is labeled as "clickable" or not here tells us which ones are 
+              //   able to be interacted with. certain plots have immovable items in them, and will not 
+              //   end up being usable as interrment locations, so those locations are not clickable. 
+              //   any location that is viable as an interrment location or that has already been used 
+              //   to interr one or more people, is clickable. 
+            (props.clickable === "TRUE") ? 
                 <div className={props.theClass + " text-box"}>
                     <div className="plot-text">
                         <div className="plot-link"

@@ -6,6 +6,11 @@ import Spacer from '../Spacer'
 import Button from '@material-ui/core/Button';
 
 class LoginForm extends Component {
+//======================================================================================================
+//  Form with a username and password field, and the associated logic to capture the info and send it
+//    back to App.js to be sent to the server. 
+//======================================================================================================
+
     constructor() {
         super();
         
@@ -17,6 +22,9 @@ class LoginForm extends Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
+    //==================================================================================================
+    //  Stock handleChange event here...
+    //==================================================================================================
     handleChange(event) {
         let { name, value } = event.target;
         this.setState({
@@ -24,12 +32,13 @@ class LoginForm extends Component {
         });
     }
 
+    //==================================================================================================
+    //  Wrapping an event.Preventdefault around the sending of the username and password to the login
+    //    back to App.js so that we don't prematurely reload the page. 
+    //==================================================================================================
     getFormInfo = (event) => {
         event.preventDefault()
-        var userData = {}
-        userData.username = this.state.username
-        userData.password = this.state.password
-        return userData
+        return this.state
     }
 
     render() {

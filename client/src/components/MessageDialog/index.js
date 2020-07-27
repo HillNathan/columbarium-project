@@ -7,6 +7,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 
+//==================================================================================================
+// Set our transition style and direction for how the dialog box appears
+//==================================================================================================
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
@@ -22,10 +25,9 @@ class MessageDialog extends Component {
         }
     }
 
-    handleClickOpen = () => {
-        this.setState({ open:true });
-    };
-
+    //==============================================================================================
+    // Taking information from props and placing that data into our local state 
+    //==============================================================================================
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
             open: incomingProps.showMe,
@@ -40,7 +42,6 @@ class MessageDialog extends Component {
         open={this.state.open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={this.handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >

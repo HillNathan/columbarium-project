@@ -8,6 +8,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 
+//==================================================================================================
+// Set our transition style and direction for how the dialog box appears
+//==================================================================================================
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -22,30 +25,41 @@ class SearchDialogSlide extends Component {
         }
     }
 
-    handleClickOpen = () => {
-        this.setState({ open:true });
-    };
-
+    //================================================================================================
+    // Taking information from props and placing that data into our local state 
+    //================================================================================================
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
             open: incomingProps.showMe,
             searchBy: incomingProps.searchBy })
     }
 
+    //================================================================================================
+    // the way that i chose to handle the validation, we are checking to see if the searchTerm is a
+    //   number, so by checking if it is NOT a number, then returning the opposite, we are saying that
+    //   it is actually a number. I guess I could have just returned the value if isNaN but then the 
+    //   validation function - to me - would have functioned backwards. 
+    //================================================================================================
     validatePlotSearch = (searchTerm) => {
-      // the way that i chose to handle the validation, we are checking to see if the searchTerm is a
-      //  number, so by checking if it is NOT a number, then returning the opposite, we are saying that
-      //  it is actually a number. I guess I could have just returned the value if isNaN but then the 
-      //  validation function - to me - would have functioned backwards. 
       return !isNaN(parseInt(searchTerm))
     }
 
+    //================================================================================================
+    // We need to have at least one name to seach for, so here we are checking to make sure that at 
+    //   least one of the search boxes has information in it. otherwise, we will return false on the
+    //   validation.  
+    //================================================================================================
     validateNameSearch = (searchObj) => {
       console.log(searchObj)
       if (searchObj.firstName === "" && searchObj.lastName === "") return false
       else return true
     }
 
+    //================================================================================================
+    // Since we have multiple search options being handled in one buttone click handler, we will 
+    //   look at which way we are searching, validate the search parameter, and then either prompt 
+    //   the user to fix their search parameter or execute the search. 
+    //================================================================================================
     handleSearchClick = () => {
       if(this.state.searchBy === "PLOT") {
         // put the plot search term into a variable for validation
@@ -58,10 +72,11 @@ class SearchDialogSlide extends Component {
         }
         else {
           // alert the user that their input needs to be a number
-          this.props.messageBoxOpen(
-            "Error...",                                   // header
-            "You must enter a number to search by plot.", // message
-            "PLOT")                                       // referrer
+          this.props.messageBoxOpen({
+            header   : "Error...",   
+            message  : "You must enter a number to search by plot.",
+            referrer : "PLOT"
+          })
         }
         document.getElementById("plot-search-term").value = null
       }
@@ -78,10 +93,11 @@ class SearchDialogSlide extends Component {
         }
         else {
           // alert the user that they must enter at least one search term
-          this.props.messageBoxOpen(
-            "Error...",                                         // header
-            "You must enter at least one name to search for.",  // message
-            "NAME")                                             // referrer
+          this.props.messageBoxOpen({
+            header   : "Error...",                                         
+            message  : "You must enter at least one name to search for.",  
+            referrer : "NAME" 
+          })                                             
         }
         
         //clear out the search fields. 
@@ -93,7 +109,6 @@ class SearchDialogSlide extends Component {
   render() {
   return (
     <div className="dialog-box">
-      {this.state.searchBy === "PLOT" ? 
         <Dialog
           open={this.state.open}
           TransitionComponent={Transition}
@@ -102,61 +117,50 @@ class SearchDialogSlide extends Component {
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
-        <DialogTitle id="alert-dialog-slide-title">Search for a Plot Number</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-                Enter a Plot Number to search for.
-          </DialogContentText>
-          <TextField
-                  autoFocus
-                  margin="dense"
-                  id="plot-search-term"
-                  label="Plot Number"
-                  type="text"
-                  fullWidth
-                />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => this.handleSearchClick()} color="primary">
-            Search
-          </Button>
-          <Button onClick={() => this.props.handleClose()} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-    :
-      <Dialog
-        open={this.state.open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={this.handleClose}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
-      >
-      <DialogTitle id="alert-dialog-slide-title">Search for a Name</DialogTitle>
-      <DialogContent>
-      <DialogContentText id="alert-dialog-slide-description">
-            Enter a Name to search for.
-            <p>You may enter a first name, last name, or both.</p>
-      </DialogContentText>
-      <TextField
-              autoFocus
-              margin="dense"
-              id="searchFirstName"
-              label="First Name"
-              type="text"
-              fullWidth
-            />
-      <TextField
-              autoFocus
-              margin="dense"
-              id="searchLastName"
-              label="Last Name"
-              type="text"
-              fullWidth
-            />
-      </DialogContent>
+        {this.state.searchBy === "PLOT" ? 
+          <div>
+            <DialogTitle id="alert-dialog-slide-title">Search for a Plot Number</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                    Enter a Plot Number to search for.
+              </DialogContentText>
+              <TextField
+                      autoFocus
+                      margin="dense"
+                      id="plot-search-term"
+                      label="Plot Number"
+                      type="text"
+                      fullWidth
+                    />
+            </DialogContent>
+          </div>
+        :
+          <div>
+            <DialogTitle id="alert-dialog-slide-title">Search for a Name</DialogTitle>
+            <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+                  Enter a Name to search for.
+                  <p>You may enter a first name, last name, or both.</p>
+            </DialogContentText>
+            <TextField
+                    autoFocus
+                    margin="dense"
+                    id="searchFirstName"
+                    label="First Name"
+                    type="text"
+                    fullWidth
+                  />
+            <TextField
+                    autoFocus
+                    margin="dense"
+                    id="searchLastName"
+                    label="Last Name"
+                    type="text"
+                    fullWidth
+                  />
+            </DialogContent>
+          </div>
+        }
       <DialogActions>
         <Button onClick={() => this.handleSearchClick()} color="primary">
           Search
@@ -166,7 +170,6 @@ class SearchDialogSlide extends Component {
         </Button>
       </DialogActions>
     </Dialog>
-  }
     </div>
   );
 }}

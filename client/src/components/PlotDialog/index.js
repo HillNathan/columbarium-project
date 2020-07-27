@@ -7,8 +7,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 
+// bringing in a custom component 
 import InterredListItem from '../InterredListItem';
 
+//==================================================================================================
+// Set our transition style and direction for how the dialog box appears
+//==================================================================================================
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -28,10 +32,9 @@ class AlertDialogSlide extends Component {
       }
   }
 
-  handleClickOpen = () => {
-      this.setState({ open:true });
-  };
-
+  //==============================================================================================
+  // Taking information from props and placing that data into our local state 
+  //==============================================================================================
   componentWillReceiveProps (incomingProps) {
       this.setState({ 
           open: incomingProps.showMe,
@@ -55,14 +58,23 @@ class AlertDialogSlide extends Component {
       >
         <DialogTitle id="alert-dialog-slide-title">Information for Plot #{this.state.plot}</DialogTitle>
         <DialogContent>
+          { 
+          // We only want to try to display a picture for those records that have one, so setting up this 
+          //   operator so that we only try to display a picture where there is information in that key. 
+          (this.state.picture !== "") ? 
           <img src={"./images/" + this.state.picture} 
                style={{height: 300, width: 300}}
                alt={"Picture of Plot Number " + this.state.plot}/>
+          :
+          <div></div>
+          }
           <DialogContentText id="alert-dialog-slide-description">
                 Current plot status: {this.state.status}
                 {(this.state.status === "OCCUPIED") ? 
                     <ul>
-                    {this.state.interred.map(person => <InterredListItem person={person} /> )}</ul>
+                    { // iterating over each person in the interred array to display them using a 
+                    //     cusom component. 
+                    this.state.interred.map(person => <InterredListItem person={person} /> )}</ul>
                 :
                     <span></span>}
           </DialogContentText>

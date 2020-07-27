@@ -10,6 +10,9 @@ import Slide from '@material-ui/core/Slide'
 
 import './style.css'
 
+//==================================================================================================
+// Set our transition style and direction for how the dialog box appears
+//==================================================================================================
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
@@ -24,10 +27,9 @@ class NameSearchResults extends Component {
         }
     }
 
-    handleClickOpen = () => {
-        this.setState({ open:true })
-    }
-
+    //==============================================================================================
+    // Taking information from props and placing that data into our local state 
+    //==============================================================================================
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
             open: incomingProps.showMe,
@@ -56,7 +58,10 @@ class NameSearchResults extends Component {
                 <span><emphasize>sorry...</emphasize></span>
             :
                 <ul>
+                
                 {this.state.results.map(item => {
+                    // running a map function here to return a list item displaying the appropriate info from 
+                    //   each item in the results array, which is an array of objects. 
                     return (
                         <div onClick={() => this.props.searchResultClick(item.plotId)} className="link-lookalike">           
                             <li>Plot #{item.plotId} - {item.salutation} {item.firstName} {item.middleName} {item.lastName} {item.suffix}</li>

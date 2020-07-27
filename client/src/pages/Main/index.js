@@ -27,6 +27,8 @@ import PlotMap from '../../components/PlotMap'
 
 const drawerWidth = 240;
 
+// hook to create classes - this is from material-ui website
+// this also creates the sliding menu bar effect
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
