@@ -10,6 +10,11 @@ import Button from '@material-ui/core/Button';
 
 import AdminInterredPerson from '../AdminInterredPerson'
 
+//=======================================================================================================
+// defining an array for our list of options for the 'status' field on our admin form so that we don't
+//   have to worry about mis-matching values in the field, since we are using it for multiple things 
+//   throughout the application including some styling. 
+//=======================================================================================================
 const statusList = ['AVAILABLE', 'RESERVED', 'OCCUPIED', 'PENDING', 'SLATE-AVAILABLE', 'SLATE-RESERVED', 
 'SLATE-OCCUPIED', 'WALL', 'FLOWERS']
 
@@ -30,12 +35,19 @@ class PlotEditor extends Component {
             selectedFile: null,
         }
 
+        //==============================================================================================
+        // binding multiple change handlers, since we have multiple ways we need to handle information 
+        //   changing in state. 
+        //==============================================================================================
         this.handleChange = this.handleChange.bind(this)
         this.handleArrayChange = this.handleArrayChange.bind(this)
         this.handleDateChange = this.handleDateChange.bind(this)
         this.onSelectFile = this.onSelectFile.bind(this)
     }
 
+    //==================================================================================================
+    //  Stock handleChange event here...
+    //==================================================================================================
     handleChange(event) {
         let { name, value } = event.target;
         this.setState({
@@ -43,6 +55,10 @@ class PlotEditor extends Component {
         });
     }
 
+    //==================================================================================================
+    //  Here is a handleChange for information that is being changed within an array in state, so we 
+    //    have to handle the information a little differently since it is in an array in state. 
+    //==================================================================================================
     handleArrayChange(event) {
         let { name, value, id } = event.target;
         var myIndex = parseInt(id.slice(id.length-1))
@@ -53,6 +69,11 @@ class PlotEditor extends Component {
         });
     }
 
+    //==================================================================================================
+    //  Here is a handleChange for information that is being changed using a date-picker component 
+    //    this is currently not being used, but we could come back to it so I am leaving it here for
+    //    the time being until I make a final decision whether or not I am using it. 
+    //==================================================================================================
     handleDateChange(newDate, whichDate, index) {
         console.log("PlotEditor handleDateChange...")
         var tempArray = this.state.interred
@@ -62,15 +83,24 @@ class PlotEditor extends Component {
           });  
     }
 
+    //==================================================================================================
+    //  First of two functions specifically for our picture upload funtionality. This one takes a 
+    //    selected picture from the user and places the raw data into state as a file. 
+    //==================================================================================================
     onSelectFile = event => {
         event.preventDefault()
-        console.log(event.target.files[0])
         this.setState({
             selectedFile: event.target.files[0],
             picture: event.target.files[0].name
         })
     }
 
+    //==================================================================================================
+    // Second of two functions specifically for our picture upload functionality. This one takes the 
+    //   file our first function placed in state as well as the plot number and the name of the file
+    //   and wraps it all up into a FormData object - which mimics the multi-part data of a form 
+    //   submission - and sends it back to App.js to be sent directly to our server to be uploaded.  
+    //==================================================================================================
     onUploadClick = () => {
         const theData = new FormData()
         theData.append('image', this.state.selectedFile, this.state.selectedFile.name)
@@ -79,6 +109,9 @@ class PlotEditor extends Component {
         this.props.handleFileUpload(theData)
     }
 
+    //==============================================================================================
+    // Taking information from props and placing that data into our local state 
+    //==============================================================================================
     componentWillReceiveProps (incomingProps) {
         this.setState({ 
             plotNum: incomingProps.plot,
@@ -93,6 +126,10 @@ class PlotEditor extends Component {
         })
     }
 
+    //==================================================================================================
+    //  This funtion grabe a whole bunch of information from state and puts it into a format that is 
+    //    needed by the App.js function to send the information back to the server. 
+    //==================================================================================================
     getFormInfo = () => {
         var plotData = {}
         plotData.plot = {}
@@ -105,7 +142,6 @@ class PlotEditor extends Component {
         plotData.plot.notes = this.state.notes
         plotData.interredArray = this.state.interred
         plotData.newPerson = this.state.newPerson
-        console.log("getFormInfo")
         console.log(plotData)
         return plotData
     }
