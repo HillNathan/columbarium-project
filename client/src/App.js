@@ -573,7 +573,8 @@ class App extends Component {
         </Route>
         <Route exact path="/login">
           <LoginWindow 
-            handleLogin={this.handleUserLoginClick}/>
+            handleLogin={this.handleUserLoginClick}
+            openMessageBox={this.handleMessageDialogOpen}/>
         </Route>
         <ProtectedRoute exact path="/admin">
           <AdminWindow 

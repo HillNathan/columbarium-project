@@ -33,12 +33,37 @@ class LoginForm extends Component {
     }
 
     //==================================================================================================
-    //  Wrapping an event.Preventdefault around the sending of the username and password to the login
+    //  Wrapping an event.preventDefault around the sending of the username and password to the login
     //    back to App.js so that we don't prematurely reload the page. 
     //==================================================================================================
     getFormInfo = (event) => {
         event.preventDefault()
         return this.state
+    }
+
+    //==================================================================================================
+    //  Wrapping all of our validation, preventDefault, and login submission into this one function so
+    //    that all of it can be in one spot. 
+    //==================================================================================================
+    handleLoginClick = (event) => {
+        event.preventDefault()
+        if (this.state.username === ""){
+            this.props.openMessageBox({
+                header   : "Login Error...",
+                message  : "You must enter a user name to log in.",
+                referrer : "LOGIN"
+            })
+        }
+        else if (this.state.password === ""){
+            this.props.openMessageBox({
+                header   : "Login Error...",
+                message  : "You must enter a password to log in.",
+                referrer : "LOGIN"
+            })
+        }
+        else {
+            this.props.handleLogin(this.state)
+        }
     }
 
     render() {
@@ -65,7 +90,7 @@ class LoginForm extends Component {
                     <Spacer />
                     <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
                         <Button color="primary"
-                                onClick={ event => this.props.handleLogin(this.getFormInfo(event))}
+                            onClick={ event => this.handleLoginClick(event)}
                         >
                             Login
                         </Button>    

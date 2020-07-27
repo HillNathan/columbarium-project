@@ -66,9 +66,21 @@ class SearchDialogSlide extends Component {
         var searchTerm = document.getElementById("plot-search-term").value.trim()
 
         // validate the input
-        if (this.validatePlotSearch(searchTerm)) {  
-          // since we have valid input, we hit the appropriate search function        
-          this.props.handlePlotSearch(searchTerm)
+        if (this.validatePlotSearch(searchTerm)) { 
+          // we will now check to make sure the number is within the parameters of the database
+          if ( parseInt(searchTerm) < 837 && parseInt(searchTerm) > 0) {
+            // since we have valid input, we hit the appropriate search function        
+            this.props.handlePlotSearch(searchTerm)
+          }
+          else {
+            // error message for a number that is outside the parameters of our database
+            this.props.messageBoxOpen({
+              header   : "Error...",  
+              message  : "You must enter a number between 1 and 836. ",
+              referrer : "PLOT"
+            })   
+          }
+          
         }
         else {
           // alert the user that their input needs to be a number

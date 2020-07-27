@@ -40,7 +40,8 @@ export default function ButtonAppBar(props) {
         <main>
             <Container>
               <LoginForm 
-                handleLogin={props.handleLogin}/>
+                handleLogin={props.handleLogin}
+                openMessageBox={props.openMessageBox}/>
             </Container>
         </main>
     </div>

@@ -64,11 +64,28 @@ class NewPersonForm extends Component {
     }
 
     //==================================================================================================
-    // This function will run the handler function to add the new person to the plot, and then
-    //   clear the state so that an additional person can be added if necessary
+    // Simple form validation to make sure we have data in the two required fields as per our server. 
+    // The required fields are firstName, lastName, and PlotID. Since we are wrnding plotID as part
+    //   of our internal processes, the only information required for the admin to enter is the two 
+    //   names.
+    //==================================================================================================
+    formValidation = () => {
+      if (this.state.firstName === "" || this.state.lastName === "") {
+        // Admin user must enter all required fields to add a person to the plot. Otherwise we will send
+        //   an error message letting them know they must fill out all required fields. 
+        return false
+      }
+      else return true
+    }
+
+    //==================================================================================================
+    // This function will validate the form, and if we have all required fields filled in it will then 
+    //   run the handler function to add the new person to the plot, and then clear the local state
+    //    so that an additional person can be added if necessary.
     //==================================================================================================
     handleSave() {
-      this.props.handleAddClick(this.state)
+      if (this.formValidation()) {
+        this.props.handleAddClick(this.state)
         this.setState({
             salutation: "",
             firstName: "",
@@ -78,6 +95,14 @@ class NewPersonForm extends Component {
             dateOfBirth: "",
             dateOfDeath: "",
         })
+      }
+      else {
+        this.props.messageBoxOpen({
+          header   : "Missing required field(s)",
+          message  : "You must fill out all required fields as marked with '*' ",
+          referrer : "ADMIN"
+        }) 
+      }
     }
 
     render() {
@@ -99,7 +124,7 @@ class NewPersonForm extends Component {
                             onChange={this.handleChange} fullWidth
                             value={this.state.salutation} /> 
                 <Spacer />
-                <TextField id={"first-name-new"} label="First Name" name="firstName"
+                <TextField id={"first-name-new"} label="First Name *" name="firstName"
                             InputLabelprops={{ shrink: true, }} variant="outlined" 
                             onChange={this.handleChange} fullWidth
                             value={this.state.firstName} />
@@ -109,7 +134,7 @@ class NewPersonForm extends Component {
                             onChange={this.handleChange} fullWidth
                             value={this.state.middleName} />
                 <Spacer />
-                <TextField id={"last-name-new"} label="Last Name" name="lastName"
+                <TextField id={"last-name-new"} label="Last Name *" name="lastName"
                             InputLabelprops={{ shrink: true, }} variant="outlined" 
                             onChange={this.handleChange} fullWidth
                             value={this.state.lastName} />
@@ -129,6 +154,7 @@ class NewPersonForm extends Component {
                             onChange={this.handleChange} fullWidth
                             value={this.state.dateOfDeath} />
             <Spacer />
+            Fields marked with * are required.
             </DialogContent>
         <DialogActions>
           <Button onClick={() => this.handleSave()} color="primary">
