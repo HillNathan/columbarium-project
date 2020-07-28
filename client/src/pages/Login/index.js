@@ -3,12 +3,14 @@ import React from 'react';
 // importing components from material-ui I used to build the site 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
 // importing custom components i wrote
 import LoginForm from '../../components/LoginForm'
+import VariableSpacer from '../../components/VariableSpacer'
 
 // hook to create classes - this is from material-ui website
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +44,13 @@ export default function ButtonAppBar(props) {
               <LoginForm 
                 handleLogin={props.handleLogin}
                 openMessageBox={props.openMessageBox}/>
+                <VariableSpacer
+                  height={250} 
+                />
+                  <Button 
+                    onClick={() => window.location = "/"} >
+                    Back to Plot Map
+                  </Button>
             </Container>
         </main>
     </div>

@@ -36,7 +36,7 @@ const emptyInfo = { id: 0, plot: 0, status: "", reservedBy: "", certificate: 0, 
 //====================================================================================================
 // Setting up the function here that will protect our admin route from being hit unless we have an 
 //   authorized user in state. If we do not have an autorized user in localStorage, the route will
-//   redirect the user to the main map view.  
+//   redirect the user to the login page.  
 //====================================================================================================
 function ProtectedRoute({ children, ...rest }) {
   return (
@@ -47,7 +47,7 @@ function ProtectedRoute({ children, ...rest }) {
           // this.props.isUserAuth() ? (
           children
         ) : (
-            <Redirect to={{ pathname: "/" }} />
+            <Redirect to={{ pathname: "/login" }} />
           )
       }
     />
@@ -375,6 +375,7 @@ class App extends Component {
       //  activeRecord.
       API.getOnePlot(thePlot)
       .then(plotData => {
+        console.log(plotData.data.data)
         this.setState({
           adminActivePlot: thePlot,
           activeRecord: {
@@ -386,6 +387,7 @@ class App extends Component {
             reservedDate: plotData.data.data.plot.reservedDate,
             numInterred: plotData.data.data.plot.numInterred,
             notes: plotData.data.data.plot.notes,
+            picture: plotData.data.data.plot.picture,
             interred: plotData.data.data.interred,
           }
         })
@@ -587,6 +589,7 @@ class App extends Component {
             handleShowNewPersonForm={this.handleShowNewPersonForm}
             handleFileUpload={this.handleFileUpload}
             handleUserLogout={this.handleUserLogout}
+            messageBoxOpen={this.handleMessageDialogOpen}
           />
           <NewPersonForm 
             showMe={this.state.showNewPersonForm}

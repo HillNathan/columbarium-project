@@ -109,6 +109,18 @@ class PlotEditor extends Component {
         this.props.handleFileUpload(theData)
     }
 
+    //==================================================================================================
+    //  First of two functions specifically for our picture upload funtionality. This one takes a 
+    //    selected picture from the user and places the raw data into state as a file. 
+    //==================================================================================================
+    onchangeFileClick = () => {
+        this.props.messageBoxOpen({
+            header   : "Please Confirm",
+            message  : "Please confirm that you would like to replace the picture currently on file.",
+            referrer : "OTHER"
+        })
+    }
+
     //==============================================================================================
     // Taking information from props and placing that data into our local state 
     //==============================================================================================
@@ -121,7 +133,7 @@ class PlotEditor extends Component {
             reservedDate: incomingProps.data.reservedDate,
             numInterred: incomingProps.data.numInterred,
             notes: incomingProps.data.notes,
-            picture: "",
+            picture: incomingProps.data.picture,
             interred: incomingProps.data.interred,
         })
     }
@@ -195,17 +207,36 @@ class PlotEditor extends Component {
                                         variant="outlined" value={this.state.reservedBy}                                         
                                         onChange={this.handleChange} />
                         </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4} sx={4} >
-                            <TextField id="picture" name="picture" fullWidth={true}
-                                        variant="outlined"                                        
-                                        onChange={this.onSelectFile} type="file"/>
-                        </Grid>
-                        <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
-                            <Button color="primary"
-                                onClick={() => this.onUploadClick()} >
-                                Upload File
-                            </Button>    
-                        </Grid>
+                        {/* ternery operators here to change what we show based on whether we have a picture in 
+                        the file or not */}
+                        {(this.state.picture === "") ? 
+                            <Grid item xl={4} lg={4} md={4} sm={4} sx={4}>
+                                <TextField id="picture" name="picture" fullWidth={true}
+                                    variant="outlined"                                        
+                                    onChange={this.onSelectFile} type="file"/>
+                            </Grid>
+                        :
+                            <Grid item xl={4} lg={4} md={4} sm={4} sx={4} >
+                                <TextField id="picture" name="picture" fullWidth={true}
+                                    value={this.state.picture}
+                                    variant="outlined" disabled />
+                            </Grid>
+                        }
+                        {(this.state.picture === "") ? 
+                            <Grid item xl={2} lg={2} md={2} sm={2} sx={2}>
+                                <Button color="primary"
+                                    onClick={() => this.onUploadClick()} >
+                                    Upload File
+                                </Button>
+                            </Grid>    
+                        :
+                            <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
+                                <Button color="primary"
+                                    onClick={() => this.onchangeFileClick()} >
+                                    Change File
+                                </Button>    
+                            </Grid>
+                        }
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                             <TextField id="notes" name="notes" label="Notes" value={this.state.notes} 
                                         variant="outlined" fullWidth={true} multiline rows={4} 

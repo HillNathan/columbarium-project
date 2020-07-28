@@ -125,6 +125,7 @@ export default function AdminPage(props) {
           data={props.plotData}
           handleShowNewPersonForm={props.handleShowNewPersonForm}
           handleFileUpload={props.handleFileUpload}
+          messageBoxOpen={props.messageBoxOpen}
         />
       </main>
     </div>
