@@ -24,8 +24,6 @@ import PlotMap from '../../components/PlotMap'
 
 const drawerWidth = 240;
 
-
-
 // hook to create classes - this is from material-ui website
 // this also creates the sliding menu bar effect
 const useStyles = makeStyles((theme) => ({
@@ -94,7 +92,8 @@ export default function MainWindow(props) {
         main: "#1b2c4a",
       }
     },
-  });  const [open, setOpen] = React.useState(false);
+  });  
+  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);

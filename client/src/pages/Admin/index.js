@@ -1,7 +1,7 @@
 import React from 'react';
 
 // importing components from material-ui I used to build the site 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -54,15 +54,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AdminPage(props) {
   const classes = useStyles();
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: "#1b2c4a",
+      }
+    }
+  })
 
   return (
     <div className={classes.root}>
       <CssBaseline />
+      <ThemeProvider theme={theme}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-                The Church of Saint Martin in the Fields - Columbarium -- ADMIN PAGE
-          </Typography>
+          <img src="/site-images/StMartinFields_Logo_337.png" className="header-logo"
+            alt="St Martin in the Fields logo" />
+          <span noWrap className="lato-header">
+            Mary Hare Taylor Knight Memorial Columbarium -- ADMIN PORTAL
+          </span>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -102,7 +112,7 @@ export default function AdminPage(props) {
           </ListItem>
         </List>
       </Drawer>
-      <main className={classes.content}>
+      <main className={classes.content + " plot-map"}>
         <div className={classes.toolbar} />
         <Grid container spacing={1} alignItems="flex-end">
           <Grid item>
@@ -128,6 +138,7 @@ export default function AdminPage(props) {
           messageBoxOpen={props.messageBoxOpen}
         />
       </main>
+    </ThemeProvider>
     </div>
   );
 }
