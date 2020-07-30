@@ -22,3 +22,17 @@
 .plot-map { 
   margin-top: 40px;
 }
+
+.drawer-button {
+  font-size: 13pt;
+  font-family: 'Lato', sans-serif;
+}
+
+.drawer-label {
+  font-size: 26pt;
+  font-family: 'Lato', sans-serif;
+}
+
+.mybutton-spacer {
+  padding-top: 8px
+}

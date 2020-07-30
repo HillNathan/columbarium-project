@@ -90,6 +90,9 @@ export default function MainWindow(props) {
     palette: {
       primary: {
         main: "#1b2c4a",
+      },
+      secondary: {
+        main: "#546177"
       }
     },
   });  
@@ -147,13 +150,19 @@ export default function MainWindow(props) {
         </div>
         <Divider />
         <List>
-            <ListItem button onClick={()=> props.handleSearchOpen("NAME")}>
+            <ListItem button 
+                onClick={()=> props.handleSearchOpen("NAME")}>
               <ListItemIcon><SearchIcon/></ListItemIcon>
-              <ListItemText primary="Search by Name" />
+              <ListItemText classes="secondary">
+                <span className="drawer-button">Search by Name</span>
+              </ListItemText>
             </ListItem>
-              <ListItem button onClick={()=> props.handleSearchOpen("PLOT")}>
+              <ListItem button 
+                onClick={()=> props.handleSearchOpen("PLOT")}>
               <ListItemIcon><SearchIcon/></ListItemIcon>
-              <ListItemText primary="Search by Plot #" />
+              <ListItemText>
+                <span className="drawer-button">Search by Plot #</span>
+              </ListItemText>
             </ListItem>
         </List>
         <Divider />
