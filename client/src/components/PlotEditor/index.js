@@ -9,6 +9,7 @@ import Spacer from '../Spacer'
 import Button from '@material-ui/core/Button';
 
 import AdminInterredPerson from '../AdminInterredPerson'
+import MyButton from '../MyButton'
 
 //=======================================================================================================
 // defining an array for our list of options for the 'status' field on our admin form so that we don't
@@ -164,7 +165,7 @@ class PlotEditor extends Component {
             <div>
                 <CssBaseline />
                {(this.state.plotNum === 0) ? (
-                   <h2>Please enter a plot number</h2>
+                   <h2><span className="lato">Please enter a plot number</span></h2>
                ) : (
                 <Container maxWidth="xl" >
                     <Grid container spacing={1} justify="flex-start">
@@ -172,10 +173,9 @@ class PlotEditor extends Component {
                             <h2>Plot information for Plot #{this.state.plotNum}</h2>
                         </Grid>
                         <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
-                            <Button color="primary"
-                                    onClick={()=> this.props.handleSaveData(this.getFormInfo())}>
-                                Save Changes
-                            </Button>    
+                            <MyButton 
+                                theOnClick={()=> this.props.handleSaveData(this.getFormInfo())}
+                                theText={"Save Changes"} />
                         </Grid>
                         <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
                         <TextField id="plot-status" name="status"  label="Plot status"
@@ -224,17 +224,15 @@ class PlotEditor extends Component {
                         }
                         {(this.state.picture === "") ? 
                             <Grid item xl={2} lg={2} md={2} sm={2} sx={2}>
-                                <Button color="primary"
-                                    onClick={() => this.onUploadClick()} >
-                                    Upload File
-                                </Button>
+                                <MyButton 
+                                    theOnClick={() => this.onUploadClick()} 
+                                    theText={"Upload File"} />  
                             </Grid>    
                         :
                             <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
-                                <Button color="primary"
-                                    onClick={() => this.onchangeFileClick()} >
-                                    Change File
-                                </Button>    
+                                <MyButton 
+                                    theOnClick={() => this.onchangeFileClick()} 
+                                    theText={"Change File"} />    
                             </Grid>
                         }
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
@@ -256,9 +254,9 @@ class PlotEditor extends Component {
                     <Divider />
                     <Grid>
                         {(this.state.interred.length < 3) ? 
-                        <Button color="primary" onClick={() => this.props.handleShowNewPersonForm()}>
-                            Add a Person
-                        </Button>    
+                        <MyButton color="primary" variant="contained"
+                            theOnClick={() => this.props.handleShowNewPersonForm()}
+                            theText={"Add a Person"} />    
                         :
                         <div></div> }
                     </Grid>   

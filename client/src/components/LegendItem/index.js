@@ -12,7 +12,9 @@ export default function LegendItem (props) {
             <div className={props.style.toLowerCase() + " legend-box"}>
             </div>
             <div className="legend-text">
-                <ListItemText primary={props.style} />
+                <ListItemText>
+                    <span className="lato">{props.style}</span>
+                </ListItemText>
             </div>
         </div>
     )

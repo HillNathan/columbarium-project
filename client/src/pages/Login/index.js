@@ -1,12 +1,11 @@
 import React from 'react';
 
 // importing components from material-ui I used to build the site 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
 
 // importing custom components i wrote
 import LoginForm from '../../components/LoginForm'
@@ -27,15 +26,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar(props) {
   const classes = useStyles();
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: "#1b2c4a",
+      }
+    }
+  })
 
   return (
     <div>
+      <ThemeProvider theme={theme}>
         <div className={classes.root}>
         <AppBar position="static">
             <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-            The Church of Saint Martin in the Fields - Columbarium -- ADMIN LOGIN
-            </Typography>
+              <img src="/site-images/StMartinFields_Logo_337.png" className="header-logo"
+                alt="St Martin in the Fields logo" />
+              <span noWrap className="lato-header">
+                Mary Hare Taylor Knight Memorial Columbarium -- ADMIN LOG-IN
+              </span>
             </Toolbar>
         </AppBar>
         </div>
@@ -53,6 +62,7 @@ export default function ButtonAppBar(props) {
                   </Button>
             </Container>
         </main>
+      </ThemeProvider>
     </div>
   );
 }

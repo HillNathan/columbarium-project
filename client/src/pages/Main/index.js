@@ -1,16 +1,13 @@
 import React from 'react';
 
-// importing external component to be able to have the map zoom functionality on the plot map. 
-import clsx from 'clsx';
-
 // importing components from material-ui I used to build the site 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -33,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
+
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
@@ -88,7 +86,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MainWindow(props) {
   const classes = useStyles();
-  const theme = useTheme();
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: "#1b2c4a",
+      },
+      secondary: {
+        main: "#546177"
+      }
+    },
+  });  
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -102,12 +109,14 @@ export default function MainWindow(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
+      <ThemeProvider theme={theme}>
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
+          [classes.appBarShift]: open, 
+        }) + " myheader"}
       >
+        {/* <Toolbar class="myheader-color"> */}
         <Toolbar>
           <IconButton
             color="inherit"
@@ -118,9 +127,11 @@ export default function MainWindow(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            The Church of Saint Martin in the Fields - Columbarium
-          </Typography>
+          <img src="/site-images/StMartinFields_Logo_337.png" className="header-logo"
+            alt="St Martin in the Fields logo" />
+          <span noWrap className="lato-header">
+            Mary Hare Taylor Knight Memorial Columbarium
+          </span>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -139,13 +150,19 @@ export default function MainWindow(props) {
         </div>
         <Divider />
         <List>
-            <ListItem button onClick={()=> props.handleSearchOpen("NAME")}>
+            <ListItem button 
+                onClick={()=> props.handleSearchOpen("NAME")}>
               <ListItemIcon><SearchIcon/></ListItemIcon>
-              <ListItemText primary="Search by Name" />
+              <ListItemText classes="secondary">
+                <span className="drawer-button">Search by Name</span>
+              </ListItemText>
             </ListItem>
-              <ListItem button onClick={()=> props.handleSearchOpen("PLOT")}>
+              <ListItem button 
+                onClick={()=> props.handleSearchOpen("PLOT")}>
               <ListItemIcon><SearchIcon/></ListItemIcon>
-              <ListItemText primary="Search by Plot #" />
+              <ListItemText>
+                <span className="drawer-button">Search by Plot #</span>
+              </ListItemText>
             </ListItem>
         </List>
         <Divider />
@@ -162,17 +179,18 @@ export default function MainWindow(props) {
         </List>
       </Drawer>
       <main
-      // this custom class here on main allows the map-style zooming on the plotMap component
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}
       >
-        <div className={classes.drawerHeader} />
+        <div className={classes.drawerHeader + " plot-map"} />
+
         <PlotMap 
           plotList={props.plotList}
           handleOpen={props.handleOpen}
         />
       </main>
+      </ThemeProvider>
     </div>
   );
 }

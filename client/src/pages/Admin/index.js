@@ -1,7 +1,7 @@
 import React from 'react';
 
 // importing components from material-ui I used to build the site 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -15,6 +15,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+// importing icons for our app to use
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import EditIcon from '@material-ui/icons/Edit';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
@@ -54,15 +56,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AdminPage(props) {
   const classes = useStyles();
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: "#1b2c4a",
+      }
+    }
+  })
 
   return (
     <div className={classes.root}>
       <CssBaseline />
+      <ThemeProvider theme={theme}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-                The Church of Saint Martin in the Fields - Columbarium -- ADMIN PAGE
-          </Typography>
+          <img src="/site-images/StMartinFields_Logo_337.png" className="header-logo"
+            alt="St Martin in the Fields logo" />
+          <span noWrap className="lato-header">
+            Mary Hare Taylor Knight Memorial Columbarium -- ADMIN PORTAL
+          </span>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -76,33 +88,41 @@ export default function AdminPage(props) {
         <div className={classes.toolbar} />
             <div className="drawer-header">
                 <Typography variant="h5" noWrap>
-                    Menu
+                <span className="drawer-label">Menu</span>
                 </Typography>
             </div>
             <Divider />
         <List>
           <ListItem button onClick={()=>props.handleMenuClick("PLOT")}>
             <ListItemIcon><EditIcon/></ListItemIcon>
-            <ListItemText primary={'Edit a Plot'} />
+            <ListItemText>
+            <span className="drawer-button">Edit a Plot</span>
+            </ListItemText>
           </ListItem>
           <Divider />
           <ListItem button onClick={()=>props.handleMenuClick("USERS")}>
             <ListItemIcon><PersonAddOutlinedIcon /></ListItemIcon>
-            <ListItemText primary={'Manage Users'} />
+            <ListItemText>
+            <span className="drawer-button">Manage Users</span>
+            </ListItemText>
           </ListItem>
         <Divider />
           <ListItem button onClick={()=>props.handleMenuClick("GRID")}>
               <ListItemIcon><ViewComfyIcon/></ListItemIcon>
-              <ListItemText primary="Back to Plot Map"/>
+              <ListItemText>
+              <span className="drawer-button">Back to Plot Map</span>
+              </ListItemText>
           </ListItem>
         <Divider />
           <ListItem button onClick={()=>props.handleUserLogout()}>
-              <ListItemIcon><ViewComfyIcon/></ListItemIcon>
-              <ListItemText primary="LOG OUT"/>
+              <ListItemIcon><MeetingRoomIcon/></ListItemIcon>
+              <ListItemText>
+              <span className="drawer-button">Log Out</span>
+              </ListItemText>
           </ListItem>
         </List>
       </Drawer>
-      <main className={classes.content}>
+      <main className={classes.content + " plot-map"}>
         <div className={classes.toolbar} />
         <Grid container spacing={1} alignItems="flex-end">
           <Grid item>
@@ -114,7 +134,7 @@ export default function AdminPage(props) {
           <Grid item>
           <Button variant="contained" color="primary"
             onClick={() => props.handleAdminSearch(parseInt(document.getElementById('plot-search-id').value))}>
-            Go!
+            <span className="lato">Go!</span>
           </Button>
           </Grid>
         </Grid>
@@ -128,6 +148,7 @@ export default function AdminPage(props) {
           messageBoxOpen={props.messageBoxOpen}
         />
       </main>
+    </ThemeProvider>
     </div>
   );
 }
