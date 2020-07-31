@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 
 // importing components from material-ui I used to build the site 
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar(props) {
+function LoginPage(props) {
   const classes = useStyles();
 
   return (
@@ -56,3 +57,5 @@ export default function ButtonAppBar(props) {
     </div>
   );
 }
+
+export default withRouter(LoginPage)
