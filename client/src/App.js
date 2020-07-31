@@ -547,38 +547,20 @@ class App extends Component {
     return (
       <div>
       <Router><Switch>
-        <Route exact path="/">
-          <MainWindow
-            plotList={this.state.plotMap}
-            handleOpen={this.handlePlotDialogOpen}
-            handleSearchOpen={this.handleSearchDialogOpen}
-          />
-          <SearchDialogSlide
-            showMe={this.state.showSearchDialog}
-            searchBy={this.state.searchBy} 
-            handleClose={this.handleSearchDialogClose}
-            handlePlotSearch={this.handlePlotDialogOpen}
-            handleNameSearch={this.handleNameSearch}
-            messageBoxOpen={this.handleMessageDialogOpen}
-          />
-          <PlotDialog
-            showMe={this.state.showPlotDialog}
-            infoToShow={this.state.activeRecord}
-            handleClose={this.handlePlotDialogClose} 
-          />  
-          <NameSearchResults 
-            showMe={this.state.showNamesearchResults}
-            results={this.state.nameSearchResultsList}
-            handleClose={this.handleNameSearchClose}
-            searchResultClick={this.handlePlotDialogOpen}
-          />
-        </Route>
-        <Route exact path="/login">
-          <LoginWindow 
-            handleLogin={this.handleUserLoginClick}
-            openMessageBox={this.handleMessageDialogOpen}/>
-        </Route>
-        <ProtectedRoute exact path="/admin">
+        <Route exact path="/"
+          render={(props) => 
+            <MainWindow {...props}
+              plotList={this.state.plotMap}
+              handleOpen={this.handlePlotDialogOpen}
+              handleSearchOpen={this.handleSearchDialogOpen} /> } 
+        />
+        <Route exact path="/login" 
+          render={(props) => 
+            <LoginWindow {...props}
+              handleLogin={this.handleUserLoginClick}
+              openMessageBox={this.handleMessageDialogOpen} /> }
+        />
+        <ProtectedRoute exact path="/admin" > 
           <AdminWindow 
             handleMenuClick={this.handleAdminMenuClick}
             handleSaveData={this.handleAdminSaveClick}
@@ -589,22 +571,39 @@ class App extends Component {
             handleShowNewPersonForm={this.handleShowNewPersonForm}
             handleFileUpload={this.handleFileUpload}
             handleUserLogout={this.handleUserLogout}
-            messageBoxOpen={this.handleMessageDialogOpen}
-          />
+            messageBoxOpen={this.handleMessageDialogOpen} />
           <NewPersonForm 
             showMe={this.state.showNewPersonForm}
             handleAddClick={this.addNewPersonToPlot}
             handleClose={this.closePersonForm}
             plot={this.state.activeRecord.plot}
-            messageBoxOpen={this.handleMessageDialogOpen}
-          />
-        </ProtectedRoute>
+            messageBoxOpen={this.handleMessageDialogOpen} />   
+        </ProtectedRoute> 
     </Switch></Router>
     <MessageDialog 
       showMe={this.state.showMessageDialog}
       header={this.state.messageDialogheader}
       message={this.state.messageDialogText}
       handleClose={this.handleMessageDialogClose}
+    />
+    <SearchDialogSlide
+      showMe={this.state.showSearchDialog}
+      searchBy={this.state.searchBy} 
+      handleClose={this.handleSearchDialogClose}
+      handlePlotSearch={this.handlePlotDialogOpen}
+      handleNameSearch={this.handleNameSearch}
+      messageBoxOpen={this.handleMessageDialogOpen}
+    />
+    <PlotDialog
+      showMe={this.state.showPlotDialog}
+      infoToShow={this.state.activeRecord}
+      handleClose={this.handlePlotDialogClose} 
+    />  
+    <NameSearchResults 
+      showMe={this.state.showNamesearchResults}
+      results={this.state.nameSearchResultsList}
+      handleClose={this.handleNameSearchClose}
+      searchResultClick={this.handlePlotDialogOpen}
     />
     </div>
     )}
