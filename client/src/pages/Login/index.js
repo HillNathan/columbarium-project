@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 
 // importing components from material-ui I used to build the site 
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar(props) {
+function LoginPage(props) {
   const classes = useStyles();
   const theme = createMuiTheme({
     palette: {
@@ -66,3 +67,5 @@ export default function ButtonAppBar(props) {
     </div>
   );
 }
+
+export default withRouter(LoginPage)
