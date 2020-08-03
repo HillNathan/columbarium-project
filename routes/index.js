@@ -219,7 +219,7 @@ module.exports = app => {
     // use passport to log the user out of their session
     req.logout()
     // redirect the browse to the home route with no user object
-    res.redirect('/')
+    res.status(200).json({ status: "success" }) 
   })
 
 }
