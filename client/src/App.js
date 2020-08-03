@@ -44,7 +44,6 @@ function ProtectedRoute({ children, ...rest }) {
       {...rest}
       render={() =>
         testAuth() ? (
-          // this.props.isUserAuth() ? (
           children
         ) : (
             <Redirect to={{ pathname: "/login" }} />
@@ -98,7 +97,8 @@ class App extends Component {
     adminActivePage: "PLOT",
     adminActivePlot: 0,
     showNewPersonForm: false,
-    selectedFile: null
+    selectedFile: null,
+    currentPage: "map",   // map, login, or admin
   }
 
   //====================================================================================================
@@ -153,6 +153,21 @@ class App extends Component {
     })
     // return our completed array of arrays
     return tempArray;
+  }
+
+  //====================================================================================================
+  // Testing out this as a work-around to react-router having issues when deployed. We are going to 
+  //   replace all "links" or "redirects" with this function and use it to navigate around the page 
+  //   rather than actually hitting a new GET route and trying to use any kind of navigation. It should 
+  //   be invisible to the end user once it is implemented. 
+  //====================================================================================================
+  navigateTo = (page) => {
+    this.setState({currentPage : page})
+  }
+
+  mainMenuClick = () => {
+    if (this.state.isUserAuth) this.navigateTo("admin")
+    else this.navigateTo("login")
   }
 
   //==============================================================================================
@@ -329,7 +344,7 @@ class App extends Component {
   handleAdminMenuClick = button => {
     // if the input is "GRID" we will redirect the user to the main page with the plot map
     if (button === "GRID") {
-      window.location = "/";
+      this.navigateTo("map")
     }
     else {
       // if not "GRID" button will either equal "PLOT" or "USERS" because we control the input to this function.
@@ -444,7 +459,7 @@ class App extends Component {
             activeUser: response.data,
           })
           // then we redirect the user to the admin portal of the website. 
-          window.location = "/admin"
+          this.navigateTo("admin")
         })
       }
     })
@@ -464,7 +479,7 @@ class App extends Component {
         }
       })
     API.doUserLogout()
-    window.location = "/"
+    this.navigateTo("map")
   }
 
   //==============================================================================================
@@ -546,68 +561,63 @@ class App extends Component {
   render() {
     return (
       <div>
-      <Router><Switch>
-        <Route exact path="/">
-          <MainWindow
+        {(this.state.currentPage === "map") ? 
+          <MainWindow 
             plotList={this.state.plotMap}
             handleOpen={this.handlePlotDialogOpen}
             handleSearchOpen={this.handleSearchDialogOpen}
-          />
-          <SearchDialogSlide
-            showMe={this.state.showSearchDialog}
-            searchBy={this.state.searchBy} 
-            handleClose={this.handleSearchDialogClose}
-            handlePlotSearch={this.handlePlotDialogOpen}
-            handleNameSearch={this.handleNameSearch}
-            messageBoxOpen={this.handleMessageDialogOpen}
-          />
-          <PlotDialog
-            showMe={this.state.showPlotDialog}
-            infoToShow={this.state.activeRecord}
-            handleClose={this.handlePlotDialogClose} 
-          />  
-          <NameSearchResults 
-            showMe={this.state.showNamesearchResults}
-            results={this.state.nameSearchResultsList}
-            handleClose={this.handleNameSearchClose}
-            searchResultClick={this.handlePlotDialogOpen}
-          />
-        </Route>
-        <Route exact path="/login">
-          <LoginWindow 
-            handleLogin={this.handleUserLoginClick}
-            openMessageBox={this.handleMessageDialogOpen}/>
-        </Route>
-        <ProtectedRoute exact path="/admin">
-          <AdminWindow 
-            handleMenuClick={this.handleAdminMenuClick}
-            handleSaveData={this.handleAdminSaveClick}
-            handleAdminSearch={this.handleAdminPlotSearch}
-            activePage={this.state.adminActivePage} 
-            plot={this.state.adminActivePlot}
-            plotData={this.state.activeRecord}
-            handleShowNewPersonForm={this.handleShowNewPersonForm}
-            handleFileUpload={this.handleFileUpload}
-            handleUserLogout={this.handleUserLogout}
-            messageBoxOpen={this.handleMessageDialogOpen}
-          />
-          <NewPersonForm 
-            showMe={this.state.showNewPersonForm}
-            handleAddClick={this.addNewPersonToPlot}
-            handleClose={this.closePersonForm}
-            plot={this.state.activeRecord.plot}
-            messageBoxOpen={this.handleMessageDialogOpen}
-          />
-        </ProtectedRoute>
-    </Switch></Router>
-    <MessageDialog 
-      showMe={this.state.showMessageDialog}
-      header={this.state.messageDialogheader}
-      message={this.state.messageDialogText}
-      handleClose={this.handleMessageDialogClose}
-    />
-    </div>
-    )}
+            navigateTo={this.navigateTo} 
+            mainMenuClick={this.mainMenuClick} /> 
+          :
+          (this.state.currentPage === "login") ? 
+              <LoginWindow 
+                handleLogin={this.handleUserLoginClick}
+                openMessageBox={this.handleMessageDialogOpen} 
+                navigateTo={this.navigateTo}/> 
+            :
+              <AdminWindow 
+                handleMenuClick={this.handleAdminMenuClick}
+                handleSaveData={this.handleAdminSaveClick}
+                handleAdminSearch={this.handleAdminPlotSearch}
+                activePage={this.state.adminActivePage} 
+                plot={this.state.adminActivePlot}
+                plotData={this.state.activeRecord}
+                handleShowNewPersonForm={this.handleShowNewPersonForm}
+                handleFileUpload={this.handleFileUpload}
+                handleUserLogout={this.handleUserLogout}
+                messageBoxOpen={this.handleMessageDialogOpen}
+                navigateTo={this.navigateTo} />
+        } 
+        <NewPersonForm 
+          showMe={this.state.showNewPersonForm}
+          handleAddClick={this.addNewPersonToPlot}
+          handleClose={this.closePersonForm}
+          plot={this.state.activeRecord.plot}
+          messageBoxOpen={this.handleMessageDialogOpen} />   
+        <MessageDialog 
+          showMe={this.state.showMessageDialog}
+          header={this.state.messageDialogheader}
+          message={this.state.messageDialogText}
+          handleClose={this.handleMessageDialogClose} />
+        <SearchDialogSlide
+          showMe={this.state.showSearchDialog}
+          searchBy={this.state.searchBy} 
+          handleClose={this.handleSearchDialogClose}
+          handlePlotSearch={this.handlePlotDialogOpen}
+          handleNameSearch={this.handleNameSearch}
+          messageBoxOpen={this.handleMessageDialogOpen} />
+        <PlotDialog
+          showMe={this.state.showPlotDialog}
+          infoToShow={this.state.activeRecord}
+          handleClose={this.handlePlotDialogClose} />  
+        <NameSearchResults 
+          showMe={this.state.showNamesearchResults}
+          results={this.state.nameSearchResultsList}
+          handleClose={this.handleNameSearchClose}
+          searchResultClick={this.handlePlotDialogOpen} />
+      </div>
+    )
+  }
 }
 
 export default App;
