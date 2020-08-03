@@ -1,10 +1,4 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch
-} from "react-router-dom";
 
 // bringing in our user-defined page components
 import LoginWindow from './pages/Login'
@@ -32,26 +26,6 @@ const API = require('./functions')
 const emptyInfo = { id: 0, plot: 0, status: "", reservedBy: "", certificate: 0, reservedDate: "",
   numInterred: 0, notes: "", picture: "", interred: [] }
 //====================================================================================================
-
-//====================================================================================================
-// Setting up the function here that will protect our admin route from being hit unless we have an 
-//   authorized user in state. If we do not have an autorized user in localStorage, the route will
-//   redirect the user to the login page.  
-//====================================================================================================
-function ProtectedRoute({ children, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={() =>
-        testAuth() ? (
-          children
-        ) : (
-            <Redirect to={{ pathname: "/login" }} />
-          )
-      }
-    />
-  );
-}
 
 //====================================================================================================
 // simple function to check the auth status from localStorage to see if we have anyone authorized 
@@ -96,6 +70,7 @@ class App extends Component {
     },
     adminActivePage: "PLOT",
     adminActivePlot: 0,
+    adminUserList: [],
     showNewPersonForm: false,
     selectedFile: null,
     currentPage: "map",   // map, login, or admin
@@ -127,6 +102,7 @@ class App extends Component {
           this.setState({ plotMap: looseData.reverse()})
         })
     })
+
   }
 
   //====================================================================================================
@@ -165,6 +141,11 @@ class App extends Component {
     this.setState({currentPage : page})
   }
 
+  //====================================================================================================
+  // Handling the menu click to go to the admin portal page here; firstly we check to see if there is 
+  //   an authorized user. If there is, we allow access to the page. If not we send them to the login 
+  //   page instead. 
+  //====================================================================================================
   mainMenuClick = () => {
     if (this.state.isUserAuth) this.navigateTo("admin")
     else this.navigateTo("login")
@@ -458,6 +439,12 @@ class App extends Component {
           this.setState({
             activeUser: response.data,
           })
+          // pull in the list of users, since we have an authenticated user to be able to edit them
+          API.getUserList().then(userList => {
+            this.setState({
+              adminUserList: userList.data
+            })
+          })
           // then we redirect the user to the admin portal of the website. 
           this.navigateTo("admin")
         })
@@ -466,8 +453,8 @@ class App extends Component {
   }
 
   //==============================================================================================
-  // User our functions to log out the user, clear the information from state, and then redirect
-  //   the user to the home page. 
+  // User our functions to log out the user, clear the protected information from state, and 
+  //   then redirect the user to the home page. 
   //==============================================================================================
   handleUserLogout = () => {
     this.updateAuthStatus(false)
@@ -476,7 +463,8 @@ class App extends Component {
         username: "",
         firstName: "",
         lastName: ""
-        }
+        },
+      adminUserList: []
       })
     API.doUserLogout()
     this.navigateTo("map")
@@ -583,6 +571,7 @@ class App extends Component {
                 plot={this.state.adminActivePlot}
                 plotData={this.state.activeRecord}
                 handleShowNewPersonForm={this.handleShowNewPersonForm}
+                userList={this.state.adminUserList}
                 handleFileUpload={this.handleFileUpload}
                 handleUserLogout={this.handleUserLogout}
                 messageBoxOpen={this.handleMessageDialogOpen}

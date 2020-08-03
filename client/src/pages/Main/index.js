@@ -156,7 +156,7 @@ export default function MainWindow(props) {
             <ListItem button 
                 onClick={()=> props.handleSearchOpen("NAME")}>
               <ListItemIcon><SearchIcon/></ListItemIcon>
-              <ListItemText classes="secondary">
+              <ListItemText className="secondary">
                 <span className="drawer-button">Search by Name</span>
               </ListItemText>
             </ListItem>
@@ -186,7 +186,7 @@ export default function MainWindow(props) {
           <ListItem button 
               onClick={()=> props.mainMenuClick()}>
             <ListItemIcon><LockIcon/></ListItemIcon>
-            <ListItemText classes="secondary">
+            <ListItemText className="secondary">
               <span className="drawer-button">Admin Portal</span>
             </ListItemText>
           </ListItem>

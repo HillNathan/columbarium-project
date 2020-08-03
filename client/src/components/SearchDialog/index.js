@@ -152,7 +152,7 @@ class SearchDialogSlide extends Component {
             <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
                   Enter a Name to search for.
-                  <p>You may enter a first name, last name, or both.</p>
+                  <br />You may enter a first name, last name, or both.
             </DialogContentText>
             <TextField
                     autoFocus
