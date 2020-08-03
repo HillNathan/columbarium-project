@@ -44,6 +44,9 @@ const API = {
     //  of the website once the logout is complete. 
     doUserLogout: () => axios.get('/api/users/logout'),
 
+    // this function fetches the list of users for use in the admin portal
+    getUserList: () => axios.get('/api/users/userlist'),
+
 }
 
 module.exports = API

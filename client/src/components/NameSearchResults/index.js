@@ -55,7 +55,7 @@ class NameSearchResults extends Component {
             <Divider />
             <DialogContentText>
             {this.state.results.length === 0 ? 
-                <span><emphasize>sorry...</emphasize></span>
+                <span>sorry...</span>
             :
                 <ul>
                 

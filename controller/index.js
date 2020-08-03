@@ -192,6 +192,17 @@ const API = {
     .then(response => {
       cb(response)
     })
+  },
+
+  allUsers: (cb) => {
+    db.user
+    .findAll({ 
+      attributes: ['username', 'firstName', 'lastName']
+    })
+    .then(userList => {
+      console.log(userList)
+      cb(userList)
+    })
   }
 }
 

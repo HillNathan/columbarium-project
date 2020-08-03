@@ -213,6 +213,21 @@ module.exports = app => {
   })
 
   //=====================================================================================================    
+  // Route for pulling a list of users to be used by the administrator to manage the user access to the 
+  //   adminstrative portal side of the app. This returns only the username, firstname, and lastname so
+  //   that security can be maintained. The route also checks to make sure that there is someone logged 
+  //   in before returning any data. 
+  //=====================================================================================================
+  app.get('/api/users/userlist', (req,res) => {
+    if (!req.user) return res.json({ result: "not authorized" })
+    else {
+      API.allUsers(userList => {
+        res.json(userList)
+        })
+    }
+  })
+
+  //=====================================================================================================    
   // Route for logging user out
   //=====================================================================================================
   app.get('/api/users/logout', (req, res) => {

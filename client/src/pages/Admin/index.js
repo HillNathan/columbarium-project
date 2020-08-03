@@ -24,6 +24,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 // importing custom components i wrote
 import PlotEditor from '../../components/PlotEditor';
+import UserPortal from '../../components/UserPortal'
 
 import './style.css'
 
@@ -122,32 +123,38 @@ export default function AdminPage(props) {
           </ListItem>
         </List>
       </Drawer>
-      <main className={classes.content + " plot-map"}>
-        <div className={classes.toolbar} />
-        <Grid container spacing={1} alignItems="flex-end">
-          <Grid item>
-            <SearchIcon />
+      {(props.activePage === "PLOT") ? 
+        <main className={classes.content + " plot-map"}>
+          <div className={classes.toolbar} />
+          <Grid container spacing={1} alignItems="flex-end">
+            <Grid item>
+              <SearchIcon />
+            </Grid>
+            <Grid item>
+              <TextField id="plot-search-id" label="plot #" />
+            </Grid>
+            <Grid item>
+            <Button variant="contained" color="primary"
+              onClick={() => props.handleAdminSearch(parseInt(document.getElementById('plot-search-id').value))}>
+              <span className="lato">Go!</span>
+            </Button>
+            </Grid>
           </Grid>
-          <Grid item>
-            <TextField id="plot-search-id" label="plot #" />
-          </Grid>
-          <Grid item>
-          <Button variant="contained" color="primary"
-            onClick={() => props.handleAdminSearch(parseInt(document.getElementById('plot-search-id').value))}>
-            <span className="lato">Go!</span>
-          </Button>
-          </Grid>
-        </Grid>
-        <hr />
-        <PlotEditor
-          plot={props.plot}
-          handleSaveData={props.handleSaveData}
-          data={props.plotData}
-          handleShowNewPersonForm={props.handleShowNewPersonForm}
-          handleFileUpload={props.handleFileUpload}
-          messageBoxOpen={props.messageBoxOpen}
-        />
-      </main>
+          <hr />
+            <PlotEditor
+              plot={props.plot}
+              handleSaveData={props.handleSaveData}
+              data={props.plotData}
+              handleShowNewPersonForm={props.handleShowNewPersonForm}
+              handleFileUpload={props.handleFileUpload}
+              messageBoxOpen={props.messageBoxOpen} />
+        </main>
+      :
+        <main className={classes.content + " plot-map"}>
+          <div className={classes.toolbar} />
+          <UserPortal />
+        </main>
+      }
     </ThemeProvider>
     </div>
   );

@@ -6,7 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Spacer from '../Spacer'
-import Button from '@material-ui/core/Button';
 
 import AdminInterredPerson from '../AdminInterredPerson'
 import MyButton from '../MyButton'
@@ -237,8 +236,8 @@ class PlotEditor extends Component {
                         }
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                             <TextField id="notes" name="notes" label="Notes" value={this.state.notes} 
-                                        variant="outlined" fullWidth={true} multiline rows={4} 
-                                        onChange={this.handleChange} />
+                                variant="outlined" fullWidth={true} multiline rows={4} 
+                                onChange={this.handleChange} />
                         </Grid>
                     </Grid>
                     <Divider />
