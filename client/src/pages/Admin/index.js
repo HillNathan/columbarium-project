@@ -93,7 +93,7 @@ export default function AdminPage(props) {
             </div>
             <Divider />
         <List>
-          <ListItem button onClick={()=>props.handleMenuClick("PLOT")}>
+          <ListItem button onClick={() => props.handleMenuClick("PLOT")}>
             <ListItemIcon><EditIcon/></ListItemIcon>
             <ListItemText>
             <span className="drawer-button">Edit a Plot</span>

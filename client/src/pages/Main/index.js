@@ -10,13 +10,16 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+// material-ui icons used to build the site
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import SearchIcon from '@material-ui/icons/Search';
+import LockIcon from '@material-ui/icons/Lock';
+
 
 // importing custom components i wrote
 import LegendItem from '../../components/LegendItem'
@@ -164,6 +167,7 @@ export default function MainWindow(props) {
                 <span className="drawer-button">Search by Plot #</span>
               </ListItemText>
             </ListItem>
+
         </List>
         <Divider />
         <List>
@@ -176,6 +180,16 @@ export default function MainWindow(props) {
               />
             </ListItem>
           ))}
+        </List>
+        <Divider />
+        <List>
+          <ListItem button 
+              onClick={()=> props.mainMenuClick()}>
+            <ListItemIcon><LockIcon/></ListItemIcon>
+            <ListItemText classes="secondary">
+              <span className="drawer-button">Admin Portal</span>
+            </ListItemText>
+          </ListItem>
         </List>
       </Drawer>
       <main

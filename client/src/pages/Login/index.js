@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from "react-router-dom";
 
 // importing components from material-ui I used to build the site 
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -58,7 +57,7 @@ function LoginPage(props) {
                   height={250} 
                 />
                   <Button 
-                    onClick={() => window.location = "/"} >
+                    onClick={() => props.navigateTo("map")} >
                     Back to Plot Map
                   </Button>
             </Container>
@@ -68,4 +67,4 @@ function LoginPage(props) {
   );
 }
 
-export default withRouter(LoginPage)
+export default LoginPage
