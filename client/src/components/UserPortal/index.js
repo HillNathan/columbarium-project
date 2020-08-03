@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
+import UserInfo from '../UserInfoDisplay'
 
 class UserPortal extends Component {
     constructor() {
@@ -12,7 +13,9 @@ class UserPortal extends Component {
     }
 
     componentWillReceiveProps (incomingProps) {
-        console.log(incomingProps)
+        this.setState({
+            userList: incomingProps.userList
+        })
     }
 
     render() {
@@ -22,7 +25,11 @@ class UserPortal extends Component {
                 <CssBaseline />
                 <h1>Manage Users</h1>
             <hr />
-
+                {this.props.userList.map(userObj => {
+                    return (
+                        <UserInfo
+                            user={userObj} /> )
+                })}
             </div>
         )
     }

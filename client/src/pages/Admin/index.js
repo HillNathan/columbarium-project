@@ -152,7 +152,8 @@ export default function AdminPage(props) {
       :
         <main className={classes.content + " plot-map"}>
           <div className={classes.toolbar} />
-          <UserPortal />
+          <UserPortal 
+            userList={props.userList} />
         </main>
       }
     </ThemeProvider>

@@ -9,7 +9,7 @@ export default function UserInfo (props) {
     
     return (
         <div>
-
+            {props.user.username} | {props.user.firstName} | {props.user.lastName}
         </div>
     )
 }

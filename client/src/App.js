@@ -571,6 +571,7 @@ class App extends Component {
                 plot={this.state.adminActivePlot}
                 plotData={this.state.activeRecord}
                 handleShowNewPersonForm={this.handleShowNewPersonForm}
+                userList={this.state.adminUserList}
                 handleFileUpload={this.handleFileUpload}
                 handleUserLogout={this.handleUserLogout}
                 messageBoxOpen={this.handleMessageDialogOpen}
