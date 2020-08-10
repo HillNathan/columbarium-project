@@ -153,6 +153,7 @@ export default function AdminPage(props) {
         <main className={classes.content + " plot-map"}>
           <div className={classes.toolbar} />
           <UserPortal 
+            messageBoxOpen={props.messageBoxOpen}
             userList={props.userList} />
         </main>
       }

@@ -197,7 +197,7 @@ const API = {
   allUsers: (cb) => {
     db.user
     .findAll({ 
-      attributes: ['username', 'firstName', 'lastName']
+      attributes: ['username', 'firstName', 'lastName', 'admin']
     })
     .then(userList => {
       console.log(userList)

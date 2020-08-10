@@ -30,6 +30,10 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         len: [1]
       }
+    }, 
+    admin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   });
 
