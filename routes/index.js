@@ -206,7 +206,8 @@ module.exports = app => {
         res.json({
           username: userObj.username,
           firstName: userObj.firstName,
-          lastName: userObj.lastName
+          lastName: userObj.lastName,
+          admin: userObj.admin,
         })
       })
     }

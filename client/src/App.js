@@ -53,7 +53,8 @@ class App extends Component {
     activeUser: {
       username: "",
       firstName: "",
-      lastName: ""
+      lastName: "",
+      admin: false,
     },
     isUserAuth: false,
     activeRecord: {
@@ -436,6 +437,7 @@ class App extends Component {
       if (response.data.status === "success") {
         API.checkUser().then(response => {
           this.updateAuthStatus(true)
+          console.log(response.data)
           this.setState({
             activeUser: response.data,
           })

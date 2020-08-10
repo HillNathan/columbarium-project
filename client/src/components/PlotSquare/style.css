@@ -38,6 +38,10 @@
     background-color: yellow;
 }
 
+.on-hold {
+    background-color: yellow;
+}
+
 .reserved {
     background-color: teal;
 }
