@@ -154,7 +154,8 @@ export default function AdminPage(props) {
           <div className={classes.toolbar} />
           <UserPortal 
             messageBoxOpen={props.messageBoxOpen}
-            userList={props.userList} />
+            userList={props.userList}
+            handleAddUserClick={props.handleAddUserClick} />
         </main>
       }
     </ThemeProvider>
