@@ -34,11 +34,7 @@ class UserPortal extends Component {
                 })}
             <hr />
             <Button variant="contained" color="primary"                
-                onClick={() => this.props.messageBoxOpen({
-                    header: "Add User",
-                    message: "Module to add a user will go here.",
-                    referrer: ""
-                })}>
+                onClick={() => this.props.handleAddUserClick()}>
 
                 <span className="lato">Add a User</span>
             </Button>

@@ -200,7 +200,6 @@ const API = {
       attributes: ['username', 'firstName', 'lastName', 'admin']
     })
     .then(userList => {
-      console.log(userList)
       cb(userList)
     })
   }

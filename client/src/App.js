@@ -11,6 +11,7 @@ import SearchDialogSlide from './components/SearchDialog'
 import NameSearchResults from './components/NameSearchResults'
 import PlotDialog from './components/PlotDialog'
 import NewPersonForm from './components/AdminNewPersonForm'
+import UserEntryDialog from './components/UserEntryDialog'
 
 import './App.css';
 
@@ -39,17 +40,23 @@ function testAuth() {
 
 class App extends Component {
   // set our initial state object here
-  state = {
+  state = {    
+    currentPage: "map",   // map, login, or admin
+
     plotMap: [],
+    showNamesearchResults: false,        
+    nameSearchResultsList: [],
     showPlotDialog: false,
+    showNewPersonForm: false,
+    showNewUserForm: false,
     showSearchDialog: false,
     searchBy: "",
+    
     showMessageDialog: false,
     messageDialogheader: "",
     messageDialogText: "",
     messageDialogReferrer: "",
-    showNamesearchResults: false,
-    nameSearchResultsList: [],
+
     activeUser: {
       username: "",
       firstName: "",
@@ -57,6 +64,7 @@ class App extends Component {
       admin: false,
     },
     isUserAuth: false,
+
     activeRecord: {
       id: 0,
       plot: 0,
@@ -72,9 +80,7 @@ class App extends Component {
     adminActivePage: "PLOT",
     adminActivePlot: 0,
     adminUserList: [],
-    showNewPersonForm: false,
     selectedFile: null,
-    currentPage: "map",   // map, login, or admin
   }
 
   //====================================================================================================
@@ -411,6 +417,21 @@ class App extends Component {
   }
 
   //==============================================================================================
+  // Set the flag in state to show the box with the form to enter a new user
+  //==============================================================================================
+  handleUserEntryFormOpen = () => {
+    this.setState({
+      showNewUserForm : true,
+  })
+}
+
+  handleNewUserClose = () => {
+    this.setState({
+      showNewUserForm : false,
+    })
+  }
+
+  //==============================================================================================
   // Handles the logging in and authentication of a user. "userObj" should be an object, and 
   //   contain the following keys:
   //      username : STRING
@@ -569,6 +590,7 @@ class App extends Component {
                 handleMenuClick={this.handleAdminMenuClick}
                 handleSaveData={this.handleAdminSaveClick}
                 handleAdminSearch={this.handleAdminPlotSearch}
+                handleAddUserClick={this.handleUserEntryFormOpen}
                 activePage={this.state.adminActivePage} 
                 plot={this.state.adminActivePlot}
                 plotData={this.state.activeRecord}
@@ -606,6 +628,9 @@ class App extends Component {
           results={this.state.nameSearchResultsList}
           handleClose={this.handleNameSearchClose}
           searchResultClick={this.handlePlotDialogOpen} />
+        <UserEntryDialog
+          showMe={this.state.showNewUserForm}
+          handleClose={this.handleNewUserClose} />
       </div>
     )
   }
