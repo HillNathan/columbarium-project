@@ -132,7 +132,7 @@ export default function MainWindow(props) {
           </IconButton>
           <img src="/site-images/StMartinFields_Logo_337.png" className="header-logo"
             alt="St Martin in the Fields logo" />
-          <span noWrap className="lato-header">
+          <span nowrap="true" className="lato-header">
             Mary Hare Taylor Knight Memorial Columbarium
           </span>
         </Toolbar>

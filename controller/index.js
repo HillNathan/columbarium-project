@@ -156,7 +156,6 @@ const API = {
   //   "lastName"  as a string of at least 1 character
   //=====================================================================================================
   addUser : (userInfo, cb) => {
-
     db.user
     .findOne({ where: { username: userInfo.username } })
     .then(response => {
@@ -176,6 +175,7 @@ const API = {
           })
           .catch(err => {
             // if there is an error, return the error
+            console.log(err)
             cb(err)
           })
       }

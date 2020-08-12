@@ -27,7 +27,8 @@ class UserEntry extends Component {
           username: "",
           firstName: "",
           lastName: "",
-          admin: false
+          admin: false,
+          password: "",
         }
 
         //==============================================================================================
@@ -70,6 +71,7 @@ class UserEntry extends Component {
     //================================================================================================
     validateUserEntry = (searchObj) => {
       // for now we will just return true until we actually write this routine
+      console.log("Validate searchObj")
       console.log(searchObj)
       return true   
     }
@@ -80,13 +82,13 @@ class UserEntry extends Component {
     //================================================================================================
     handleSearchClick = () => {
       // deconstruct state taking only that values we want to send to the DB
-      const searchObj = (({firstName, lastName, username, admin}) => 
-        ({firstName,lastName, username, admin}))(this.state)
+      const searchObj = (({firstName, lastName, username, admin, password}) => 
+        ({firstName,lastName, username, admin, password}))(this.state)
 
       // validate the input
       if (this.validateUserEntry(searchObj)) { 
           // since we have valid input, we hit the appropriate function to add the user   
-          alert("handle search click")
+          this.props.handleSubmitNewUser(searchObj)
         }
       else {
         // error message for input that is outside the parameters of our database
@@ -110,13 +112,13 @@ class UserEntry extends Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <div>
-            <DialogTitle id="alert-dialog-slide-title">Search for a Name</DialogTitle>
+            <DialogTitle id="alert-dialog-slide-title">Add a new user</DialogTitle>
             <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
                   Enter the information for the new user.
                   <br />You must make the username at least 8 characters long. 
             </DialogContentText>
-            <FormGroup col>
+            <FormGroup>
               <TextField
                 autoFocus margin="dense" id="username" name="username"
                 label="User Name" type="text" fullWidth
@@ -128,6 +130,10 @@ class UserEntry extends Component {
               <TextField
                 margin="dense" id="lastName" name="lastName"
                 label="Last Name" type="text" fullWidth                 
+                onChange={this.handleChange} />
+              <TextField
+                margin="dense" id="password" name="password"
+                label="Initial Password" type="text" fullWidth                 
                 onChange={this.handleChange} />
               <FormControlLabel
                 control={
