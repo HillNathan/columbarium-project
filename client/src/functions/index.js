@@ -7,6 +7,9 @@ const axios = require('axios')
 //  those functions are doing, and allows us to compartmentalize our fetching to this 
 //  one module.
 //
+// The way these are set up, they all return the promise object from axios, so they can
+//  all be written into the App.js as asynchronous functions. 
+//
 //======================================================================================
 const API = {
 
@@ -46,6 +49,9 @@ const API = {
 
     // this function fetches the list of users for use in the admin portal
     getUserList: () => axios.get('/api/users/userlist'),
+
+    // this function sends new user information to the DB
+    addNewUser: newUser => axios.post('/api/users/add', newUser),
 
 }
 

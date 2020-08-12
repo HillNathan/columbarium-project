@@ -32,11 +32,11 @@ const emptyInfo = { id: 0, plot: 0, status: "", reservedBy: "", certificate: 0, 
 // simple function to check the auth status from localStorage to see if we have anyone authorized 
 //   through the server. If we do, then we send back true. If not, we return false. 
 //====================================================================================================
-function testAuth() {
-  let authStatus = false;
-  if (localStorage.getItem("isAuthenticated") === "true") authStatus = true;
-  return authStatus;
-}
+// function testAuth() {
+//   let authStatus = false;
+//   if (localStorage.getItem("isAuthenticated") === "true") authStatus = true;
+//   return authStatus;
+// }
 
 class App extends Component {
   // set our initial state object here
@@ -425,6 +425,31 @@ class App extends Component {
   })
 }
 
+  //==============================================================================================
+  // Takes in an object and sends that object to the DB to add a user to the list of authorized 
+  //   users for the back-end of the web app. Object will have the following key/value pairs:
+  //      username  : STRING (must be 8 characters)
+  //      password  : STRING (must be 8 characters)
+  //      firstName : STRING (cannot be empty)
+  //      lastName  : STRING (cannot be empty)
+  //==============================================================================================
+  handleAddUser = (userObj) => {
+    this.handleNewUserClose()
+    API.addNewUser(userObj)
+    .then(response => {
+      console.log(response)
+      // pull in the updated list of users, since we have added a user to the list
+      API.getUserList().then(userList => {
+        this.setState({
+          adminUserList: userList.data
+        })
+      })  
+    })
+  }
+
+  //==============================================================================================
+  // set the flag to close the add user form clear the info from the form. 
+  //==============================================================================================
   handleNewUserClose = () => {
     this.setState({
       showNewUserForm : false,
@@ -458,7 +483,6 @@ class App extends Component {
       if (response.data.status === "success") {
         API.checkUser().then(response => {
           this.updateAuthStatus(true)
-          console.log(response.data)
           this.setState({
             activeUser: response.data,
           })
@@ -630,7 +654,8 @@ class App extends Component {
           searchResultClick={this.handlePlotDialogOpen} />
         <UserEntryDialog
           showMe={this.state.showNewUserForm}
-          handleClose={this.handleNewUserClose} />
+          handleClose={this.handleNewUserClose}
+          handleSubmitNewUser={this.handleAddUser} />
       </div>
     )
   }

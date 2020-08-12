@@ -3,6 +3,7 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button';
+import VariableSpacer from '../VariableSpacer'
 
 export default function UserInfo (props) {
     //==================================================================================================
@@ -12,6 +13,7 @@ export default function UserInfo (props) {
     //==================================================================================================
     
     return (
+    <div>
       <Grid container spacing={1} justify="flex-start">
         <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
             <TextField id={"First Name"} label="First Name" name="firstName" 
@@ -49,6 +51,8 @@ export default function UserInfo (props) {
             </Button>
         </Grid>
       </Grid>
+      <VariableSpacer height={20} />
+    </div>
     )
 }
 
