@@ -6,6 +6,7 @@ var db = require("../models");
 passport.use(
     new LocalStrategy(function(username, password, done) {
       // When a user tries to sign in this code runs
+      console.log("====PASSPORT HIT====")
       db.user
         .findOne({
           where: {
@@ -25,6 +26,7 @@ passport.use(
               message: "Incorrect password."
             });
           }
+          console.log("=====USER FOUND====")
           // If none of the above, return the user
           return done(null, dbUser);
         });

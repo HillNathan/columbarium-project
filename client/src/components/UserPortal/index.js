@@ -30,11 +30,13 @@ class UserPortal extends Component {
                     return (
                         <UserInfo
                             messageBoxOpen={this.props.messageBoxOpen}
-                            user={userObj} /> )
+                            handleUserClick={this.props.handleUserClick}
+                            user={userObj}
+                            openEditForm={this.props.openEditForm} /> )
                 })}
             <hr />
             <Button variant="contained" color="primary"                
-                onClick={() => this.props.handleAddUserClick()}>
+                onClick={() => this.props.handleUserClick()}>
 
                 <span className="lato">Add a User</span>
             </Button>

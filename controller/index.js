@@ -94,7 +94,6 @@ const API = {
     .then (newPerson => {
       cb(newPerson)
     })
-      
   },
 
   //=====================================================================================================
@@ -188,7 +187,7 @@ const API = {
   //=====================================================================================================
   findUser: (userId, cb) => {
     db.user
-    .findOne({id: userId})
+    .findOne({ where : { id : userId } })
     .then(response => {
       cb(response)
     })
@@ -202,7 +201,31 @@ const API = {
     .then(userList => {
       cb(userList)
     })
-  }
+  },
+
+  //=====================================================================================================
+  // This function will take in a user as an object, then update the user using the id to odentify the
+  //   record to be updated. Error checking for an id key is done at the route level.  
+  //=====================================================================================================
+  editUser : (userInfo, cb) => {
+    db.user.update (userInfo, 
+      {where : {id : userInfo.id }
+    })
+    .then(rowsUpdated => {
+       // returns a number of rows that were updated, not the actual record. 
+      cb(rowsUpdated)
+    })
+  },
+
+  findUserByUsername : (searchTerm, cb) => {
+    db.user
+    .findOne({ where : { username : searchTerm },
+      attributes: ['username', 'firstName', 'lastName', 'admin']
+    })
+    .then(response => {
+      cb(response)
+    })
+  },
 }
 
 // Export our database functions back to the routes module
