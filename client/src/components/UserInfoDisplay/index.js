@@ -21,7 +21,7 @@ export default function UserInfo (props) {
                 value={props.user.firstName} />
         </Grid>
         <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-            <TextField id={"Last Name"} label="Last Name" name="lasstName" 
+            <TextField id={"Last Name"} label="Last Name" name="lastName" 
                 InputLabelprops={{ shrink: true, }} variant="outlined" 
                 value={props.user.lastName} />
         </Grid>
@@ -29,6 +29,12 @@ export default function UserInfo (props) {
             <TextField id={"Username"} label="Username" name="username" 
                 InputLabelprops={{ shrink: true, }} variant="outlined" 
                 value={props.user.username} />
+        </Grid>
+        <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
+            {(props.user.admin) ? 
+                <span className="lato">Admin</span>
+            :
+                <span className="lato">Basic</span>}
         </Grid>
         <Grid item>
             <Button variant="contained" color="primary"
@@ -42,11 +48,7 @@ export default function UserInfo (props) {
         </Grid>
         <Grid item>
             <Button variant="contained" color="primary"
-                onClick={() => props.messageBoxOpen({
-                    header: "Edit User",
-                    message: "Module to edit the user information will go here.",
-                    referrer: ""
-                })}>
+                onClick={() => props.openEditForm(props.user.username)}>
                 <span className="lato">Edit User</span>
             </Button>
         </Grid>

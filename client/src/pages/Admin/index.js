@@ -100,14 +100,22 @@ export default function AdminPage(props) {
             <span className="drawer-button">Edit a Plot</span>
             </ListItemText>
           </ListItem>
-          <Divider />
-          <ListItem button onClick={()=>props.handleMenuClick("USERS")}>
-            <ListItemIcon><PersonAddOutlinedIcon /></ListItemIcon>
-            <ListItemText>
-            <span className="drawer-button">Manage Users</span>
-            </ListItemText>
-          </ListItem>
         <Divider />
+        {/* We only want to show the "manage users" menu option to admin users, I am using a 
+          ternery operator to figure out whether to show it or not.  */}
+        {(props.adminUser) ? 
+          <div>
+            <ListItem button onClick={()=>props.handleMenuClick("USERS")}>
+              <ListItemIcon><PersonAddOutlinedIcon /></ListItemIcon>
+              <ListItemText>
+              <span className="drawer-button">Manage Users</span>
+              </ListItemText>
+            </ListItem>
+          <Divider />
+        </div>
+        :
+          <div></div>
+        }
           <ListItem button onClick={()=>props.handleMenuClick("GRID")}>
               <ListItemIcon><ViewComfyIcon/></ListItemIcon>
               <ListItemText>
@@ -155,7 +163,8 @@ export default function AdminPage(props) {
           <UserPortal 
             messageBoxOpen={props.messageBoxOpen}
             userList={props.userList}
-            handleAddUserClick={props.handleAddUserClick} />
+            handleUserClick={props.handleUserClick} 
+            openEditForm={props.openEditForm} />
         </main>
       }
     </ThemeProvider>

@@ -59,9 +59,13 @@ class UserEntry extends Component {
     // Taking information from props and placing that data into our local state 
     //================================================================================================
     componentWillReceiveProps (incomingProps) {
-      this.setState({ 
-        open: incomingProps.showMe,
-      })
+        this.setState({  
+          open: incomingProps.showMe,
+          username: incomingProps.username,
+          firstName: incomingProps.firstName,
+          lastName: incomingProps.lastName,
+          admin: incomingProps.admin
+        })
     }
 
     //================================================================================================
@@ -78,22 +82,22 @@ class UserEntry extends Component {
     // Submit click handling will be done here, first doing a validation on the input and then moving
     //   to actually sending it back to the main processing center to send to the server. 
     //================================================================================================
-    handleSearchClick = () => {
+    handleSaveClick = () => {
       // deconstruct state taking only that values we want to send to the DB
-      const searchObj = (({firstName, lastName, username, admin, password}) => 
-        ({firstName,lastName, username, admin, password}))(this.state)
+      const userObj = (({firstName, lastName, username, admin}) => 
+        ({firstName,lastName, username, admin}))(this.state)
 
       // validate the input
-      if (this.validateUserEntry(searchObj)) { 
+      if (this.validateUserEntry(userObj)) { 
           // since we have valid input, we hit the appropriate function to add the user   
-          this.props.handleSubmitNewUser(searchObj)
+          this.props.handleSubmitNewUser(userObj)
         }
       else {
         // error message for input that is outside the parameters of our database
         this.props.messageBoxOpen({
           header   : "Error...",  
           message  : "You must submit valid input. ",
-          referrer : "ADDUSER"
+          referrer : "EDITUSER"
         })   
       }
   }
@@ -110,32 +114,27 @@ class UserEntry extends Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <div>
-            <DialogTitle id="alert-dialog-slide-title">Add a new user</DialogTitle>
+            <DialogTitle id="alert-dialog-slide-title">Edit a user</DialogTitle>
             <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-                  Enter the information for the new user.
-                  <br />You must make the username at least 8 characters long. 
+                  Edit the information for the user, then click save.
             </DialogContentText>
             <FormGroup>
               <TextField
-                autoFocus margin="dense" id="username-add" name="username"
-                label="User Name" type="text" fullWidth
+                autoFocus margin="dense" id="username-edit" name="username"
+                label="User Name" type="text" fullWidth value={this.state.username}
                 onChange={this.handleChange} />
               <TextField
-                margin="dense" id="firstName-add" name="firstName"
-                label="First Name" type="text" fullWidth                 
+                margin="dense" id="firstName-edit" name="firstName"
+                label="First Name" type="text" fullWidth value={this.state.firstName}   
                 onChange={this.handleChange} />
               <TextField
-                margin="dense" id="lastName-add" name="lastName"
-                label="Last Name" type="text" fullWidth                 
-                onChange={this.handleChange} />
-              <TextField
-                margin="dense" id="password-add" name="password"
-                label="Initial Password" type="text" fullWidth                 
+                margin="dense" id="lastName-edit" name="lastName"
+                label="Last Name" type="text" fullWidth value={this.state.lastName}         
                 onChange={this.handleChange} />
               <FormControlLabel
                 control={
-                  <Switch
+                  <Switch value={this.state.admin} 
                     checked={this.state.admin} onChange={this.handleSwitch}
                     name="admin" color="primary"
                 /> }
@@ -145,10 +144,10 @@ class UserEntry extends Component {
           </div>
         
       <DialogActions>
-        <Button onClick={() => this.handleSearchClick()} color="primary">
-          Add User
+        <Button onClick={() => this.handleSaveClick()} color="primary">
+          SAVE
         </Button>
-        <Button onClick={() => this.props.handleClose("ADD")} color="primary">
+        <Button onClick={() => this.props.handleClose("EDIT")} color="primary">
           Cancel
         </Button>
       </DialogActions>

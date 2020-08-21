@@ -53,6 +53,12 @@ const API = {
     // this function sends new user information to the DB
     addNewUser: newUser => axios.post('/api/users/add', newUser),
 
+    // this function hits the route to update a user's information
+    editUser: userInfo => axios.post('/api/users/edit', userInfo),
+
+    // this fundtion hits the route to find a user using their username
+    getUserbyUsername: theUserName => axios.post('/api/users/find/username', { username : theUserName }),
+    
 }
 
 module.exports = API
