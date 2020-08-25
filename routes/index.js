@@ -233,7 +233,7 @@ module.exports = app => {
   //   A user logged in first - the check to make sure we have an admin user logged in is done on the 
   //   front end, as only admin users even have access to see the form this is coming from.     
   //=====================================================================================================    
-  app.post('/api/users/update', (req,res) => {
+  app.post('/api/users/edit', (req,res) => {
     if (!req.user) return res.json({ result: "not authorized" })
     else {
       API.editUser(req.body, response => {
@@ -243,11 +243,9 @@ module.exports = app => {
   })
 
   app.post('/api/users/find/username', (req, res) => {
-    console.log(req.body)
     if (!req.user) return res.json({ result: "not authorized" })
     else {
       API.findUserByUsername(req.body.username, response => { 
-        console.log(response)
         res.json(response)
       })
     }

@@ -18,7 +18,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-class UserEntry extends Component {
+class UserEdit extends Component {
     constructor() {
         super();
         
@@ -29,6 +29,7 @@ class UserEntry extends Component {
           lastName: "",
           admin: false,
           password: "",
+          id: 0,
         }
 
         //==============================================================================================
@@ -61,10 +62,11 @@ class UserEntry extends Component {
     componentWillReceiveProps (incomingProps) {
         this.setState({  
           open: incomingProps.showMe,
-          username: incomingProps.username,
-          firstName: incomingProps.firstName,
-          lastName: incomingProps.lastName,
-          admin: incomingProps.admin
+          username: incomingProps.theUser.username,
+          firstName: incomingProps.theUser.firstName,
+          lastName: incomingProps.theUser.lastName,
+          admin: incomingProps.theUser.admin,
+          id: incomingProps.theUser.id
         })
     }
 
@@ -74,7 +76,6 @@ class UserEntry extends Component {
     validateUserEntry = (searchObj) => {
       // for now we will just return true until we actually write this routine
       console.log("Validate searchObj")
-      console.log(searchObj)
       return true   
     }
 
@@ -84,13 +85,13 @@ class UserEntry extends Component {
     //================================================================================================
     handleSaveClick = () => {
       // deconstruct state taking only that values we want to send to the DB
-      const userObj = (({firstName, lastName, username, admin}) => 
-        ({firstName,lastName, username, admin}))(this.state)
+      const userObj = (({firstName, lastName, username, admin, id}) => 
+        ({firstName,lastName, username, admin, id}))(this.state)
 
       // validate the input
       if (this.validateUserEntry(userObj)) { 
-          // since we have valid input, we hit the appropriate function to add the user   
-          this.props.handleSubmitNewUser(userObj)
+          // since we have valid input, we hit the appropriate function to add the user  
+          this.props.handleEditUser(userObj)
         }
       else {
         // error message for input that is outside the parameters of our database
@@ -156,4 +157,4 @@ class UserEntry extends Component {
   );
 }}
 
-export default UserEntry
+export default UserEdit
