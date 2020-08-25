@@ -13,20 +13,20 @@ export default function UserInfo (props) {
     //==================================================================================================
     
     return (
-    <div>
+    <div id={props.index}>
       <Grid container spacing={1} justify="flex-start">
         <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-            <TextField id={"First Name"} label="First Name" name="firstName" 
+            <TextField id={"firstName-" + props.index} label="First Name" name="firstName" 
                 InputLabelprops={{ shrink: true, }} variant="outlined" 
                 value={props.user.firstName} />
         </Grid>
         <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-            <TextField id={"Last Name"} label="Last Name" name="lastName" 
+            <TextField id={"lastName-" + props.index} label="Last Name" name="lastName" 
                 InputLabelprops={{ shrink: true, }} variant="outlined" 
                 value={props.user.lastName} />
         </Grid>
         <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-            <TextField id={"Username"} label="Username" name="username" 
+            <TextField id={"username-" + props.index} label="Username" name="username" 
                 InputLabelprops={{ shrink: true, }} variant="outlined" 
                 value={props.user.username} />
         </Grid>

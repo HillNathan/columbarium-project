@@ -26,13 +26,14 @@ class UserPortal extends Component {
                 <CssBaseline />
                 <h1>Manage Users</h1>
             <hr />
-                {this.props.userList.map(userObj => {
+                {this.props.userList.map((userObj, index) => {
                     return (
                         <UserInfo
                             messageBoxOpen={this.props.messageBoxOpen}
                             handleUserClick={this.props.handleUserClick}
                             user={userObj}
-                            openEditForm={this.props.openEditForm} /> )
+                            openEditForm={this.props.openEditForm}
+                            index={index} /> )
                 })}
             <hr />
             <Button variant="contained" color="primary"                

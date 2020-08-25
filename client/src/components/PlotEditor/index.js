@@ -15,7 +15,7 @@ import MyButton from '../MyButton'
 //   have to worry about mis-matching values in the field, since we are using it for multiple things 
 //   throughout the application including some styling. 
 //=======================================================================================================
-const statusList = ['AVAILABLE', 'RESERVED', 'OCCUPIED', 'PENDING', 'SLATE-AVAILABLE', 'SLATE-RESERVED', 
+const statusList = ['AVAILABLE', 'RESERVED', 'OCCUPIED', 'ON HOLD', 'SLATE-AVAILABLE', 'SLATE-RESERVED', 
 'SLATE-OCCUPIED', 'WALL', 'FLOWERS']
 
 class PlotEditor extends Component {

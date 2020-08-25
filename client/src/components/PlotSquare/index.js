@@ -2,6 +2,11 @@ import Paper from '@material-ui/core/Paper';
 import React from 'react'
 import './style.css'
 
+const makeClass = (theClass) => {
+    if(theClass === "on hold") return "on-hold"
+    else return theClass
+}
+
 export default function PlotSquare (props) {
     return (
         <div key={props.ID} >
@@ -16,7 +21,7 @@ export default function PlotSquare (props) {
               //   any location that is viable as an interrment location or that has already been used 
               //   to interr one or more people, is clickable. 
             (props.clickable === "TRUE") ? 
-                <div className={props.theClass + " text-box"}>
+                <div className={makeClass(props.theClass) + " text-box"}>
                     <div className="plot-text">
                         <div className="plot-link"
                             onClick={() => props.handleOpen(props.plot)}>

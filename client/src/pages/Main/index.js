@@ -171,7 +171,7 @@ export default function MainWindow(props) {
         </List>
         <Divider />
         <List>
-          {['Available', 'Reserved', 'Occupied', 'Pending', 
+          {['Available', 'Reserved', 'Occupied', 'On Hold', 
             'Slate-Available', 'Slate-Reserved', 'Slate-Occupied', 
             'Wall', 'Flowers'].map((text, index) => (
             <ListItem key={index}>

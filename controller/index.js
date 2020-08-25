@@ -196,7 +196,7 @@ const API = {
   allUsers: (cb) => {
     db.user
     .findAll({ 
-      attributes: ['username', 'firstName', 'lastName', 'admin']
+      attributes: ['username', 'firstName', 'lastName', 'admin', 'id']
     })
     .then(userList => {
       cb(userList)
@@ -220,7 +220,7 @@ const API = {
   findUserByUsername : (searchTerm, cb) => {
     db.user
     .findOne({ where : { username : searchTerm },
-      attributes: ['username', 'firstName', 'lastName', 'admin']
+      attributes: ['username', 'firstName', 'lastName', 'admin', 'id']
     })
     .then(response => {
       cb(response)
