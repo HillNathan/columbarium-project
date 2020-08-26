@@ -648,6 +648,20 @@ class App extends Component {
       })
   }
 
+  handleReservationClick = (plotNumber) => {
+    this.handlePlotDialogClose()
+    console.log("=====Reserve this Plot!====")
+    var reservedRecord = this.state.activeRecord
+    reservedRecord.status = "ON HOLD"
+    reservedRecord.plotNumber = reservedRecord.plot
+    API.updateOnePlot(reservedRecord)
+    .then(response => {
+      console.log(response)
+    })
+    // var formURL = "http://www.jotform.com/help/71-Prepopulating-Fields-to-Your-JotForm-via-URL-"
+    // window.open(formURL)
+  }
+
   render() {
     return (
       <div>
@@ -703,7 +717,8 @@ class App extends Component {
         <PlotDialog
           showMe={this.state.showPlotDialog}
           infoToShow={this.state.activeRecord}
-          handleClose={this.handlePlotDialogClose} />  
+          handleClose={this.handlePlotDialogClose}
+          reservationClick={this.handleReservationClick} />  
         <NameSearchResults 
           showMe={this.state.showNamesearchResults}
           results={this.state.nameSearchResultsList}
