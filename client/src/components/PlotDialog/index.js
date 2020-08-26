@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
+import React, { Component } from 'react'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Slide from '@material-ui/core/Slide'
+
+import './style.css'
 
 // bringing in a custom component 
-import InterredListItem from '../InterredListItem';
+import InterredListItem from '../InterredListItem'
 
 //==================================================================================================
 // Set our transition style and direction for how the dialog box appears
@@ -69,12 +71,21 @@ class AlertDialogSlide extends Component {
           <div></div>
           }
           <DialogContentText id="alert-dialog-slide-description">
-                Current plot status: {this.state.status}
+                <div className="lato"><b>Current plot status: {this.state.status}</b></div>
                 {(this.state.status === "OCCUPIED") ? 
                     <ul>
                     { // iterating over each person in the interred array to display them using a 
                     //     cusom component. 
                     this.state.interred.map(person => <InterredListItem person={person} /> )}</ul>
+                :
+                    <span></span>}
+                {(this.state.status === "AVAILABLE") ? 
+                  <div className="reserve-this-plot">
+                    <Button variant="contained" color="primary"
+                      onClick={() => this.props.reservationClick(this.state.plot)}>
+                      <span className="lato">CLICK HERE TO RESERVE THIS PLOT</span>
+                    </Button>
+                  </div>
                 :
                     <span></span>}
           </DialogContentText>
