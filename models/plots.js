@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
         },
 
         clickable: {
-            type: DataTypes.STRING,
+            type: DataTypes.BOOLEAN,
             allowNull: false,
           },
 

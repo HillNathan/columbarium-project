@@ -20,7 +20,7 @@ export default function PlotSquare (props) {
               //   end up being usable as interrment locations, so those locations are not clickable. 
               //   any location that is viable as an interrment location or that has already been used 
               //   to interr one or more people, is clickable. 
-            (props.clickable === "TRUE") ? 
+            (props.clickable) ? 
                 <div className={makeClass(props.theClass) + " text-box"}>
                     <div className="plot-text">
                         <div className="plot-link"
