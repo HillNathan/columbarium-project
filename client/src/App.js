@@ -397,7 +397,7 @@ class App extends Component {
       API.getOnePlot(thePlot)
       .then(plotData => {
         console.log(plotData.data.data.plot)
-        if (plotData.data.data.plot.clickable === "FALSE" && !this.state.activeUser.admin) {
+        if (!plotData.data.data.plot.clickable && !this.state.activeUser.admin) {
           this.handleMessageDialogOpen({
             header   : "Error...",  
             message  : "You do not have access to edit this area. ",
