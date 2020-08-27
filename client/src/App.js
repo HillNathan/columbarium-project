@@ -385,40 +385,50 @@ class App extends Component {
       this.handleMessageDialogOpen({
         header   : "Error...",  
         message  : "You must enter a number in this field. ",
-        referrer : "NAME"
+        referrer : ""
       })                                             
     }
     // if we have a number, we need to make sure it is within the parameters of our database
-    else if ( parseInt(thePlot) < 837 && parseInt(thePlot) > 0) {
+    else if ( parseInt(thePlot) < 723 && parseInt(thePlot) > 0) {
       // once we have an appropriate input value, use our functions to search the database for 
       //  the specific information on the plot, and put that information into state as 
       //  activeRecord.
+      
       API.getOnePlot(thePlot)
       .then(plotData => {
-        console.log(plotData.data.data)
-        this.setState({
-          adminActivePlot: thePlot,
-          activeRecord: {
-            id: plotData.data.data.plot.id,
-            plot: plotData.data.data.plot.plotNumber,
-            status: plotData.data.data.plot.status,
-            reservedBy: plotData.data.data.plot.reservedBy,
-            certificate: plotData.data.data.plot.certificate,
-            reservedDate: plotData.data.data.plot.reservedDate,
-            numInterred: plotData.data.data.plot.numInterred,
-            notes: plotData.data.data.plot.notes,
-            picture: plotData.data.data.plot.picture,
-            interred: plotData.data.data.interred,
-          }
-        })
+        console.log(plotData.data.data.plot)
+        if (plotData.data.data.plot.clickable === "FALSE" && !this.state.activeUser.admin) {
+          this.handleMessageDialogOpen({
+            header   : "Error...",  
+            message  : "You do not have access to edit this area. ",
+            referrer : ""
+          })                                             
+        }
+        else {
+          this.setState({
+            adminActivePlot: thePlot,
+            activeRecord: {
+              id: plotData.data.data.plot.id,
+              plot: plotData.data.data.plot.plotNumber,
+              status: plotData.data.data.plot.status,
+              reservedBy: plotData.data.data.plot.reservedBy,
+              certificate: plotData.data.data.plot.certificate,
+              reservedDate: plotData.data.data.plot.reservedDate,
+              numInterred: plotData.data.data.plot.numInterred,
+              notes: plotData.data.data.plot.notes,
+              picture: plotData.data.data.plot.picture,
+              interred: plotData.data.data.interred,
+            }
+          })
+        }
       })
     }
     else {
       // error message for a number that is outside the parameters of our database
       this.handleMessageDialogOpen({
         header   : "Error...",  
-        message  : "You must enter a number between 1 and 836. ",
-        referrer : "NAME"
+        message  : "You must enter a number between 1 and 722. ",
+        referrer : ""
       })   
     // reset the dialog box to a null value.                                          
     document.getElementById('plot-search-id').value = null }
