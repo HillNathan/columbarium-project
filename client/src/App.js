@@ -372,6 +372,11 @@ class App extends Component {
         if(person.id) API.updateOnePerson(person)
         else API.addPerson(person)
       })
+      this.handleMessageDialogOpen({
+        header   : "Sucess",  
+        message  : "Your save was successful. ",
+        referrer : ""
+      }) 
     })
   }
 
@@ -572,6 +577,7 @@ class App extends Component {
         firstName: "",
         lastName: ""
         },
+      adminActivePage: "PLOT",
       adminUserList: []
       })
     API.doUserLogout()

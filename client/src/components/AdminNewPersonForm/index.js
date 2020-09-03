@@ -7,6 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import DateInput from '../DateInput'
 
 //==================================================================================================
 // Set our transition style and direction for how the dialog box appears
@@ -85,6 +86,7 @@ class NewPersonForm extends Component {
     //==================================================================================================
     handleSave() {
       if (this.formValidation()) {
+
         this.props.handleAddClick(this.state)
         this.setState({
             salutation: "",
@@ -144,15 +146,19 @@ class NewPersonForm extends Component {
                             onChange={this.handleChange} fullWidth
                             value={this.state.suffix} />
                 <Spacer />
-                <TextField id={"dob-new"} label="Date of Birth" name="dateOfBirth" 
-                            InputLabelprops={{ shrink: true, }} variant="outlined"
-                            onChange={this.handleChange}  fullWidth
-                            value={this.state.dateOfBirth} />
+                <DateInput
+                  id={"dob-new"}
+                  label={"Date of Birth"}
+                  onChange={this.handleChange}
+                  name={"dateOfBirth"}
+                  value={this.state.dateOfBirth} />
                 <Spacer />
-                <TextField id={"dod-new"} label="Date of Death" name="dateOfDeath" 
-                            InputLabelprops={{ shrink: true, }} variant="outlined"
-                            onChange={this.handleChange} fullWidth
-                            value={this.state.dateOfDeath} />
+                <DateInput
+                  id={"dod-new"} 
+                  label={"Date of Death"} 
+                  onChange={this.handleChange}
+                  name={"dateOfDeath"}
+                  value={this.state.dateOfDeath} />
             <Spacer />
             Fields marked with * are required.
             </DialogContent>

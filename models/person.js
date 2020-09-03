@@ -35,11 +35,11 @@ module.exports = function(sequelize, DataTypes) {
         },
 
         dateOfBirth: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
         },
 
         dateOfDeath: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
         },
 
     });
