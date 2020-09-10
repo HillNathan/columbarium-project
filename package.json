@@ -18,11 +18,14 @@
     "express-winston": "^4.0.3",
     "formidable": "^1.2.2",
     "if-env": "^1.0.4",
+    "imask": "^6.0.5",
+    "moment": "^2.27.0",
     "mysql2": "^2.1.0",
     "nice-try": "^2.0.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "react-map-interaction": "^2.0.0",
+    "react-text-mask": "^5.4.3",
     "sequelize": "^6.3.3",
     "winston": "^3.3.3"
   },
@@ -33,7 +36,7 @@
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "seed": "node scripts/seedDB.js",
-    "install": "cd client && npm install",
+    "install": "cd client && yarn",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build"
   },
