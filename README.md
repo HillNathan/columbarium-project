@@ -74,3 +74,4 @@ The admin portal also gives the admin user the ability to create and manage user
     <tr>
 </table>
 
+Original background photo by WARREN BLAKE from Pexels

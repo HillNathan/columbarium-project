@@ -56,6 +56,10 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING
         },
 
+        displayName: {
+            type: DataTypes.STRING
+        },
+
     });
 
     return Plots;
