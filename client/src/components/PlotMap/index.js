@@ -22,6 +22,7 @@ export default function PlotMap (props) {
                                 handleOpen={props.handleOpen}
                                 clickable={thing2.clickable}
                                 theClass={thing2.status.toLowerCase()}
+                                display={thing2.displayName}
                                 name={thing2.reservedBy}
                                 id={thing2.id}
                                 plot={thing2.plotNumber}

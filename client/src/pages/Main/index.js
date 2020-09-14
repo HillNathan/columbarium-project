@@ -24,6 +24,7 @@ import LockIcon from '@material-ui/icons/Lock';
 // importing custom components i wrote
 import LegendItem from '../../components/LegendItem'
 import PlotMap from '../../components/PlotMap'
+import StaticBackground from '../../components/StaticBackground'
 
 const drawerWidth = 240;
 
@@ -111,6 +112,7 @@ export default function MainWindow(props) {
 
   return (
     <div className={classes.root}>
+      <StaticBackground />
       <CssBaseline />
       <ThemeProvider theme={theme}>
       <AppBar

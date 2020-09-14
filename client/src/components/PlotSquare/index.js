@@ -7,6 +7,16 @@ const makeClass = (theClass) => {
     else return theClass
 }
 
+const displayText = (myText) => {
+    var textArray = []
+    if (myText.includes("/")) textArray = myText.split("/") 
+    else textArray.push(myText)
+
+    return textArray.map((item,index) => {
+        return ( <div key={index}>{item.trim()}</div> )
+    })
+}
+
 export default function PlotSquare (props) {
     return (
         <div key={props.ID} >
@@ -25,17 +35,23 @@ export default function PlotSquare (props) {
                     <div className="plot-text">
                         <div className="plot-link"
                             onClick={() => props.handleOpen(props.plot)}>
-                            {props.plot}
+                                {(props.display === null) ? 
+                                    (props.status.slice(0,5) === "SLATE") ?
+                                        (props.status.slice(6) === "RESERVED") ? 
+                                            "RESERVED"
+                                        :
+                                            ""
+                                    :
+                                    props.status
+                                :
+                                    displayText(props.display)
+                                }
                         </div>
                     </div>
                 </div>
                 : 
-                <div className={props.theClass + " text-box"}>
-                    <span className="plot-text">
-                        {props.status}
-                    </span>
-
-                </div> }
+                <div className={props.theClass + " text-box"}></div> 
+                }
         </Paper>
         </div>
     )

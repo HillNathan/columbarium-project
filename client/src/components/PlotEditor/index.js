@@ -31,6 +31,7 @@ class PlotEditor extends Component {
             numInterred: "",
             notes: "",
             picture: "",
+            displayName: "",
             interred: [],
             selectedFile: null,
         }
@@ -136,6 +137,8 @@ class PlotEditor extends Component {
             picture: incomingProps.data.picture,
             interred: incomingProps.data.interred,
         })
+        if (incomingProps.data.displayName === null) this.setState({ displayName: "" })
+        else this.setState({ displayName: incomingProps.data.displayName })
     }
 
     //==================================================================================================
@@ -152,6 +155,7 @@ class PlotEditor extends Component {
         plotData.plot.reservedDate = this.state.reservedDate
         plotData.plot.numInterred = this.state.numInterred
         plotData.plot.notes = this.state.notes
+        plotData.plot.displayName = this.state.displayName.toUpperCase()
         plotData.interredArray = this.state.interred
         plotData.newPerson = this.state.newPerson
         console.log(plotData)
@@ -176,15 +180,20 @@ class PlotEditor extends Component {
                                 theOnClick={()=> this.props.handleSaveData(this.getFormInfo())}
                                 theText={"Save Changes"} />
                         </Grid>
-                        <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
-                        <TextField id="plot-status" name="status"  label="Plot status"
-                            variant="outlined" value={this.state.status} select
-                            onChange={this.handleChange} fullWidth={true} >
-                            {statusList.map((option, index) => (
-                                <MenuItem key={index} value={option}>
-                                  {option}
-                                </MenuItem> ))}
-                        </TextField>
+                        <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+                            <TextField id="plot-status" name="status"  label="Plot status"
+                                variant="outlined" value={this.state.status} select
+                                onChange={this.handleChange} fullWidth={true} >
+                                {statusList.map((option, index) => (
+                                    <MenuItem key={index} value={option}>
+                                    {option}
+                                    </MenuItem> ))}
+                            </TextField>
+                        </Grid>
+                        <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
+                            <TextField id="display-name" name="displayName" label="Name to Display" 
+                                        variant="outlined" value={this.state.displayName} 
+                                        onChange={this.handleChange}/>
                         </Grid>
                         <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
                             <TextField id="certificate" name="certificate" label="Certificate #" 

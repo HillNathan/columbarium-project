@@ -1,28 +1,29 @@
 .plot {
     height: 100px;
     width: 100px;
-    margin: 5px;
+    margin: 1px;
     float: left;
 }
 
 .text-box{
-    height: 90px;
-    width: 90px;
-    margin: 5px;
+    height: 98px;
+    width: 98px;
+    margin: 1px;
+    padding-top: 6px;
     text-align: center;
-    line-height: 90px;
-    font-size: 16pt;
+    line-height: 14pt;
+    font-size: 12pt;
     cursor: move;
 }
 
 .plot-text {
-    width: 90px;
+    width: 100%;
     font-family: 'Lato', sans-serif;
 }
 
 .plot-link {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .plot-link:hover {
@@ -31,39 +32,44 @@
 }
 
 .available {
-    background-color: whitesmoke;
+    background-color: #E4B7B2;
 }
 
 .pending {
-    background-color: yellow;
+    background-color: #307D8D;
 }
 
 .on-hold {
-    background-color: yellow;
+    background-color: #307D8D;
 }
 
 .reserved {
-    background-color: teal;
+    background-color: #307D8D;
 }
 
 .occupied { 
-    background-color: lightskyblue;
+    background-color: lightgrey;
+    background-image: url('../../images/light-slate.png');
 }
 
 .tree {
     background-color: green;
+    background-image: url('../../images/tree.png');
 }
 
 .flowers {
     background-color: lightpink;
+    background-image: url('../../images/flowers.png');
 }
 
 .drain { 
-    background-color: orangered;
+    background-color: slategrey;
+    background-image: url('../../images/dark-slate.png');
 }
 
 .wall {
     background-color: orange;
+    background-image: url('../../images/wall.png')
 }
 
 .cross {
@@ -76,18 +82,21 @@
 }
 
 .bench {
-    background-color: lightgrey;
+    background-color: slategrey;
 }
 
 .slate-available { 
-    background-color: darkgrey;
+    background-color: slategrey;
+    background-image: url('../../images/dark-slate.png');
 }
 
 .slate-reserved { 
     background-color: slategrey;
+    background-image: url('../../images/dark-slate.png');
 }
 
 .slate-occupied {
     background-color: rgb(42, 54, 66);
+    background-image: url('../../images/dark-slate.png');
     color: whitesmoke;
 }

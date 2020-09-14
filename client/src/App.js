@@ -86,7 +86,8 @@ class App extends Component {
       numInterred: 0,
       notes: "",
       picture: "",
-      interred: []
+      interred: [],
+      displayName: "",
     },
     adminActivePage: "PLOT",
     adminActivePlot: 0,
@@ -377,6 +378,8 @@ class App extends Component {
         message  : "Your save was successful. ",
         referrer : ""
       }) 
+      console.log("====UPDATED RECORD====")
+      console.log(updatedRecord)
     })
   }
 
@@ -401,7 +404,6 @@ class App extends Component {
       
       API.getOnePlot(thePlot)
       .then(plotData => {
-        console.log(plotData.data.data.plot)
         if (!plotData.data.data.plot.clickable && !this.state.activeUser.admin) {
           this.handleMessageDialogOpen({
             header   : "Error...",  
@@ -421,6 +423,7 @@ class App extends Component {
               reservedDate: plotData.data.data.plot.reservedDate,
               numInterred: plotData.data.data.plot.numInterred,
               notes: plotData.data.data.plot.notes,
+              displayName: plotData.data.data.plot.displayName,
               picture: plotData.data.data.plot.picture,
               interred: plotData.data.data.interred,
             }
@@ -674,8 +677,8 @@ class App extends Component {
     .then(response => {
       console.log(response)
     })
-    // var formURL = "http://www.jotform.com/help/71-Prepopulating-Fields-to-Your-JotForm-via-URL-"
-    // window.open(formURL)
+    var formURL = "https://www.stmartinec.org/uploads/images/columbarium-plot-reservation-worksheet_307.pdf"
+    window.open(formURL)
   }
 
   render() {
