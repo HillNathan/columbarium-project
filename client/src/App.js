@@ -380,6 +380,21 @@ class App extends Component {
       }) 
       console.log("====UPDATED RECORD====")
       console.log(updatedRecord)
+      this.setState({
+        activeRecord: {
+          id: updatedRecord.data.data.plot.id,
+          plot: updatedRecord.data.data.plot.plotNumber,
+          status: updatedRecord.data.data.plot.status,
+          reservedBy: updatedRecord.data.data.plot.reservedBy,
+          certificate: updatedRecord.data.data.plot.certificate,
+          reservedDate: updatedRecord.data.data.plot.reservedDate,
+          numInterred: updatedRecord.data.data.plot.numInterred,
+          notes: updatedRecord.data.data.plot.notes,
+          displayName: updatedRecord.data.data.plot.displayName,
+          picture: updatedRecord.data.data.plot.picture,
+          interred: updatedRecord.data.data.interred,
+        }
+      })
     })
   }
 
