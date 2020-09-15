@@ -100,3 +100,19 @@
     background-image: url('../../images/dark-slate.png');
     color: whitesmoke;
 }
+
+.cross-tr {
+    background-image: url('../../images/cross_TR.png');
+}
+
+.cross-tl {
+    background-image: url('../../images/cross_TL.png');
+}
+
+.cross-br {
+    background-image: url('../../images/cross_BR.png');
+}
+
+.cross-bl {
+    background-image: url('../../images/cross_BL.png');
+}

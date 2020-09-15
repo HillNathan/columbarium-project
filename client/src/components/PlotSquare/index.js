@@ -7,6 +7,20 @@ const makeClass = (theClass) => {
     else return theClass
 }
 
+const makeCross = (plotID) => {
+    switch (plotID) {
+        case 278 : return " cross-br text-box"
+                    
+        case 279 : return " cross-bl text-box"
+
+        case 300 : return " cross-tr text-box"
+
+        case 301 : return " cross-tl text-box"
+
+        default : return " text-box"
+    }
+}
+
 const displayText = (myText) => {
     var textArray = []
     if (myText.includes("/")) textArray = myText.split("/") 
@@ -50,7 +64,7 @@ export default function PlotSquare (props) {
                     </div>
                 </div>
                 : 
-                <div className={props.theClass + " text-box"}></div> 
+                <div className={props.theClass + makeCross(props.id)}></div>
                 }
         </Paper>
         </div>
