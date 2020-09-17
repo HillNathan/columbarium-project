@@ -2,9 +2,23 @@ import Paper from '@material-ui/core/Paper';
 import React from 'react'
 import './style.css'
 
-const makeClass = (theClass) => {
-    if(theClass === "on hold") return "on-hold"
-    else return theClass
+const makeClass = (theClass, displayText) => {
+    var myClass = theClass
+    if(myClass === "on hold") myClass = "on-hold"
+
+    if (myClass === "occupied") {
+        if (displayText !== null) {
+            if (displayText.includes("/")) {
+                if (displayText.split("/").length === 2) myClass += " box-2"
+                else myClass += " box-3"
+            }
+            else myClass += " box-1"
+        }
+        else myClass += " box-1"
+    }
+    else myClass += " box-1"
+
+    return myClass
 }
 
 const makeCross = (plotID) => {
@@ -49,7 +63,7 @@ export default function PlotSquare (props) {
               //   any location that is viable as an interrment location or that has already been used 
               //   to interr one or more people, is clickable. 
             (props.clickable) ? 
-                <div className={makeClass(props.theClass) + " text-box"}>
+                <div className={makeClass(props.theClass, props.display) + " text-box" }>
                     <div className="plot-text">
                         <div className="plot-link"
                             onClick={() => props.handleOpen(props.plot)}>

@@ -3,26 +3,37 @@
     width: 98px;
     margin: 3px;
     float: left;
-    background-color: green
+    background-color: green;
+}
+
+.box-1 {
+    padding-top: 40px;
+}
+
+.box-2 {
+    padding-top: 23px;
+}
+
+.box-3 {
+    padding-top: 5px;
 }
 
 .text-box{
     height: 102px;
     width: 102px;
     /* margin: 4px; */
-    padding-top: 6px;
     text-align: center;
     line-height: 14pt;
     font-size: 12pt;
     cursor: move;
     border: solid 4px #46ac10;
     border-radius: 4px;
+    vertical-align: middle;
 }
 
 .plot-text {
     width: 100%;
     font-family: 'Lato', sans-serif;
-    
 }
 
 .text-normal { 
@@ -40,6 +51,7 @@
 .plot-link {
     margin-left: 2px;
     margin-right: 2px;
+    vertical-align: middle;
 }
 
 .plot-link:hover {
