@@ -34,6 +34,7 @@ class PlotEditor extends Component {
             displayName: "",
             interred: [],
             selectedFile: null,
+            guestUser: false
         }
 
         //==============================================================================================
@@ -137,6 +138,7 @@ class PlotEditor extends Component {
             picture: incomingProps.data.picture,
             interred: incomingProps.data.interred,
         })
+        if (incomingProps.currentUsername === 'guestacct') this.setState({ guestUser: true})
         if (incomingProps.data.displayName === null) this.setState({ displayName: "" })
         else this.setState({ displayName: incomingProps.data.displayName })
     }
@@ -168,7 +170,7 @@ class PlotEditor extends Component {
             <div>
                 <CssBaseline />
                {(this.state.plotNum === 0) ? (
-                   <h2><span className="lato">Please enter a plot number</span></h2>
+                   <h2><span className="lato">Please enter a plot number between 1 and 722</span></h2>
                ) : (
                 <Container maxWidth="xl" >
                     <Grid container spacing={1} justify="flex-start">
@@ -176,51 +178,87 @@ class PlotEditor extends Component {
                             <h2>Plot information for Plot #{this.state.plotNum}</h2>
                         </Grid>
                         <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
-                            <MyButton 
-                                theOnClick={()=> this.props.handleSaveData(this.getFormInfo())}
-                                theText={"Save Changes"} />
+                            {(this.state.guestUser) ? 
+                                <MyButton 
+                                    theText={"Save Changes"} />
+                            :
+                                <MyButton 
+                                    theOnClick={()=> this.props.handleSaveData(this.getFormInfo())}
+                                    theText={"Save Changes"} />
+                            }
                         </Grid>
                         <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-                            <TextField id="plot-status" name="status"  label="Plot status"
-                                variant="outlined" value={this.state.status} select
-                                onChange={this.handleChange} fullWidth={true} >
-                                {statusList.map((option, index) => (
-                                    <MenuItem key={index} value={option}>
-                                    {option}
-                                    </MenuItem> ))}
-                            </TextField>
+                            {(this.state.guestUser) ? 
+                                <TextField id="plot-status" name="status" label="Plot status" disabled
+                                    variant="outlined" value={this.state.status} fullWidth={true} >
+                                </TextField>
+                            :
+                                <TextField id="plot-status" name="status"  label="Plot status"
+                                    variant="outlined" value={this.state.status} select
+                                    onChange={this.handleChange} fullWidth={true} >
+                                    {statusList.map((option, index) => (
+                                        <MenuItem key={index} value={option}>
+                                        {option}
+                                        </MenuItem> ))}
+                                </TextField>
+                            }
                         </Grid>
-                        <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-                            <TextField id="display-name" name="displayName" label="Name to Display" 
-                                        variant="outlined" value={this.state.displayName} 
-                                        onChange={this.handleChange}/>
+                        <Grid item xl={3} lg={3} md={3} sm={3} xs={3}>
+                            {(this.state.guestUser) ? 
+                                <TextField id="display-name" name="displayName" label="Name to Display" 
+                                variant="outlined" disabled fullWidth={true} /> 
+                            :
+                                <TextField id="display-name" name="displayName" label="Name to Display" 
+                                    variant="outlined" value={this.state.displayName} fullWidth={true}
+                                    onChange={this.handleChange} />
+                            }
                         </Grid>
-                        <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-                            <TextField id="certificate" name="certificate" label="Certificate #" 
-                                        variant="outlined" value={this.state.certificate} 
-                                        onChange={this.handleChange}/>
+                        <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
+                            {(this.state.guestUser) ? 
+                                <TextField id="certificate" name="certificate" label="Certificate #" 
+                                    variant="outlined" value={this.state.certificate} disabled fullWidth={true}/>
+                            :
+                                <TextField id="certificate" name="certificate" label="Certificate #" 
+                                    variant="outlined" value={this.state.certificate} fullWidth={true} 
+                                    onChange={this.handleChange}/>
+                            }
                         </Grid>
-                        <Grid item xl={2} lg={2} md={2} sm={2} sx={2}>
-                            <TextField id="num-interred" name="numInterred" label="How Many Interred" 
-                                        variant="outlined" value={this.state.numInterred}                            
-                                        onChange={this.handleChange} />
+                        <Grid item xl={1} lg={1} md={1} sm={1} sx={1}>
+                            {(this.state.guestUser) ? 
+                                <TextField id="num-interred" name="numInterred" label="How Many Interred" 
+                                    variant="outlined" value={this.state.numInterred} disabled fullWidth={true}/>
+                            :
+                                <TextField id="num-interred" name="numInterred" label="How Many Interred" 
+                                    variant="outlined" value={this.state.numInterred} fullWidth={true}                       
+                                    onChange={this.handleChange} />
+                            } 
                         </Grid>
                         <Grid item lg={2}>
-                            <TextField id="reserved-date" name="reservedDate" label="Date of Reservation" 
-                                        variant="outlined" value={this.state.reservedDate} 
-                                        onChange={this.handleChange} />
+                            {(this.state.guestUser) ? 
+                                <TextField id="reserved-date" name="reservedDate" label="Date of Reservation" 
+                                variant="outlined" value={this.state.reservedDate} disabled fullWidth={true}/>
+                            :
+                                <TextField id="reserved-date" name="reservedDate" label="Date of Reservation" 
+                                    variant="outlined" value={this.state.reservedDate} fullWidth={true}
+                                    onChange={this.handleChange} />
+                            }
                         </Grid>
                         <Grid item xl={4} lg={4} md={4} sm={4} sx={4} >
-                            <TextField id="reserved-by" name="reservedBy" label="Reserved By" fullWidth={true}
-                                        variant="outlined" value={this.state.reservedBy}                                         
-                                        onChange={this.handleChange} />
+                            {(this.state.guestUser) ? 
+                                <TextField id="reserved-by" name="reservedBy" label="Reserved By" fullWidth={true}
+                                    variant="outlined" value={this.state.reservedBy} disabled />
+                            :
+                                <TextField id="reserved-by" name="reservedBy" label="Reserved By" fullWidth={true}
+                                    variant="outlined" value={this.state.reservedBy}                                         
+                                    onChange={this.handleChange} />
+                            }                                  
                         </Grid>
                         {/* ternery operators here to change what we show based on whether we have a picture in 
                         the file or not */}
                         {(this.state.picture === "") ? 
                             <Grid item xl={4} lg={4} md={4} sm={4} sx={4}>
                                 <TextField id="picture" name="picture" fullWidth={true}
-                                    variant="outlined"                                        
+                                    variant="outlined" disabled                                  
                                     onChange={this.onSelectFile} type="file"/>
                             </Grid>
                         :
@@ -232,27 +270,43 @@ class PlotEditor extends Component {
                         }
                         {(this.state.picture === "") ? 
                             <Grid item xl={2} lg={2} md={2} sm={2} sx={2}>
-                                <MyButton 
-                                    theOnClick={() => this.onUploadClick()} 
-                                    theText={"Upload File"} />  
+                                {(this.state.guestUser) ? 
+                                    <MyButton disabled
+                                        theText={"Upload File"} />  
+                                :
+                                    <MyButton 
+                                        theOnClick={() => this.onUploadClick()} 
+                                        theText={"Upload File"} />  
+                                }
                             </Grid>    
                         :
                             <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
-                                <MyButton 
-                                    theOnClick={() => this.onchangeFileClick()} 
-                                    theText={"Change File"} />    
+                                {(this.state.guestUser) ? 
+                                    <MyButton 
+                                        theText={"Change File"} />    
+                                :
+                                    <MyButton 
+                                        theOnClick={() => this.onchangeFileClick()} 
+                                        theText={"Change File"} />    
+                                }
                             </Grid>
                         }
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
-                            <TextField id="notes" name="notes" label="Notes" value={this.state.notes} 
-                                variant="outlined" fullWidth={true} multiline rows={4} 
-                                onChange={this.handleChange} />
+                            {(this.state.guestUser) ? 
+                                <TextField id="notes" name="notes" label="Notes" 
+                                variant="outlined" fullWidth={true} multiline rows={4} disabled/>
+                            :
+                                <TextField id="notes" name="notes" label="Notes" value={this.state.notes} 
+                                    variant="outlined" fullWidth={true} multiline rows={4} 
+                                    onChange={this.handleChange} />
+                            }
                         </Grid>
                     </Grid>
                     <Divider />
                     <Spacer height={20} />
                     {this.state.interred.map((person, index) => {
                         return (<AdminInterredPerson key={index}
+                            guestUser={this.state.guestUser}
                             person={person}
                             index={index}
                             handleChange={this.handleArrayChange}
@@ -262,9 +316,13 @@ class PlotEditor extends Component {
                     <Divider />
                     <Grid>
                         {(this.state.interred.length < 3) ? 
-                        <MyButton color="primary" variant="contained"
-                            theOnClick={() => this.props.handleShowNewPersonForm()}
-                            theText={"Add a Person"} />    
+                            (this.state.guestUser) ? 
+                                <MyButton color="primary" variant="contained"
+                                    theText={"Add a Person"} />  
+                            :
+                                <MyButton color="primary" variant="contained"
+                                    theOnClick={() => this.props.handleShowNewPersonForm()}
+                                    theText={"Add a Person"} />   
                         :
                         <div></div> }
                     </Grid>   
