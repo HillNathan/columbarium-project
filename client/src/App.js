@@ -730,6 +730,7 @@ class App extends Component {
                 navigateTo={this.navigateTo}/> 
             :
               <AdminWindow 
+                currentUsername={this.state.activeUser.username}
                 handleMenuClick={this.handleAdminMenuClick}
                 handleSaveData={this.handleAdminSaveClick}
                 handleAdminSearch={this.handleAdminPlotSearch}

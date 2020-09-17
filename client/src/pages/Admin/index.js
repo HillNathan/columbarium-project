@@ -150,6 +150,7 @@ export default function AdminPage(props) {
           </Grid>
           <hr />
             <PlotEditor
+              currentUsername={props.currentUsername}
               plot={props.plot}
               handleSaveData={props.handleSaveData}
               data={props.plotData}

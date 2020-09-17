@@ -30,46 +30,89 @@ class InterredPerson extends Component {
         return (
             <Grid container spacing={1} justify="flex-start">
                 <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
-                    <TextField id={"salutation" + this.props.index} label="Salutation" name="salutation" 
-                                InputLabelprops={{ shrink: true, }} variant="outlined" 
-                                onChange={this.props.handleChange}
-                                value={this.props.person.salutation} />
+                    {(this.props.guestUser) ? 
+                        <TextField id={"salutation" + this.props.index} label="Salutation" name="salutation" 
+                            InputLabelprops={{ shrink: true, }} variant="outlined" 
+                            disabled value={this.props.person.salutation} />
+                    :
+                        <TextField id={"salutation" + this.props.index} label="Salutation" name="salutation" 
+                            InputLabelprops={{ shrink: true, }} variant="outlined" 
+                            onChange={this.props.handleChange}
+                            value={this.props.person.salutation} />
+                    }   
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-                    <TextField id={"first-name-" + this.props.index} label="First Name" name="firstName"
-                                InputLabelprops={{ shrink: true, }} variant="outlined" 
-                                onChange={this.props.handleChange}
-                                value={this.props.person.firstName} />
+                    {(this.props.guestUser) ? 
+                        <TextField id={"first-name-" + this.props.index} label="First Name" name="firstName"
+                            InputLabelprops={{ shrink: true, }} variant="outlined" 
+                            disabled value={this.props.person.firstName} />
+                    :
+                        <TextField id={"first-name-" + this.props.index} label="First Name" name="firstName"
+                            InputLabelprops={{ shrink: true, }} variant="outlined" 
+                            onChange={this.props.handleChange}
+                            value={this.props.person.firstName} />
+                    }
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-                    <TextField id={"middle-name-" + this.props.index} label="Middle Name" name="middleName"
-                                InputLabelprops={{ shrink: true, }} variant="outlined" 
-                                onChange={this.props.handleChange}
-                                value={this.props.person.middleName} />
+                    {(this.props.guestUser) ? 
+                        <TextField id={"middle-name-" + this.props.index} label="Middle Name" name="middleName"
+                            InputLabelprops={{ shrink: true, }} variant="outlined" 
+                            disabled value={this.props.person.middleName} />   
+                    :                 
+                        <TextField id={"middle-name-" + this.props.index} label="Middle Name" name="middleName"
+                            InputLabelprops={{ shrink: true, }} variant="outlined" 
+                            onChange={this.props.handleChange}
+                            value={this.props.person.middleName} />
+                    }
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-                    <TextField id={"last-name-" + this.props.index} label="Last Name" name="lastName"
-                                InputLabelprops={{ shrink: true, }} variant="outlined" 
-                                onChange={this.props.handleChange}
-                                value={this.props.person.lastName} />
+                    {(this.props.guestUser) ? 
+                        <TextField id={"last-name-" + this.props.index} label="Last Name" name="lastName"
+                            InputLabelprops={{ shrink: true, }} variant="outlined" 
+                            disabled value={this.props.person.lastName} />
+                    :
+                        <TextField id={"last-name-" + this.props.index} label="Last Name" name="lastName"
+                            InputLabelprops={{ shrink: true, }} variant="outlined" 
+                            onChange={this.props.handleChange}
+                            value={this.props.person.lastName} />
+                    }
                 </Grid>
                 <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
-                    <TextField id={"suffix-" + this.props.index} label="Suffix" name="suffix" 
-                                InputLabelprops={{ shrink: true, }} variant="outlined"
-                                onChange={this.props.handleChange}
-                                value={this.props.person.suffix} />
+                    {(this.props.guestUser) ? 
+                        <TextField id={"suffix-" + this.props.index} label="Suffix" name="suffix" 
+                            InputLabelprops={{ shrink: true, }} variant="outlined"
+                            disabled value={this.props.person.suffix} />
+                    :
+                        <TextField id={"suffix-" + this.props.index} label="Suffix" name="suffix" 
+                            InputLabelprops={{ shrink: true, }} variant="outlined"
+                            onChange={this.props.handleChange}
+                            value={this.props.person.suffix} />
+                    }
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-                    <TextField id={"dob-" + this.props.index} label="Date of Birth" name="dateOfBirth" 
-                                InputLabelprops={{ shrink: true, }} variant="outlined"
-                                onChange={this.props.handleChange} 
-                                value={this.props.person.dateOfBirth} />
+                    {(this.props.guestUser) ? 
+                        <TextField id={"dob-" + this.props.index} label="Date of Birth" name="dateOfBirth" 
+                            InputLabelprops={{ shrink: true, }} variant="outlined"
+                            disabled value={this.props.person.dateOfBirth} />
+                    :
+                        <TextField id={"dob-" + this.props.index} label="Date of Birth" name="dateOfBirth" 
+                            InputLabelprops={{ shrink: true, }} variant="outlined"
+                            onChange={this.props.handleChange} 
+                            value={this.props.person.dateOfBirth} />
+                    }
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
-                    <TextField id={"dod-" + this.props.index} label="Date of Death" name="dateOfDeath" 
-                                InputLabelprops={{ shrink: true, }} variant="outlined"
-                                onChange={this.props.handleChange}
-                                value={this.props.person.dateOfDeath} />
+                    {(this.props.guestUser) ? 
+
+                        <TextField id={"dod-" + this.props.index} label="Date of Death" name="dateOfDeath" 
+                            InputLabelprops={{ shrink: true, }} variant="outlined"
+                            disabled value={this.props.person.dateOfDeath} />
+                    :
+                        <TextField id={"dod-" + this.props.index} label="Date of Death" name="dateOfDeath" 
+                            InputLabelprops={{ shrink: true, }} variant="outlined"
+                            onChange={this.props.handleChange}
+                            value={this.props.person.dateOfDeath} />
+                    }
                 </Grid>
                 <Spacer />
             </Grid>
