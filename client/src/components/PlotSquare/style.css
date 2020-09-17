@@ -21,6 +21,18 @@
     font-family: 'Lato', sans-serif;
 }
 
+.text-normal { 
+    font-size: 12pt;
+}
+
+.text-small { 
+    font-size: 10pt;
+}
+
+.text-ex-small {
+    font-size: 9pt;
+}
+
 .plot-link {
     margin-left: 2px;
     margin-right: 2px;

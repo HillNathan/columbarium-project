@@ -26,9 +26,12 @@ const displayText = (myText) => {
     if (myText.includes("/")) textArray = myText.split("/") 
     else return myText
 
-    return textArray.map((item,index) => {
-        if (index === textArray.length-1) return ( <div key={index}>{item.trim()}</div> )
-        else return ( <div key={index}>{item.trim()}<hr/></div> )
+    return textArray.map((item, index) => {
+        var nameSize = "text-normal"
+        if(item.trim().length > 8 ) nameSize = "text-small"
+        if(item.trim().length > 11 ) nameSize = "text-ex-small"
+        if (index === textArray.length-1) return ( <div className={nameSize} key={index}>{item.trim()}</div> )
+        else return ( <div className={nameSize} key={index}>{item.trim()}<hr/></div> )
     })
 }
 

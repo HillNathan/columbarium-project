@@ -698,7 +698,7 @@ class App extends Component {
     .then(response => {
       console.log(response)
     })
-    var formURL = "https://www.stmartinec.org/uploads/images/columbarium-plot-reservation-worksheet_307.pdf"
+    var formURL = "https://form.jotform.com/202576481039054?columbariumPlot=" + reservedRecord.plot
     window.open(formURL)
   }
 
