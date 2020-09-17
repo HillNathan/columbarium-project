@@ -111,17 +111,7 @@ class App extends Component {
       }
     })
     // Fetches our initial plot map array from the server
-    API.getAllPlots()
-    .then (response => {
-        // once we have the data from the server, we need to format it into an array of arrays
-        //  so that it can be displayed for our plot map
-        this.massage(response.data.tempDB)
-        .then ( looseData => {
-          // once our data is set up how we need it, se set it into state so that it can be displayed
-          this.setState({ plotMap: looseData.reverse()})
-        })
-    })
-
+    this.setPlotMap()
   }
 
   //====================================================================================================
@@ -149,6 +139,25 @@ class App extends Component {
     // return our completed array of arrays
     return tempArray;
   }
+
+  //====================================================================================================
+  // This function gets the most up-to-date plot list from the server, formats it into an array of 
+  //  arrays so we can display the data like we want to, and then stores that formatted info in state. 
+  //====================================================================================================
+  setPlotMap = () => {
+    // hit the server to fetch our list of all plots in the DB
+    API.getAllPlots()
+    .then (response => {
+        // once we have the data from the server, we need to format it into an array of arrays
+        //  so that it can be displayed for our plot map
+        this.massage(response.data.tempDB)
+        .then ( looseData => {
+          // once our data is set up how we need it, se set it into state so that it can be displayed
+          this.setState({ plotMap: looseData.reverse()})
+        })
+    })  
+  }
+
 
   //====================================================================================================
   // Testing out this as a work-around to react-router having issues when deployed. We are going to 
@@ -697,6 +706,7 @@ class App extends Component {
     API.updateOnePlot(reservedRecord)
     .then(response => {
       console.log(response)
+      this.setPlotMap()
     })
     var formURL = "https://form.jotform.com/202576481039054?columbariumPlot=" + reservedRecord.plot
     window.open(formURL)

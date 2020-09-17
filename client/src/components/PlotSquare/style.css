@@ -1,24 +1,28 @@
 .plot {
-    height: 100px;
-    width: 100px;
-    margin: 1px;
+    height: 98px;
+    width: 98px;
+    margin: 3px;
     float: left;
+    background-color: green
 }
 
 .text-box{
-    height: 98px;
-    width: 98px;
-    margin: 1px;
+    height: 102px;
+    width: 102px;
+    /* margin: 4px; */
     padding-top: 6px;
     text-align: center;
     line-height: 14pt;
     font-size: 12pt;
     cursor: move;
+    border: solid 4px #46ac10;
+    border-radius: 4px;
 }
 
 .plot-text {
     width: 100%;
     font-family: 'Lato', sans-serif;
+    
 }
 
 .text-normal { 

@@ -14,7 +14,7 @@ export default function PlotMap (props) {
             //   run it through nested map loops and display each individual item using a custom component.
                 props.plotList.map((thing1, index) => {
                     return (
-                    <tr key={index}>
+                    <tr key={index} className="map-cell">
                         {thing1.map(thing2 => {
                             return (
                             <td key={thing2.id}>

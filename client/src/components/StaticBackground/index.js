@@ -6,7 +6,7 @@ function StaticBackground() {
         <div className="static-background">
             <img 
                 className="background-image"
-                src='./site-images/pexels-warren-blake-1477430-blurred.png'
+                src='./site-images/pexels-pixabay-158780.jpg'
                 alt='garden background image'
             />
         </div>
