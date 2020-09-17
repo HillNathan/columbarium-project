@@ -24,10 +24,11 @@ const makeCross = (plotID) => {
 const displayText = (myText) => {
     var textArray = []
     if (myText.includes("/")) textArray = myText.split("/") 
-    else textArray.push(myText)
+    else return myText
 
     return textArray.map((item,index) => {
-        return ( <div key={index}>{item.trim()}</div> )
+        if (index === textArray.length-1) return ( <div key={index}>{item.trim()}</div> )
+        else return ( <div key={index}>{item.trim()}<hr/></div> )
     })
 }
 

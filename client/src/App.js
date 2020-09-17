@@ -378,22 +378,23 @@ class App extends Component {
         message  : "Your save was successful. ",
         referrer : ""
       }) 
-      console.log("====UPDATED RECORD====")
-      console.log(updatedRecord)
-      this.setState({
-        activeRecord: {
-          id: updatedRecord.data.data.plot.id,
-          plot: updatedRecord.data.data.plot.plotNumber,
-          status: updatedRecord.data.data.plot.status,
-          reservedBy: updatedRecord.data.data.plot.reservedBy,
-          certificate: updatedRecord.data.data.plot.certificate,
-          reservedDate: updatedRecord.data.data.plot.reservedDate,
-          numInterred: updatedRecord.data.data.plot.numInterred,
-          notes: updatedRecord.data.data.plot.notes,
-          displayName: updatedRecord.data.data.plot.displayName,
-          picture: updatedRecord.data.data.plot.picture,
-          interred: updatedRecord.data.data.interred,
-        }
+      API.updateOnePlot(plotObj.plot)
+      .then(plotData => {
+        this.setState({
+          activeRecord: {
+            id: plotData.data.data.plot.id,
+            plot: plotData.data.data.plot.plotNumber,
+            status: plotData.data.data.plot.status,
+            reservedBy: plotData.data.data.plot.reservedBy,
+            certificate: plotData.data.data.plot.certificate,
+            reservedDate: plotData.data.data.plot.reservedDate,
+            numInterred: plotData.data.data.plot.numInterred,
+            notes: plotData.data.data.plot.notes,
+            displayName: plotData.data.data.plot.displayName,
+            picture: plotData.data.data.plot.picture,
+            interred: plotData.data.data.interred,
+          }
+        })
       })
     })
   }
@@ -682,6 +683,11 @@ class App extends Component {
       })
   }
 
+  //==============================================================================================
+  // This function will automatically set the status of a plot to "ON HOLD" and open up a 
+  //   JotForm in a new window with the Plot Number pre-filled. This is so that the manager
+  //   of the columbarium can be notified of the request and follow up with the person. 
+  //==============================================================================================
   handleReservationClick = (plotNumber) => {
     this.handlePlotDialogClose()
     console.log("=====Reserve this Plot!====")
