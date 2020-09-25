@@ -268,29 +268,16 @@ class PlotEditor extends Component {
                                     variant="outlined" disabled />
                             </Grid>
                         }
-                        {(this.state.picture === "") ? 
-                            <Grid item xl={2} lg={2} md={2} sm={2} sx={2}>
-                                {(this.state.guestUser) ? 
-                                    <MyButton disabled
-                                        theText={"Upload File"} />  
-                                :
-                                    <MyButton 
-                                        theOnClick={() => this.onUploadClick()} 
-                                        theText={"Upload File"} />  
-                                }
-                            </Grid>    
-                        :
                             <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
                                 {(this.state.guestUser) ? 
                                     <MyButton 
-                                        theText={"Change File"} />    
+                                        theText={"Upload File"} />    
                                 :
                                     <MyButton 
                                         theOnClick={() => this.onchangeFileClick()} 
-                                        theText={"Change File"} />    
+                                        theText={"Upload File"} />    
                                 }
                             </Grid>
-                        }
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                             {(this.state.guestUser) ? 
                                 <TextField id="notes" name="notes" label="Notes" 

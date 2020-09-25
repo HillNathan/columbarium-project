@@ -67,7 +67,7 @@ export default function PlotSquare (props) {
                     <div className="plot-text">
                         <div className="plot-link"
                             onClick={() => props.handleOpen(props.plot)}>
-                                {(props.display === null) ? 
+                                {(props.display === null || props.display === "") ? 
                                     (props.status.slice(0,5) === "SLATE") ?
                                         (props.status.slice(6) === "RESERVED") ? 
                                             "RESERVED"
