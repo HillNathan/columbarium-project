@@ -258,7 +258,7 @@ class PlotEditor extends Component {
                         {(this.state.picture === "") ? 
                             <Grid item xl={4} lg={4} md={4} sm={4} sx={4}>
                                 <TextField id="picture" name="picture" fullWidth={true}
-                                    variant="outlined" disabled                                  
+                                    variant="outlined"                                   
                                     onChange={this.onSelectFile} type="file"/>
                             </Grid>
                         :
