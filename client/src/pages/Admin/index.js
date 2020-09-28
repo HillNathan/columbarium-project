@@ -156,7 +156,8 @@ export default function AdminPage(props) {
               data={props.plotData}
               handleShowNewPersonForm={props.handleShowNewPersonForm}
               handleFileUpload={props.handleFileUpload}
-              messageBoxOpen={props.messageBoxOpen} />
+              messageBoxOpen={props.messageBoxOpen}
+              confirmDialogOpen={props.confirmDialogOpen} />
         </main>
       :
         <main className={classes.content + " plot-map"}>

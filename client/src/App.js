@@ -15,19 +15,18 @@ import UserEntryDialog from './components/UserEntryDialog'
 import UserEditDialog from './components/UserEditDialog'
 
 import './App.css';
+import ConfirmDialog from './components/ConfirmDialog';
 
 //====================================================================================================
 // bringing in server-side functions that will allow us to compartmentalize all of our server-side
 //  fetching into one module.
 const API = require('./functions')
-//====================================================================================================
 
 //====================================================================================================
 // setting up a object constant that matches the 'activeRecord' key in state to make it easier to 
 //   clear it out when we're done displaying it in the Dialog box. 
 const emptyInfo = { id: 0, plot: 0, status: "", reservedBy: "", certificate: 0, reservedDate: "",
   numInterred: 0, notes: "", picture: "", interred: [] }
-//====================================================================================================
 
 //====================================================================================================
 // simple function to check the auth status from localStorage to see if we have anyone authorized 
@@ -310,11 +309,12 @@ class App extends Component {
     // set the state to display the message box with the appropriate information. 
     this.setState({
       showMessageDialog: true,
-      messageDialogheader: messageObj.header,
+      messageDialogHeader: messageObj.header,
       messageDialogText: messageObj.message,
       messageDialogReferrer: messageObj.referrer
     })
   }
+
 
   //==============================================================================================
   // Closes the message dialog box, clears out the info from state, and then checks referrer to 
@@ -353,6 +353,10 @@ class App extends Component {
   }
 
   //==============================================================================================
+  //==============================================================================================
+
+
+  //==============================================================================================
   // Takes in the input of "button" as a STRING and then sets the correct page to display for our 
   //   admin portal or takes the user back to the main page to look at the grid. 
   //==============================================================================================
@@ -382,11 +386,6 @@ class App extends Component {
         if(person.id) API.updateOnePerson(person)
         else API.addPerson(person)
       })
-      this.handleMessageDialogOpen({
-        header   : "Sucess",  
-        message  : "Your save was successful. ",
-        referrer : ""
-      }) 
       API.updateOnePlot(plotObj.plot)
       .then(plotData => {
         this.setState({
@@ -405,6 +404,11 @@ class App extends Component {
           }
         })
       })
+      this.handleMessageDialogOpen({
+        header   : "Sucess",  
+        message  : "Your save was successful. ",
+        referrer : ""
+      }) 
     })
   }
 
@@ -630,52 +634,6 @@ class App extends Component {
   };
 
   //==============================================================================================
-  // This function closes the new person form, and then updates the activeRecord object in state
-  //   with the new person information. 
-  // "newPerson" should be an object and contain the following keys:
-  //    salutation - STRING (optional)
-  //    firstName - STRING (required)
-  //    middleName - STRING (optional)
-  //    lastName - STRING (required)
-  //    suffix - STRING (optional)
-  //    dateOfBirth - DATE (optional)
-  //    dateOfDeath - DATE (optional)
-  //    plotID - INTEGER (required)
-  //  
-  // Fields listed as required must contain text, fields listed as optional must be sent but 
-  //   can be empty otherwise server will reject the object when it is saved. 
-  //==============================================================================================
-  addNewPersonToPlot = (newPerson) => {
-    // close the new person form
-    this.closePersonForm()
-    
-    // put the new person added to the plot into the interred array within activeRecord, using a 
-    //   temporary object since we can't update an array in state directly with a push.   
-    var tempObj = this.state.activeRecord
-    tempObj.interred.push(newPerson)
-    this.setState({
-      activeRecord: tempObj
-    })
-    // clear all of the fields in the form. 
-    document.getElementById("salutation-new").value = ""
-    document.getElementById("first-name-new").value = ""
-    document.getElementById("middle-name-new").value = ""
-    document.getElementById("last-name-new").value = ""
-    document.getElementById("suffix-new").value = ""
-    document.getElementById("dob-new").value = ""
-    document.getElementById("dod-new").value = ""
-  }
-
-  //==============================================================================================
-  // Sets the flag in state to close out the new person form.
-  //==============================================================================================
-  closePersonForm = () => {
-    this.setState({
-        showNewPersonForm: false,
-    })
-  }
-
-  //==============================================================================================
   // this function accepts a multipart form data object including a "image" that is the image file, 
   //  and a "plot" field that gives the plot the picture should be associated with in our db. Then 
   //  we will call our upload function to send the info up to the server. 
@@ -686,11 +644,34 @@ class App extends Component {
       .then(response => {
         // handle the response
         console.log(response)
-      })
+        this.handleMessageDialogOpen({
+          header   : "Success",
+          message  : "Your file has been uploaded successfully!",
+          referrer : "OTHER"
+        })
+        API.getOnePlot(this.state.activeRecord.plot)
+        .then(plotData => {
+            this.setState({
+              activeRecord: {
+                id: plotData.data.data.plot.id,
+                plot: plotData.data.data.plot.plotNumber,
+                status: plotData.data.data.plot.status,
+                reservedBy: plotData.data.data.plot.reservedBy,
+                certificate: plotData.data.data.plot.certificate,
+                reservedDate: plotData.data.data.plot.reservedDate,
+                numInterred: plotData.data.data.plot.numInterred,
+                notes: plotData.data.data.plot.notes,
+                displayName: plotData.data.data.plot.displayName,
+                picture: plotData.data.data.plot.picture,
+                interred: plotData.data.data.interred,
+              }
+            })
+          })
+        })
       .catch(err => {
         console.error("error", err)
       })
-  }
+    }
 
   //==============================================================================================
   // This function will automatically set the status of a plot to "ON HOLD" and open up a 
@@ -744,15 +725,10 @@ class App extends Component {
                 handleFileUpload={this.handleFileUpload}
                 handleUserLogout={this.handleUserLogout}
                 messageBoxOpen={this.handleMessageDialogOpen}
+                confirmDialogOpen={this.handleConfirmDialogOpen}
                 navigateTo={this.navigateTo} 
                 openEditForm={this.handleUserEditFormOpen}/>
         } 
-        <NewPersonForm 
-          showMe={this.state.showNewPersonForm}
-          handleAddClick={this.addNewPersonToPlot}
-          handleClose={this.closePersonForm}
-          plot={this.state.activeRecord.plot}
-          messageBoxOpen={this.handleMessageDialogOpen} />   
         <MessageDialog 
           showMe={this.state.showMessageDialog}
           header={this.state.messageDialogheader}
@@ -784,6 +760,12 @@ class App extends Component {
           handleClose={this.handleUserClose}
           handleEditUser={this.handleEditUser} 
           theUser={this.state.userToEdit} />
+        <ConfirmDialog
+          showMe={this.state.showConfirmDialog}
+          handleClose={this.handleConfirmDialogClose}
+          header={this.state.confirmDialogHeader}
+          message={this.state.confirmDialogText}
+          actionIfConfirmed={this.state.actionIfConfirmed} />
       </div>
     )
   }

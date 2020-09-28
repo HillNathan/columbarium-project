@@ -65,7 +65,7 @@ class AlertDialogSlide extends Component {
           //   operator so that we only try to display a picture where there is information in that key. 
           (this.state.picture !== "") ? 
           <img src={"./images/" + this.state.picture} 
-               style={{height: 300, width: 300}}
+               style={ {height: 400} }
                alt={"Picture of Plot Number " + this.state.plot}/>
           :
           <div></div>
