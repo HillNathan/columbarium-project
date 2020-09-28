@@ -304,7 +304,6 @@ class App extends Component {
 
     // close the other dialog boxes....
     this.handleSearchDialogClose()
-    this.closePersonForm()
 
     // set the state to display the message box with the appropriate information. 
     this.setState({
