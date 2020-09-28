@@ -8,6 +8,8 @@ import Divider from '@material-ui/core/Divider';
 import Spacer from '../Spacer'
 
 import AdminInterredPerson from '../AdminInterredPerson'
+import ConfirmDialog from '../ConfirmDialog';
+import NewPersonForm from '../AdminNewPersonForm'
 import MyButton from '../MyButton'
 
 //=======================================================================================================
@@ -34,7 +36,13 @@ class PlotEditor extends Component {
             displayName: "",
             interred: [],
             selectedFile: null,
-            guestUser: false
+            guestUser: false,
+
+            showConfirmDialog: false,
+            messageConfirmheader: "",
+            messageConfirmText: "",
+
+            showNewPersonForm: false,
         }
 
         //==============================================================================================
@@ -97,6 +105,85 @@ class PlotEditor extends Component {
         })
     }
 
+    //==============================================================================================
+    // Set the flag in state to start showing the Confirmation Dialog Box
+    //==============================================================================================
+    handleConfirmDialogOpen = (confirmObj) => {
+        this.setState({
+          showConfirmDialog: true,
+          confirmDialogheader: confirmObj.header,
+          confirmDialogText: confirmObj.message,
+          actionIfConfirmed: confirmObj.confirmAction
+        })
+    }
+      
+    //==============================================================================================
+    // Set the flag in state to stop showing the Confirmation Dialog Box
+    //==============================================================================================
+    handleConfirmDialogClose = () => {
+        this.setState({
+            showConfirmDialog: false,
+            confirmDialogheader: "",
+            confirmDialogText: "",
+            actionIfConfirmed: null
+        })
+    }
+
+    //==============================================================================================
+    // Set the flag in state to start showing the New Person Form
+    //==============================================================================================
+    handleAddPersonOpen = () => {
+        this.setState({
+            showNewPersonForm: true,
+        })
+    }
+
+    //==============================================================================================
+    // Set the flag in state to stop showing the New Person Form
+    //==============================================================================================
+    closePersonForm = () => {
+        this.setState({
+            showNewPersonForm: false,
+        })
+    }
+
+    //==============================================================================================
+    // This function closes the new person form, and then updates the interred array in state 
+    //   with the new person information. 
+    // "newPerson" should be an object and contain the following keys:
+    //    salutation - STRING (optional)
+    //    firstName - STRING (required)
+    //    middleName - STRING (optional)
+    //    lastName - STRING (required)
+    //    suffix - STRING (optional)
+    //    dateOfBirth - DATE (optional)
+    //    dateOfDeath - DATE (optional)
+    //    plotID - INTEGER (required)
+    //  
+    // Fields listed as required must contain text, fields listed as optional must be sent but 
+    //   can be empty otherwise server will reject the object when it is saved. 
+    //==============================================================================================
+    addNewPersonToPlot = (newPerson) => {
+        // close the new person form
+        this.closePersonForm()
+        
+        // put the new person added to the plot into the interred array within activeRecord, using a 
+        //   temporary object since we can't update an array in state directly with a push.   
+        var tempObj = this.state.interred
+        tempObj.push(newPerson)
+        this.setState({
+            interred: tempObj
+        })
+        // clear all of the fields in the form. 
+        document.getElementById("salutation-new").value = ""
+        document.getElementById("first-name-new").value = ""
+        document.getElementById("middle-name-new").value = ""
+        document.getElementById("last-name-new").value = ""
+        document.getElementById("suffix-new").value = ""
+        document.getElementById("dob-new").value = ""
+        document.getElementById("dod-new").value = ""
+    }
+
     //==================================================================================================
     // Second of two functions specifically for our picture upload functionality. This one takes the 
     //   file our first function placed in state as well as the plot number and the name of the file
@@ -116,10 +203,10 @@ class PlotEditor extends Component {
     //    selected picture from the user and places the raw data into state as a file. 
     //==================================================================================================
     onchangeFileClick = () => {
-        this.props.messageBoxOpen({
-            header   : "Please Confirm",
-            message  : "Please confirm that you would like to replace the picture currently on file.",
-            referrer : "OTHER"
+        this.handleConfirmDialogOpen({
+            header          : "CONFIRMATION",
+            message         : "Please confirm that you would like to replace the picture currently on file.",
+            confirmAction   : this.onUploadClick
         })
     }
 
@@ -315,6 +402,18 @@ class PlotEditor extends Component {
                     </Grid>   
                 </Container>
                )}
+                <NewPersonForm 
+                    showMe={this.state.showNewPersonForm}
+                    handleAddClick={this.addNewPersonToPlot}
+                    handleClose={this.closePersonForm}
+                    plot={this.state.plotNum}
+                    messageBoxOpen={this.props.messageBoxOpen} />  
+                <ConfirmDialog
+                    showMe={this.state.showConfirmDialog}
+                    handleClose={this.handleConfirmDialogClose}
+                    header={this.state.confirmDialogHeader}
+                    message={this.state.confirmDialogText}
+                    actionIfConfirmed={this.state.actionIfConfirmed} />
             </div>
     )}
 }
