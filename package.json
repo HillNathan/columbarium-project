@@ -19,6 +19,7 @@
     "express-winston": "^4.0.3",
     "firebase": "^7.22.1",
     "formidable": "^1.2.2",
+    "http-proxy-middleware": "^1.0.5",
     "if-env": "^1.0.4",
     "imask": "^6.0.5",
     "moment": "^2.27.0",
