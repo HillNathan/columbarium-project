@@ -7,7 +7,7 @@ function StaticBackground() {
             <img 
                 className="background-image"
                 src='./site-images/pexels-pixabay-158780.jpg'
-                alt='garden background image'
+                alt='blurred garden background'
             />
         </div>
     )

@@ -1,9 +1,24 @@
 // include any additional middleware declarations up here:
-// i.e.
 const middleware = require("../middleware")
 const passport = middleware.passport
 const formidable = require('formidable')
 const API = require("../controller")
+
+
+const bucketName = process.env.GCLOUD_STORAGE_BUCKET_URL
+const myProjectID = process.env.GCLOUD_PROJECT_ID
+const credentialsPath = process.env.GCLOUD_APPLICATION_CREDENTIALS
+const { Storage } = require('@google-cloud/storage');
+
+const storage = new Storage({
+  projectId: myProjectID,
+  keyFilename: __dirname + credentialsPath,
+});
+
+const bucket = storage.bucket(bucketName)
+
+const doParse = async (theForm, theReq) =>{ theForm.parse(theReq) }
+
 
 module.exports = app => {
 //=====================================================================================================
@@ -53,17 +68,20 @@ module.exports = app => {
   //   database association. 
   //=====================================================================================================
   app.post('/api/plots/picture/upload', (req,res) => {
-
+    var picturePath = ""
     var myObj = {}
 
     var form = new formidable.IncomingForm()
     form.uploadDir = __dirname + '/../client/public/images/';
-    console.log("--FORM START--");
+    
     form.on('field', (name, field) => {
+      console.log(`-=- FIELD ${name} FOUND -=-`);
       myObj[name] = field
     })
     form.on('fileBegin', (name, file) => {  
+      console.log(`-=- FILE ${file.name} FOUND -=-`);
       file.path = form.uploadDir + file.name;
+      picturePath = file.path
     })
     .on('error', (err) => {
       console.error('Error', err)
@@ -71,13 +89,26 @@ module.exports = app => {
       throw err
     })
     .on('end', () => {
-      console.log(myObj)
+      console.log(`picturePath during = ${picturePath}`)
+
       API.updateOnePlot(myObj, response => {
         console.log(response)
       })
       res.send("File uploaded Successfully")
     })
-    form.parse(req)
+
+    doParse(form,req)
+    .then(response => {
+      console.log("Form was parsed")
+          try {
+            bucket.upload(picturePath)
+            console.log("File sent to Firebase")
+          }
+          catch(err) {
+            console.log("E=E=E=E=E there was an error. E=E=E=E=E")
+            console.log(err)
+          }
+    })
 
   })
 

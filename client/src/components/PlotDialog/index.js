@@ -19,6 +19,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const getURL = (pictureName) => {
+  var pictureURL = "https://firebasestorage.googleapis.com/v0/b/storage-test-16f56.appspot.com/o/" 
+    + pictureName + "?alt=media"
+  console.log(pictureURL)
+  return pictureURL
+}
+
 class AlertDialogSlide extends Component {
   constructor() {
       super();
@@ -64,7 +71,7 @@ class AlertDialogSlide extends Component {
           // We only want to try to display a picture for those records that have one, so setting up this 
           //   operator so that we only try to display a picture where there is information in that key. 
           (this.state.picture !== "") ? 
-          <img src={"./images/" + this.state.picture} 
+          <img src={getURL(this.state.picture)} 
                style={ {height: 400} }
                alt={"Picture of Plot Number " + this.state.plot}/>
           :

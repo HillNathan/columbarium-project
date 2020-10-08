@@ -244,6 +244,7 @@ class PlotEditor extends Component {
         plotData.plot.reservedDate = this.state.reservedDate
         plotData.plot.numInterred = this.state.numInterred
         plotData.plot.notes = this.state.notes
+        plotData.plot.picture = this.state.picture
         plotData.plot.displayName = this.state.displayName.toUpperCase()
         plotData.interredArray = this.state.interred
         plotData.newPerson = this.state.newPerson
@@ -342,20 +343,20 @@ class PlotEditor extends Component {
                         </Grid>
                         {/* ternery operators here to change what we show based on whether we have a picture in 
                         the file or not */}
-                        {(this.state.picture === "") ? 
+                        {/* {(this.state.picture === "") ?  */}
                             <Grid item xl={4} lg={4} md={4} sm={4} sx={4}>
                                 <TextField id="picture" name="picture" fullWidth={true}
-                                    variant="outlined"                                   
-                                    onChange={this.onSelectFile} type="file"/>
+                                    variant="outlined" value={this.state.picture}                                   
+                                    onChange={this.handleChange}/>
                             </Grid>
-                        :
+                        {/* :
                             <Grid item xl={4} lg={4} md={4} sm={4} sx={4} >
                                 <TextField id="picture" name="picture" fullWidth={true}
                                     value={this.state.picture}
                                     variant="outlined" disabled />
                             </Grid>
                         }
-                            <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
+                            {/* <Grid item xl={2} lg={2} md={2} sm={2} xs={2} >
                                 {(this.state.guestUser) ? 
                                     <MyButton 
                                         theText={"Upload File"} />    
@@ -364,7 +365,7 @@ class PlotEditor extends Component {
                                         theOnClick={() => this.onchangeFileClick()} 
                                         theText={"Upload File"} />    
                                 }
-                            </Grid>
+                            </Grid> */}
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                             {(this.state.guestUser) ? 
                                 <TextField id="notes" name="notes" label="Notes" 

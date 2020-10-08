@@ -10,7 +10,7 @@ import MessageDialog from './components/MessageDialog'
 import SearchDialogSlide from './components/SearchDialog'
 import NameSearchResults from './components/NameSearchResults'
 import PlotDialog from './components/PlotDialog'
-import NewPersonForm from './components/AdminNewPersonForm'
+// import NewPersonForm from './components/AdminNewPersonForm'
 import UserEntryDialog from './components/UserEntryDialog'
 import UserEditDialog from './components/UserEditDialog'
 
