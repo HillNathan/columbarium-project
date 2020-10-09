@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter, Link } from "react-router-dom";
 
 // importing components from material-ui I used to build the site 
 import clsx from 'clsx';
@@ -88,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainWindow(props) {
+function MainWindow(props) {
   const classes = useStyles();
   const theme = createMuiTheme({
     palette: {
@@ -185,13 +186,14 @@ export default function MainWindow(props) {
         </List>
         <Divider />
         <List>
-          <ListItem button 
-              onClick={()=> props.mainMenuClick()}>
-            <ListItemIcon><LockIcon/></ListItemIcon>
-            <ListItemText className="secondary">
-              <span className="drawer-button">Admin Portal</span>
-            </ListItemText>
-          </ListItem>
+          <Link to={"/login"} label={"Login"}>
+            <ListItem button >
+              <ListItemIcon><LockIcon/></ListItemIcon>
+              <ListItemText className="secondary">
+                <span className="drawer-button">Admin Portal</span>
+              </ListItemText>
+            </ListItem>
+          </Link>
         </List>
       </Drawer>
       <main
@@ -210,3 +212,5 @@ export default function MainWindow(props) {
     </div>
   );
 }
+
+export default withRouter(MainWindow)

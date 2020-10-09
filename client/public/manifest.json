@@ -1,6 +1,6 @@
 {
-  "short_name": "STM Columbarium",
-  "name": "St. Martin in the Fields Columbarium",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",

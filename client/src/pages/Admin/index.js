@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter, Link } from "react-router-dom";
 
 // importing components from material-ui I used to build the site 
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AdminPage(props) {
+function AdminPage(props) {
   const classes = useStyles();
   const theme = createMuiTheme({
     palette: {
@@ -116,12 +117,14 @@ export default function AdminPage(props) {
         :
           <div></div>
         }
-          <ListItem button onClick={()=>props.handleMenuClick("GRID")}>
+        <Link to={"/"} label={"Home"}>
+          <ListItem button>
               <ListItemIcon><ViewComfyIcon/></ListItemIcon>
               <ListItemText>
-              <span className="drawer-button">Back to Plot Map</span>
+                <span className="drawer-button">Back to Plot Map</span>
               </ListItemText>
           </ListItem>
+        </Link>
         <Divider />
           <ListItem button onClick={()=>props.handleUserLogout()}>
               <ListItemIcon><MeetingRoomIcon/></ListItemIcon>
@@ -173,3 +176,5 @@ export default function AdminPage(props) {
     </div>
   );
 }
+
+export default withRouter(AdminPage)

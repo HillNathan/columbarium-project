@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 
 // bringing in our user-defined page components
 import LoginWindow from './pages/Login'
@@ -10,12 +16,10 @@ import MessageDialog from './components/MessageDialog'
 import SearchDialogSlide from './components/SearchDialog'
 import NameSearchResults from './components/NameSearchResults'
 import PlotDialog from './components/PlotDialog'
-// import NewPersonForm from './components/AdminNewPersonForm'
 import UserEntryDialog from './components/UserEntryDialog'
 import UserEditDialog from './components/UserEditDialog'
-
-import './App.css';
 import ConfirmDialog from './components/ConfirmDialog';
+import './App.css';
 
 //====================================================================================================
 // bringing in server-side functions that will allow us to compartmentalize all of our server-side
@@ -28,21 +32,10 @@ const API = require('./functions')
 const emptyInfo = { id: 0, plot: 0, status: "", reservedBy: "", certificate: 0, reservedDate: "",
   numInterred: 0, notes: "", picture: "", interred: [] }
 
-//====================================================================================================
-// simple function to check the auth status from localStorage to see if we have anyone authorized 
-//   through the server. If we do, then we send back true. If not, we return false. 
-//====================================================================================================
-// function testAuth() {
-//   let authStatus = false;
-//   if (localStorage.getItem("isAuthenticated") === "true") authStatus = true;
-//   return authStatus;
-// }
-
 class App extends Component {
-  // set our initial state object here
   state = {    
     currentPage: "map",   // map, login, or admin
-
+    data: "" ,
     plotMap: [],
     showNamesearchResults: false,        
     nameSearchResultsList: [],
@@ -57,6 +50,11 @@ class App extends Component {
     messageDialogheader: "",
     messageDialogText: "",
     messageDialogReferrer: "",
+
+    showConfirmDialog: false,
+    confirmDialogHeader: "",
+    confirmDialogText: "",
+    actionIfConfirmed: null,
 
     activeUser: {
       username: "",
@@ -165,7 +163,8 @@ class App extends Component {
   //   be invisible to the end user once it is implemented. 
   //====================================================================================================
   navigateTo = (page) => {
-    this.setState({currentPage : page})
+    alert(page)
+    this.setState({currentPage : page})    
   }
 
   //====================================================================================================
@@ -219,6 +218,13 @@ class App extends Component {
       }
     })
   }
+
+  handleConfirmDialogClose = () => {
+    this.setState({ 
+      showConfirmDialog: false,
+      })
+  }
+
 
   //==============================================================================================
   // sets the flag in state to stop showing the dialog box, and clears out the info from state. 
@@ -590,7 +596,7 @@ class App extends Component {
             })
           })
           // then we redirect the user to the admin portal of the website. 
-          this.navigateTo("admin")
+          window.location.assign("/admin")
         })
       }
     })
@@ -616,7 +622,7 @@ class App extends Component {
       console.log("====LOGOUT RESPONSE====")
       console.log(response)
     })
-    this.navigateTo("map")
+    window.location.assign("/")
   }
 
   //==============================================================================================
@@ -695,39 +701,42 @@ class App extends Component {
   render() {
     return (
       <div>
-        {(this.state.currentPage === "map") ? 
-          <MainWindow 
-            plotList={this.state.plotMap}
-            handleOpen={this.handlePlotDialogOpen}
-            handleSearchOpen={this.handleSearchDialogOpen}
-            navigateTo={this.navigateTo} 
-            mainMenuClick={this.mainMenuClick} /> 
-          :
-          (this.state.currentPage === "login") ? 
-              <LoginWindow 
-                handleLogin={this.handleUserLoginClick}
-                openMessageBox={this.handleMessageDialogOpen} 
-                navigateTo={this.navigateTo}/> 
-            :
-              <AdminWindow 
-                currentUsername={this.state.activeUser.username}
-                handleMenuClick={this.handleAdminMenuClick}
-                handleSaveData={this.handleAdminSaveClick}
-                handleAdminSearch={this.handleAdminPlotSearch}
-                handleUserClick={this.handleUserEntryFormOpen}
-                activePage={this.state.adminActivePage} 
-                plot={this.state.adminActivePlot}
-                plotData={this.state.activeRecord}
-                handleShowNewPersonForm={this.handleShowNewPersonForm}
-                adminUser={this.state.activeUser.admin}
-                userList={this.state.adminUserList}
-                handleFileUpload={this.handleFileUpload}
-                handleUserLogout={this.handleUserLogout}
-                messageBoxOpen={this.handleMessageDialogOpen}
-                confirmDialogOpen={this.handleConfirmDialogOpen}
-                navigateTo={this.navigateTo} 
-                openEditForm={this.handleUserEditFormOpen}/>
-        } 
+        <Router><Switch>
+          <Route exact path="/"
+            render={(props) => <MainWindow {...props}
+              plotList={this.state.plotMap}
+              handleOpen={this.handlePlotDialogOpen}
+              handleSearchOpen={this.handleSearchDialogOpen}
+              navigateTo={this.navigateTo} 
+              mainMenuClick={this.mainMenuClick} /> }
+          />
+          <Route exact path="/login"
+            render={(props) => <LoginWindow {...props}
+              handleLogin={this.handleUserLoginClick}
+              openMessageBox={this.handleMessageDialogOpen} 
+              navigateTo={this.navigateTo}/>}
+          />            
+          <ProtectedRoute exact path="/admin"> 
+            <AdminWindow 
+              currentUsername={this.state.activeUser.username}
+              handleMenuClick={this.handleAdminMenuClick}
+              handleSaveData={this.handleAdminSaveClick}
+              handleAdminSearch={this.handleAdminPlotSearch}
+              handleUserClick={this.handleUserEntryFormOpen}
+              activePage={this.state.adminActivePage} 
+              plot={this.state.adminActivePlot}
+              plotData={this.state.activeRecord}
+              handleShowNewPersonForm={this.handleShowNewPersonForm}
+              adminUser={this.state.activeUser.admin}
+              userList={this.state.adminUserList}
+              handleFileUpload={this.handleFileUpload}
+              handleUserLogout={this.handleUserLogout}
+              messageBoxOpen={this.handleMessageDialogOpen}
+              confirmDialogOpen={this.handleConfirmDialogOpen}
+              navigateTo={this.navigateTo} 
+              openEditForm={this.handleUserEditFormOpen}/>
+          </ProtectedRoute>  
+        </Switch></Router>
         <MessageDialog 
           showMe={this.state.showMessageDialog}
           header={this.state.messageDialogheader}
@@ -766,8 +775,28 @@ class App extends Component {
           message={this.state.confirmDialogText}
           actionIfConfirmed={this.state.actionIfConfirmed} />
       </div>
-    )
-  }
+  )}
+}
+
+function testAuth() {
+  let authStatus = false;
+  if (localStorage.getItem("isAuthenticated") === "true") authStatus = true;
+  return authStatus;
+}
+
+function ProtectedRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={() =>
+        testAuth() ? (
+          children
+        ) : (
+            <Redirect to={{ pathname: "/" }} />
+          )
+      }
+    />
+  );
 }
 
 export default App;

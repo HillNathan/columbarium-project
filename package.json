@@ -1,35 +1,24 @@
 {
-  "name": "columbarium-project",
+  "name": "zip-address",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "engines": {
-    "node": "12.x"
-  },
   "dependencies": {
     "@google-cloud/storage": "^5.3.0",
-    "@material-ui/icons": "^4.9.1",
-    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.1.0",
     "dot-env": "^0.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "express-winston": "^4.0.3",
-    "firebase": "^7.22.1",
+    "express-winston": "^4.0.5",
     "formidable": "^1.2.2",
-    "http-proxy-middleware": "^1.0.5",
     "if-env": "^1.0.4",
-    "imask": "^6.0.5",
-    "moment": "^2.27.0",
-    "mysql2": "^2.1.0",
+    "mysql2": "^2.2.5",
     "nice-try": "^2.0.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "react-map-interaction": "^2.0.0",
-    "react-text-mask": "^5.4.3",
-    "sequelize": "^6.3.3",
+    "sequelize": "^6.3.5",
     "winston": "^3.3.3"
   },
   "devDependencies": {},
@@ -45,12 +34,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HillNathan/columbarium-project.git"
+    "url": "git+https://github.com/HillNathan/zip-address.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HillNathan/columbarium-project/issues"
+    "url": "https://github.com/HillNathan/zip-address/issues"
   },
-  "homepage": "https://github.com/HillNathan/columbarium-project#readme"
+  "homepage": "https://github.com/HillNathan/zip-address#readme"
 }

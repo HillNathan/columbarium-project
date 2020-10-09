@@ -78,7 +78,7 @@ class AlertDialogSlide extends Component {
           <div></div>
           }
           <DialogContentText id="alert-dialog-slide-description">
-                <div className="lato"><b>Current plot status: {this.state.status}</b></div>
+                <span className="lato"><b>Current plot status: {this.state.status}</b></span>
                 {(this.state.status === "OCCUPIED") ? 
                     <ul>
                     { // iterating over each person in the interred array to display them using a 
@@ -87,12 +87,12 @@ class AlertDialogSlide extends Component {
                 :
                     <span></span>}
                 {(this.state.status === "AVAILABLE") ? 
-                  <div className="reserve-this-plot">
+                  <span className="reserve-this-plot">
                     <Button variant="contained" color="primary"
                       onClick={() => this.props.reservationClick(this.state.plot)}>
                       <span className="lato">CLICK HERE TO RESERVE THIS PLOT</span>
                     </Button>
-                  </div>
+                  </span>
                 :
                     <span></span>}
           </DialogContentText>
