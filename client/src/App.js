@@ -3,22 +3,14 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect
+  // Redirect
 } from "react-router-dom";
 
-// bringing in our user-defined page components
-import LoginWindow from './pages/Login'
-import MainWindow from './pages/Main'
-import AdminWindow from './pages/Admin'
 
-// bringing in additional support components
-import MessageDialog from './components/MessageDialog'
-import SearchDialogSlide from './components/SearchDialog'
-import NameSearchResults from './components/NameSearchResults'
-import PlotDialog from './components/PlotDialog'
-import UserEntryDialog from './components/UserEntryDialog'
-import UserEditDialog from './components/UserEditDialog'
-import ConfirmDialog from './components/ConfirmDialog';
+import Main from './pages/Main'
+import PageOne from './components/PageOne'
+import PageTwo from './components/PageTwo'
+import logo from './logo.svg';
 import './App.css';
 
 //====================================================================================================
@@ -31,6 +23,8 @@ const API = require('./functions')
 //   clear it out when we're done displaying it in the Dialog box. 
 const emptyInfo = { id: 0, plot: 0, status: "", reservedBy: "", certificate: 0, reservedDate: "",
   numInterred: 0, notes: "", picture: "", interred: [] }
+
+console.log(emptyInfo)
 
 class App extends Component {
   state = {    
@@ -92,11 +86,12 @@ class App extends Component {
     selectedFile: null,
   }
 
-  //====================================================================================================
-  // When our primary component mounts, we will run a few functions to set up some initial 
-  //   data into state. 
-  //====================================================================================================
   componentDidMount() {
+      // Call our fetch function below once the component mounts
+    this.callBackendAPI()
+      .then(res => this.setState({ data: res.express }))
+      .catch(err => console.log(err));
+
     //Check to see if there is an authorized user logged into the server
     API.checkUser().then(userObj => {
       // if we do not get a "no user" result from the server, update the current user in state
@@ -110,6 +105,18 @@ class App extends Component {
     // Fetches our initial plot map array from the server
     this.setPlotMap()
   }
+  
+
+  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
+  callBackendAPI = async () => {
+    const response = await fetch('/express_backend');
+    const body = await response.json();
+
+    if (response.status !== 200) {
+      throw Error(body.message) 
+    }
+    return body;
+  };
 
   //====================================================================================================
   // this function sets up the full list of plots into an array of arrays that each have a length  
@@ -155,17 +162,6 @@ class App extends Component {
     })  
   }
 
-
-  //====================================================================================================
-  // Testing out this as a work-around to react-router having issues when deployed. We are going to 
-  //   replace all "links" or "redirects" with this function and use it to navigate around the page 
-  //   rather than actually hitting a new GET route and trying to use any kind of navigation. It should 
-  //   be invisible to the end user once it is implemented. 
-  //====================================================================================================
-  navigateTo = (page) => {
-    alert(page)
-    this.setState({currentPage : page})    
-  }
 
   //====================================================================================================
   // Handling the menu click to go to the admin portal page here; firstly we check to see if there is 
@@ -698,105 +694,40 @@ class App extends Component {
     window.open(formURL)
   }
 
+  //==============================================================================================
+  //==============================================================================================
+  // Here is the begnning of my JSX to render the application 
+  //==============================================================================================
+  //==============================================================================================
   render() {
     return (
       <div>
         <Router><Switch>
-          <Route exact path="/"
-            render={(props) => <MainWindow {...props}
-              plotList={this.state.plotMap}
-              handleOpen={this.handlePlotDialogOpen}
-              handleSearchOpen={this.handleSearchDialogOpen}
-              navigateTo={this.navigateTo} 
-              mainMenuClick={this.mainMenuClick} /> }
-          />
-          <Route exact path="/login"
-            render={(props) => <LoginWindow {...props}
-              handleLogin={this.handleUserLoginClick}
-              openMessageBox={this.handleMessageDialogOpen} 
-              navigateTo={this.navigateTo}/>}
-          />            
-          <ProtectedRoute exact path="/admin"> 
-            <AdminWindow 
-              currentUsername={this.state.activeUser.username}
-              handleMenuClick={this.handleAdminMenuClick}
-              handleSaveData={this.handleAdminSaveClick}
-              handleAdminSearch={this.handleAdminPlotSearch}
-              handleUserClick={this.handleUserEntryFormOpen}
-              activePage={this.state.adminActivePage} 
-              plot={this.state.adminActivePlot}
-              plotData={this.state.activeRecord}
-              handleShowNewPersonForm={this.handleShowNewPersonForm}
-              adminUser={this.state.activeUser.admin}
-              userList={this.state.adminUserList}
-              handleFileUpload={this.handleFileUpload}
-              handleUserLogout={this.handleUserLogout}
-              messageBoxOpen={this.handleMessageDialogOpen}
-              confirmDialogOpen={this.handleConfirmDialogOpen}
-              navigateTo={this.navigateTo} 
-              openEditForm={this.handleUserEditFormOpen}/>
-          </ProtectedRoute>  
-        </Switch></Router>
-        <MessageDialog 
-          showMe={this.state.showMessageDialog}
-          header={this.state.messageDialogheader}
-          message={this.state.messageDialogText}
-          handleClose={this.handleMessageDialogClose} />
-        <SearchDialogSlide
-          showMe={this.state.showSearchDialog}
-          searchBy={this.state.searchBy} 
-          handleClose={this.handleSearchDialogClose}
-          handlePlotSearch={this.handlePlotDialogOpen}
-          handleNameSearch={this.handleNameSearch}
-          messageBoxOpen={this.handleMessageDialogOpen} />
-        <PlotDialog
-          showMe={this.state.showPlotDialog}
-          infoToShow={this.state.activeRecord}
-          handleClose={this.handlePlotDialogClose}
-          reservationClick={this.handleReservationClick} />  
-        <NameSearchResults 
-          showMe={this.state.showNamesearchResults}
-          results={this.state.nameSearchResultsList}
-          handleClose={this.handleNameSearchClose}
-          searchResultClick={this.handlePlotDialogOpen} />
-        <UserEntryDialog
-          showMe={this.state.showNewUserForm}
-          handleClose={this.handleUserClose}
-          handleSubmitNewUser={this.handleAddUser} />
-        <UserEditDialog
-          showMe={this.state.showEditUserForm}
-          handleClose={this.handleUserClose}
-          handleEditUser={this.handleEditUser} 
-          theUser={this.state.userToEdit} />
-        <ConfirmDialog
-          showMe={this.state.showConfirmDialog}
-          handleClose={this.handleConfirmDialogClose}
-          header={this.state.confirmDialogHeader}
-          message={this.state.confirmDialogText}
-          actionIfConfirmed={this.state.actionIfConfirmed} />
-      </div>
-  )}
-}
+          <Route exact path="/">
+                <Main/>
+          </Route>
 
-function testAuth() {
-  let authStatus = false;
-  if (localStorage.getItem("isAuthenticated") === "true") authStatus = true;
-  return authStatus;
-}
-
-function ProtectedRoute({ children, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={() =>
-        testAuth() ? (
-          children
-        ) : (
-            <Redirect to={{ pathname: "/" }} />
-          )
-      }
-    />
-  );
+          <Route exact path="/pageone">
+          <div className="App">
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <PageOne/>
+            </header>
+            <p className="App-intro">{this.state.data}</p>
+          </div> 
+          </Route>
+          <Route exact path="/pagetwo">
+          <div className="App">
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <PageTwo/>
+            </header>
+            <p className="App-intro">{this.state.data}</p>
+          </div> 
+          </Route>
+      </Switch></Router>
+    </div>
+    )}
 }
 
 export default App;

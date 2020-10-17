@@ -1,26 +1,19 @@
-// include any additional middleware declarations up here:
+// declaring our middleware packages here. 
 const middleware = require("../middleware")
 const passport = middleware.passport
 const formidable = require('formidable')
-const API = require("../controller")
 
+// bring in my database controller here
+const API = require("../controller");
 
-const bucketName = process.env.GCLOUD_STORAGE_BUCKET_URL
-const myProjectID = process.env.GCLOUD_PROJECT_ID
-const credentialsPath = process.env.GCLOUD_APPLICATION_CREDENTIALS
-const { Storage } = require('@google-cloud/storage');
-
-const storage = new Storage({
-  projectId: myProjectID,
-  keyFilename: __dirname + credentialsPath,
-});
-
-const bucket = storage.bucket(bucketName)
-
-const doParse = async (theForm, theReq) =>{ theForm.parse(theReq) }
-
-
+// declare my routes and send them back to the server-config module
 module.exports = app => {
+
+  // Starting route to confirm everything is set up to run through express
+  app.get('/express_backend', (req, res) => {
+      res.send({ express: 'Added admin and login page components, as well as all App.js functions...' });
+    });
+
 //=====================================================================================================
 // PLOT ROUTES
 //=====================================================================================================
@@ -68,7 +61,6 @@ module.exports = app => {
   //   database association. 
   //=====================================================================================================
   app.post('/api/plots/picture/upload', (req,res) => {
-    var picturePath = ""
     var myObj = {}
 
     var form = new formidable.IncomingForm()
@@ -81,7 +73,6 @@ module.exports = app => {
     form.on('fileBegin', (name, file) => {  
       console.log(`-=- FILE ${file.name} FOUND -=-`);
       file.path = form.uploadDir + file.name;
-      picturePath = file.path
     })
     .on('error', (err) => {
       console.error('Error', err)
@@ -89,8 +80,6 @@ module.exports = app => {
       throw err
     })
     .on('end', () => {
-      console.log(`picturePath during = ${picturePath}`)
-
       API.updateOnePlot(myObj, response => {
         console.log(response)
       })
@@ -98,17 +87,21 @@ module.exports = app => {
     })
 
     doParse(form,req)
-    .then(response => {
-      console.log("Form was parsed")
-          try {
-            bucket.upload(picturePath)
-            console.log("File sent to Firebase")
-          }
-          catch(err) {
-            console.log("E=E=E=E=E there was an error. E=E=E=E=E")
-            console.log(err)
-          }
-    })
+    //====================================================================================================
+    // leaving this commented out for now, since we are not doing picture uploads during this particular
+    //     build of the app. 
+    //====================================================================================================
+    // .then(response => {
+    //   console.log("Form was parsed")
+    //       try {
+    //         bucket.upload(picturePath)
+    //         console.log("File sent to Firebase")
+    //       }
+    //       catch(err) {
+    //         console.log("E=E=E=E=E there was an error. E=E=E=E=E")
+    //         console.log(err)
+    //       }
+    // })
 
   })
 
@@ -273,6 +266,10 @@ module.exports = app => {
     }
   })
 
+  //=====================================================================================================
+  // route to allow the admin users to find a user by username. This is used when we are picking a 
+  //   specefic user to edit using the admin user portal.      
+  //=====================================================================================================    
   app.post('/api/users/find/username', (req, res) => {
     if (!req.user) return res.json({ result: "not authorized" })
     else {
@@ -293,4 +290,6 @@ module.exports = app => {
   })
 
 }
+
+
 

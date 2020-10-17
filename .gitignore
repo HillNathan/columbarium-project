@@ -3,5 +3,4 @@ package-lock.json
 yarn.lock
 .env
 server.log
-/firebase
-/public/images
+client/src/components/ActiveChart/CustomPieChart.txt
