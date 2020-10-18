@@ -3,15 +3,15 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  // Redirect
+  Redirect
 } from "react-router-dom";
 
 // bringing in our user-defined page components
 import Main from './pages/Main'
 import PageOne from './components/PageOne'
 import PageTwo from './components/PageTwo'
-// import Admin from './pages/Admin'
-// import Login from './pages/Login'
+import AdminWindow from './pages/Admin'
+import Login from './pages/Login'
 
 // bringing in additional support components
 import PlotDialog from './components/PlotDialog'
@@ -715,13 +715,41 @@ class App extends Component {
       <div>
         <Router><Switch>
           <Route exact path="/">
-                <Main
-                  plotList={this.state.plotMap}
-                  handleOpen={this.handlePlotDialogOpen}
-                  handleSearchOpen={this.handleSearchDialogOpen}
-                  navigateTo={this.navigateTo} 
-                  mainMenuClick={this.mainMenuClick} />
+            <Main
+              plotList={this.state.plotMap}
+              handleOpen={this.handlePlotDialogOpen}
+              handleSearchOpen={this.handleSearchDialogOpen}
+              navigateTo={this.navigateTo} 
+              mainMenuClick={this.mainMenuClick} />
           </Route>
+
+          <Route exact path="/login">
+            <Login 
+              handleLogin={this.handleUserLoginClick}
+              openMessageBox={this.handleMessageDialogOpen} 
+              navigateTo={this.navigateTo}/>
+          </Route>
+
+          <ProtectedRoute exact path="/admin"> 
+            <AdminWindow 
+              currentUsername={this.state.activeUser.username}
+              handleMenuClick={this.handleAdminMenuClick}
+              handleSaveData={this.handleAdminSaveClick}
+              handleAdminSearch={this.handleAdminPlotSearch}
+              handleUserClick={this.handleUserEntryFormOpen}
+              activePage={this.state.adminActivePage} 
+              plot={this.state.adminActivePlot}
+              plotData={this.state.activeRecord}
+              handleShowNewPersonForm={this.handleShowNewPersonForm}
+              adminUser={this.state.activeUser.admin}
+              userList={this.state.adminUserList}
+              handleFileUpload={this.handleFileUpload}
+              handleUserLogout={this.handleUserLogout}
+              messageBoxOpen={this.handleMessageDialogOpen}
+              confirmDialogOpen={this.handleConfirmDialogOpen}
+              navigateTo={this.navigateTo} 
+              openEditForm={this.handleUserEditFormOpen}/>
+          </ProtectedRoute>  
 
           <Route exact path="/pageone">
           <div className="App">
@@ -773,5 +801,27 @@ class App extends Component {
     </div>
     )}
 }
+
+function testAuth() {
+  let authStatus = false;
+  if (localStorage.getItem("isAuthenticated") === "true") authStatus = true;
+  return authStatus;
+}
+
+function ProtectedRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={() =>
+        testAuth() ? (
+          children
+        ) : (
+            <Redirect to={{ pathname: "/" }} />
+          )
+      }
+    />
+  );
+}
+
 
 export default App;

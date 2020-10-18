@@ -186,7 +186,7 @@ function MainWindow(props) {
         </List>
         <Divider />
         <List>
-          <Link to={"/pageone"} label={"Login"}>
+          <Link to={"/login"} label={"Login"}>
             <ListItem button >
               <ListItemIcon><LockIcon/></ListItemIcon>
               <ListItemText className="secondary">
