@@ -6,10 +6,21 @@ import {
   // Redirect
 } from "react-router-dom";
 
-
+// bringing in our user-defined page components
 import Main from './pages/Main'
 import PageOne from './components/PageOne'
 import PageTwo from './components/PageTwo'
+// import Admin from './pages/Admin'
+// import Login from './pages/Login'
+
+// bringing in additional support components
+import PlotDialog from './components/PlotDialog'
+import ConfirmDialog from './components/ConfirmDialog'
+import MessageDialog from './components/MessageDialog'
+import SearchDialogSlide from './components/SearchDialog'
+import NameSearchResults from './components/NameSearchResults'
+
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -704,7 +715,12 @@ class App extends Component {
       <div>
         <Router><Switch>
           <Route exact path="/">
-                <Main/>
+                <Main
+                  plotList={this.state.plotMap}
+                  handleOpen={this.handlePlotDialogOpen}
+                  handleSearchOpen={this.handleSearchDialogOpen}
+                  navigateTo={this.navigateTo} 
+                  mainMenuClick={this.mainMenuClick} />
           </Route>
 
           <Route exact path="/pageone">
@@ -726,6 +742,34 @@ class App extends Component {
           </div> 
           </Route>
       </Switch></Router>
+      <MessageDialog 
+          showMe={this.state.showMessageDialog}
+          header={this.state.messageDialogheader}
+          message={this.state.messageDialogText}
+          handleClose={this.handleMessageDialogClose} />
+        <SearchDialogSlide
+          showMe={this.state.showSearchDialog}
+          searchBy={this.state.searchBy} 
+          handleClose={this.handleSearchDialogClose}
+          handlePlotSearch={this.handlePlotDialogOpen}
+          handleNameSearch={this.handleNameSearch}
+          messageBoxOpen={this.handleMessageDialogOpen} />
+        <PlotDialog
+          showMe={this.state.showPlotDialog}
+          infoToShow={this.state.activeRecord}
+          handleClose={this.handlePlotDialogClose}
+          reservationClick={this.handleReservationClick} />  
+        <NameSearchResults 
+          showMe={this.state.showNamesearchResults}
+          results={this.state.nameSearchResultsList}
+          handleClose={this.handleNameSearchClose}
+          searchResultClick={this.handlePlotDialogOpen} />
+        <ConfirmDialog
+          showMe={this.state.showConfirmDialog}
+          handleClose={this.handleConfirmDialogClose}
+          header={this.state.confirmDialogHeader}
+          message={this.state.confirmDialogText}
+          actionIfConfirmed={this.state.actionIfConfirmed} />
     </div>
     )}
 }

@@ -24,7 +24,7 @@ import LockIcon from '@material-ui/icons/Lock';
 
 // importing custom components i wrote
 import LegendItem from '../../components/LegendItem'
-// import PlotMap from '../../components/PlotMap'
+import PlotMap from '../../components/PlotMap'
 import StaticBackground from '../../components/StaticBackground'
 
 const drawerWidth = 240;
@@ -203,10 +203,10 @@ function MainWindow(props) {
       >
         <div className={classes.drawerHeader + " plot-map"} />
 
-        {/* <PlotMap 
+        <PlotMap 
           plotList={props.plotList}
           handleOpen={props.handleOpen}
-        /> */}
+        />
       </main>
       </ThemeProvider>
     </div>
