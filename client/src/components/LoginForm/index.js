@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -17,6 +19,7 @@ class LoginForm extends Component {
         this.state = {
             username: "",
             password: "",
+            redirect: null
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -63,10 +66,16 @@ class LoginForm extends Component {
         }
         else {
             this.props.handleLogin(this.state)
+            .then (response => {
+                this.setState({ redirect : true })
+            })
         }
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/admin" />
+        }
 
         return (
             <div>

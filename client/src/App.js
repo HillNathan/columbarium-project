@@ -574,7 +574,7 @@ class App extends Component {
   // If the user enters the correct information, this will redirect the page to the /admin page, 
   //   otherwise it will display an appropriate error message. 
   //==============================================================================================
-  handleUserLoginClick = (userObj) => {
+  handleUserLoginClick = async (userObj) => {
     // user our functions module to send the login information to the server
     API.doUserLogin(userObj)
     .then(response => {
@@ -603,7 +603,7 @@ class App extends Component {
             })
           })
           // then we redirect the user to the admin portal of the website. 
-          window.location.assign("/admin")
+          // window.location.assign("/admin")
         })
       }
     })
