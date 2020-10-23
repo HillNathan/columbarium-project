@@ -35,17 +35,23 @@ const makeCross = (plotID) => {
     }
 }
 
+const textSizeClass = (textLength) => {
+    var nameSize = "text-normal"
+    if(textLength > 8 ) nameSize = "text-small"
+    if(textLength > 10 ) nameSize = "text-ex-small"
+    return nameSize
+}
+
 const displayText = (myText) => {
     var textArray = []
     if (myText.includes("/")) textArray = myText.split("/") 
-    else return myText
+    else {
+        return ( <div className={textSizeClass(myText.trim().length)} >{myText.trim()}</div> )
+    }
 
     return textArray.map((item, index) => {
-        var nameSize = "text-normal"
-        if(item.trim().length > 8 ) nameSize = "text-small"
-        if(item.trim().length > 11 ) nameSize = "text-ex-small"
-        if (index === textArray.length-1) return ( <div className={nameSize} key={index}>{item.trim()}</div> )
-        else return ( <div className={nameSize} key={index}>{item.trim()}<hr/></div> )
+        if (index === textArray.length-1) return ( <div className={textSizeClass(item.trim().length)} key={index}>{item.trim()}</div> )
+        else return ( <div className={textSizeClass(item.trim().length)} key={index}>{item.trim()}<hr/></div> )
     })
 }
 

@@ -1,26 +1,26 @@
 .plot {
-    height: 98px;
-    width: 98px;
+    height: 120px;
+    width: 120px;
     margin: 3px;
     float: left;
     background-color: green;
 }
 
 .box-1 {
-    padding-top: 40px;
+    padding-top: 45px;
 }
 
 .box-2 {
-    padding-top: 23px;
+    padding-top: 27px;
 }
 
 .box-3 {
-    padding-top: 5px;
+    padding-top: 10px;
 }
 
 .text-box{
-    height: 102px;
-    width: 102px;
+    height: 120px;
+    width: 120px;
     /* margin: 4px; */
     text-align: center;
     line-height: 14pt;
