@@ -8,8 +8,6 @@ import {
 
 // bringing in our user-defined page components
 import Main from './pages/Main'
-import PageOne from './components/PageOne'
-import PageTwo from './components/PageTwo'
 import AdminWindow from './pages/Admin'
 import Login from './pages/Login'
 
@@ -20,8 +18,7 @@ import MessageDialog from './components/MessageDialog'
 import SearchDialogSlide from './components/SearchDialog'
 import NameSearchResults from './components/NameSearchResults'
 
-
-import logo from './logo.svg';
+// bringing in our page's primary css style sheet
 import './App.css';
 
 //====================================================================================================
@@ -32,16 +29,21 @@ const API = require('./functions')
 //====================================================================================================
 // setting up a object constant that matches the 'activeRecord' key in state to make it easier to 
 //   clear it out when we're done displaying it in the Dialog box. 
+//====================================================================================================
 const emptyInfo = { id: 0, plot: 0, status: "", reservedBy: "", certificate: 0, reservedDate: "",
   numInterred: 0, notes: "", picture: "", interred: [] }
 
-console.log(emptyInfo)
 
+//====================================================================================================
+// BEGINNING OF OUR TOP-LEVEL REACT COMPONENT IS RIGHT HERE...
+//====================================================================================================
 class App extends Component {
+  // Here is our primary control state, broken down into sections:
   state = {    
-    currentPage: "map",   // map, login, or admin
-    data: "" ,
+    // this is our plot map, where we hold the array of arrays that store the info for the map of plots
     plotMap: [],
+
+    // these are a group of keys related to different utility dialog boxes used within the app. 
     showNamesearchResults: false,        
     nameSearchResultsList: [],
     showPlotDialog: false,
@@ -51,16 +53,19 @@ class App extends Component {
     showSearchDialog: false,
     searchBy: "",
     
+    // this trio of keys are directly related to the message dialog box only 
     showMessageDialog: false,
     messageDialogheader: "",
     messageDialogText: "",
     messageDialogReferrer: "",
 
+    // this group of keys are directly related to the confirm dialog box only 
     showConfirmDialog: false,
     confirmDialogHeader: "",
     confirmDialogText: "",
     actionIfConfirmed: null,
 
+    // this key holds basic info for the active user, if there is one. 
     activeUser: {
       username: "",
       firstName: "",
@@ -68,6 +73,7 @@ class App extends Component {
       admin: false,
     },
 
+    // this key holds info for a specific user that is being edited by an admin user
     userToEdit: {
       username: "",
       firstName: "",
@@ -75,9 +81,9 @@ class App extends Component {
       admin: false,
       id: 0,
     },
-
     isUserAuth: false,
 
+    // this is our current "active" record for editing and display purposes throughout the application
     activeRecord: {
       id: 0,
       plot: 0,
@@ -97,12 +103,11 @@ class App extends Component {
     selectedFile: null,
   }
 
+  //====================================================================================================
+  // Using this life-cycle function to pre-fill information from the database into state when the page
+  //   loads. 
+  //====================================================================================================
   componentDidMount() {
-      // Call our fetch function below once the component mounts
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
-
     //Check to see if there is an authorized user logged into the server
     API.checkUser().then(userObj => {
       // if we do not get a "no user" result from the server, update the current user in state
@@ -117,18 +122,6 @@ class App extends Component {
     this.setPlotMap()
   }
   
-
-  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
-  callBackendAPI = async () => {
-    const response = await fetch('/express_backend');
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
-  };
-
   //====================================================================================================
   // this function sets up the full list of plots into an array of arrays that each have a length  
   //   of 22. I am doing this so that our plotmap component can use a series of array map loops to 
@@ -750,25 +743,6 @@ class App extends Component {
               navigateTo={this.navigateTo} 
               openEditForm={this.handleUserEditFormOpen}/>
           </ProtectedRoute>  
-
-          <Route exact path="/pageone">
-          <div className="App">
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <PageOne/>
-            </header>
-            <p className="App-intro">{this.state.data}</p>
-          </div> 
-          </Route>
-          <Route exact path="/pagetwo">
-          <div className="App">
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <PageTwo/>
-            </header>
-            <p className="App-intro">{this.state.data}</p>
-          </div> 
-          </Route>
       </Switch></Router>
       <MessageDialog 
           showMe={this.state.showMessageDialog}

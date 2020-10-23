@@ -117,7 +117,7 @@ function AdminPage(props) {
         :
           <div></div>
         }
-        <Link to={"/"} label={"Home"}>
+        <Link to={"/"} label={"Home"} className={"button-link"}>
           <ListItem button>
               <ListItemIcon><ViewComfyIcon/></ListItemIcon>
               <ListItemText>
